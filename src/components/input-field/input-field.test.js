@@ -1,7 +1,6 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-container */
-import { render, screen, cleanup, fireEvent } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { render, cleanup, fireEvent } from '@testing-library/react';
 import InputField from './input-field';
 
 afterEach(cleanup);

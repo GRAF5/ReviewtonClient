@@ -11,9 +11,8 @@ describe('Button', () => {
     expect(linkElement.id).toBe('1');
     expect(linkElement).toHaveStyle('background-color: rgb(25, 65, 223);');
     expect(linkElement).toHaveStyle('color: white;');
-    expect(linkElement).toHaveStyle('border: 0px;');
+    expect(linkElement).toHaveStyle('outline-offset: 0px;');
     expect(linkElement).toHaveStyle('border-radius: 7px;');
-    expect(linkElement).toHaveStyle('height: 35px;');
   });
   
   test('should render danger button text', () => {
@@ -22,9 +21,8 @@ describe('Button', () => {
     expect(linkElement.id).toBe('1');
     expect(linkElement).toHaveStyle('background-color: rgb(255, 84, 84);');
     expect(linkElement).toHaveStyle('color: white;');
-    expect(linkElement).toHaveStyle('border: 0px;');
+    expect(linkElement).toHaveStyle('outline-offset: 0px;');
     expect(linkElement).toHaveStyle('border-radius: 7px;');
-    expect(linkElement).toHaveStyle('height: 35px;');
   });
   
   test('should render outlined button text', () => {
@@ -33,9 +31,9 @@ describe('Button', () => {
     expect(linkElement.id).toBe('1');
     expect(linkElement).toHaveStyle('background-color: rgba(0, 0, 0, 0);');
     expect(linkElement).toHaveStyle('color: rgb(25, 65, 223);');
-    expect(linkElement).toHaveStyle('border: 2px solid #1941DF;');
+    expect(linkElement).toHaveStyle('outline: 2px solid #1941DF;');
+    expect(linkElement).toHaveStyle('outline-offset: -2px;');
     expect(linkElement).toHaveStyle('border-radius: 7px;');
-    expect(linkElement).toHaveStyle('height: 35px;');
   });
   
   test('should render outlined danger button text', () => {
@@ -44,9 +42,9 @@ describe('Button', () => {
     expect(linkElement.id).toBe('1');
     expect(linkElement).toHaveStyle('background-color: rgba(0, 0, 0, 0);');
     expect(linkElement).toHaveStyle('color: rgb(255, 84, 84);');
-    expect(linkElement).toHaveStyle('border: 2px solid #FF5454;');
+    expect(linkElement).toHaveStyle('outline: 2px solid #FF5454;');
+    expect(linkElement).toHaveStyle('outline-offset: -2px;');
     expect(linkElement).toHaveStyle('border-radius: 7px;');
-    expect(linkElement).toHaveStyle('height: 35px;');
   });
 
   test('should render disabled button text', () => {
@@ -55,9 +53,8 @@ describe('Button', () => {
     expect(linkElement.id).toBe('1');
     expect(linkElement).toHaveStyle('background-color: rgb(214, 214, 214);');
     expect(linkElement).toHaveStyle('color: white;');
-    expect(linkElement).toHaveStyle('border: 0px;');
+    expect(linkElement).toHaveStyle('outline-offset: 0px;');
     expect(linkElement).toHaveStyle('border-radius: 7px;');
-    expect(linkElement).toHaveStyle('height: 35px;');
   });
 
   test('should render disabled danger button text', () => {
@@ -66,9 +63,8 @@ describe('Button', () => {
     expect(linkElement.id).toBe('1');
     expect(linkElement).toHaveStyle('background-color: rgb(214, 214, 214);');
     expect(linkElement).toHaveStyle('color: white;');
-    expect(linkElement).toHaveStyle('border: 0px;');
+    expect(linkElement).toHaveStyle('outline-offset: 0px;');
     expect(linkElement).toHaveStyle('border-radius: 7px;');
-    expect(linkElement).toHaveStyle('height: 35px;');
   });
 
   test('should render disabled outlined button text', () => {
@@ -77,9 +73,8 @@ describe('Button', () => {
     expect(linkElement.id).toBe('1');
     expect(linkElement).toHaveStyle('background-color: rgb(214, 214, 214);');
     expect(linkElement).toHaveStyle('color: white;');
-    expect(linkElement).toHaveStyle('border: 0px;');
+    expect(linkElement).toHaveStyle('outline-offset: 0px;');
     expect(linkElement).toHaveStyle('border-radius: 7px;');
-    expect(linkElement).toHaveStyle('height: 35px;');
   });
 
   test('should render circle button text', () => {
@@ -87,7 +82,6 @@ describe('Button', () => {
     let linkElement = screen.getByText(/Test button/i);
     expect(linkElement.id).toBe('1');
     expect(linkElement).toHaveStyle('border-radius: 20px;');
-    expect(linkElement).toHaveStyle('height: 35px;');
   });
   
 }); 
