@@ -1,7 +1,7 @@
 import React from 'react';
 import CustomLink from '../../components/link/link';
 
-export default function Login({}) {
+export default function Login({...props}) {
 
   return (<>
   <h1>Login</h1>
