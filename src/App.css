@@ -1,6 +1,5 @@
-div.App {
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans');
+body, input, textarea, button {
   font-size: 18px;
-}
-div.body{
-  height: 100%;
+  font-family: 'Open Sans';
 }

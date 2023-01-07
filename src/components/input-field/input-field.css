@@ -6,8 +6,6 @@ div.input-field-form {
 }
 .field-label{
     color: #282c34;
-    font-size: 18px;
-    font-weight: 700;
     margin-bottom: 7px;
 }
 .input-field{
@@ -16,7 +14,6 @@ div.input-field-form {
     border: 1px solid #DBDBDB;
     padding: 0 14px;
     box-sizing: border-box;
-    font-size: 18px;
     border-radius: 3px;
     outline: none;
 }
@@ -28,7 +25,6 @@ div.input-field-form {
     color: #DE5959;
 }
 .input-field-helpText{
-    font-size: 16px;
     margin-top: 3px;
     margin-bottom: 0;
     color: rgba(0, 0, 0, 0.54);

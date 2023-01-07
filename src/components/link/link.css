@@ -1,0 +1,23 @@
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a.outlined {
+  background-color: rgba(0, 0, 0, 0);
+  color: #1941DF;
+  outline: 2px solid #1941DF;
+  outline-offset: -2px;
+  padding: 5px 20px;
+  border-radius: 7px;
+  height: 35px;
+}
+
+a.contained {
+  background-color: #1941DF;
+  color: white;
+  border: 0px;
+  padding: 5px 20px;
+  border-radius: 7px;
+  height: 35px;
+}
