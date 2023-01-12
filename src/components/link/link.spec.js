@@ -1,6 +1,6 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-container */
-import { render, screen, cleanup, fireEvent } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import CustomLink from './link';
 
@@ -14,20 +14,42 @@ describe('CustomLink', () => {
       const a = view.container.querySelector('a');
       expect(a).not.toBe(null);
       expect(a.href).toBe('http://localhost/test');
+      expect(a.className).toBe(' ');
+    });
+
+    test('should render link with className', async () => {
+      let view = render(<CustomLink className='test' href='/test'/>);
+      const a = view.container.querySelector('a');
+      expect(a).not.toBe(null);
+      expect(a.className).toBe('test ');
     });
   
     test('should render outlined href link', async () => {
       let view = render(<CustomLink outlined href='/test'/>);
       const a = view.container.querySelector('a');
       expect(a).not.toBe(null);
-      expect(a.className).toBe('outlined');
+      expect(a.className).toBe(' outlined');
+    });
+
+    test('should render outlined link with className', async () => {
+      let view = render(<CustomLink outlined className='test' href='/test'/>);
+      const a = view.container.querySelector('a');
+      expect(a).not.toBe(null);
+      expect(a.className).toBe('test outlined');
     });
   
     test('should render contained href link', async () => {
       let view = render(<CustomLink contained href='/test'/>);
       const a = view.container.querySelector('a');
       expect(a).not.toBe(null);
-      expect(a.className).toBe('contained');
+      expect(a.className).toBe(' contained');
+    });
+
+    test('should render contained link with className', async () => {
+      let view = render(<CustomLink contained className='test' href='/test'/>);
+      const a = view.container.querySelector('a');
+      expect(a).not.toBe(null);
+      expect(a.className).toBe('test contained');
     });
   });
 
@@ -42,6 +64,7 @@ describe('CustomLink', () => {
       const a = view.container.querySelector('a');
       expect(a).not.toBe(null);
       expect(a.href).toBe('http://localhost/test');
+      expect(a.className).toBe(' ');
     });
   
     test('should render outlined to link', async () => {
@@ -52,7 +75,7 @@ describe('CustomLink', () => {
         );
       const a = view.container.querySelector('a');
       expect(a).not.toBe(null);
-      expect(a.className).toBe('outlined');
+      expect(a.className).toBe(' outlined');
     });
   
     test('should render contained to link', async () => {
@@ -63,7 +86,7 @@ describe('CustomLink', () => {
         );
       const a = view.container.querySelector('a');
       expect(a).not.toBe(null);
-      expect(a.className).toBe('contained');
+      expect(a.className).toBe(' contained');
     });
   });
 });

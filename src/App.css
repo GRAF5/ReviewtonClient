@@ -3,3 +3,25 @@ body, input, textarea, button {
   font-size: 18px;
   font-family: 'Open Sans';
 }
+
+.App {
+  height: 100%;
+}
+ 
+.Body {  
+  display: flex;
+  height: 100%;
+}
+
+.body-left-side {
+  position: absolute;
+  width: 340px;
+  display: grid;
+}
+
+.body-right-side {
+  margin: 70px 0px 0px 340px;
+}
+.body-right-side-adaptive {
+  margin: 70px 0px 0px 340px;
+}
