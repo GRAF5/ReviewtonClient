@@ -11,3 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+html, body, #root, .App, .Body, .body-left-side, .body-right-side {
+  min-height: 100vh;
+}
+
+:root {
+  --main-dark: #1B1B1B;
+  --secondary-dark: #363636;
+  --third-dark: #929292;
+  --main-blue: #1941DF;
+  --secondary-blue: #3264FF;
+  --danger: #FF5454;
+  --header-height: 70px;
+
+}

@@ -2,12 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './link.css';
 
-export default function CustomLink({href, to, onClick, text, ...props}) {
+export default function CustomLink({id, className, href, to, onClick, text, ...props}) {
 
+  const clazz = (className ? className : '') + ' ' + (props.outlined ? 'outlined' : 0 || props.contained ? 'contained' : 0 || '')
   return (
     href ? 
-      <a className={props.outlined ? 'outlined' : 0 || props.contained ? 'contained' : 0 || ''} href={href} onClick={onClick}><span>{text}</span></a>
+      <a id={id} className={clazz} href={href} onClick={onClick}>{text}</a>
     :
-      <Link className={props.outlined ? 'outlined' : 0 || props.contained ? 'contained' : 0 || ''} to={to} onClick={onClick}><span>{text}</span></Link>
+      <Link id={id} className={clazz} to={to} onClick={onClick}>{text}</Link>
   );
 }

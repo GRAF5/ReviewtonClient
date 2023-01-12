@@ -5,8 +5,8 @@ a {
 
 a.outlined {
   background-color: rgba(0, 0, 0, 0);
-  color: #1941DF;
-  outline: 2px solid #1941DF;
+  color: var(--main-blue);
+  outline: 2px solid var(--main-blue);
   outline-offset: -2px;
   padding: 5px 20px;
   border-radius: 7px;
@@ -14,7 +14,7 @@ a.outlined {
 }
 
 a.contained {
-  background-color: #1941DF;
+  background-color: var(--main-blue);
   color: white;
   border: 0px;
   padding: 5px 20px;
