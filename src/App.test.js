@@ -22,7 +22,6 @@ describe('App', () => {
     let right = false;
     let left = false;
     divs.forEach(el => {
-      console.log(el.className)
       if (el.className === 'body-left-side') {
         left = true
       } else if (el.className === 'body-right-side') {
@@ -43,7 +42,6 @@ describe('App', () => {
     let right = false;
     let left = false;
     divs.forEach(el => {
-      console.log(el.className)
       if (el.className === 'body-left-side') {
         left = true
       } else if (el.className === 'body-right-side-adaptive') {
@@ -52,5 +50,23 @@ describe('App', () => {
     })
     expect(left).toBe(true);
     expect(right).toBe(true);
+  });
+
+  test('should use windows width for content wrapper', () => {
+    global.window.innerWidth = 400;
+    let view = render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>);
+    let divs = view.container.querySelectorAll('div');
+    let bodyWrapper;
+    divs.forEach(el => {
+      if (el.className === 'content-wrapper') {
+        bodyWrapper = el
+      }
+    })
+    expect(bodyWrapper).not.toBe(null);
+    expect(bodyWrapper).not.toBe(undefined);
+    expect(bodyWrapper.style.width).toBe('400px');
   });
 });

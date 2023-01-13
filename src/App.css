@@ -14,14 +14,20 @@ body, input, textarea, button {
 }
 
 .body-left-side {
-  position: absolute;
-  width: 340px;
+  min-width: fit-content;
+  max-width: 340px;
+  width: 30%;
   display: grid;
+  position: fixed;
+  height: 100%;
 }
 
 .body-right-side {
   margin: 70px 0px 0px 340px;
 }
 .body-right-side-adaptive {
-  margin: 70px 0px 0px 340px;
+  margin: 70px 0px 0px 0px;
+}
+.content-wrapper {
+  width: var(--body-content-width);
 }

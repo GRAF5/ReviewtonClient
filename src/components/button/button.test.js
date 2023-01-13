@@ -32,7 +32,7 @@ describe('Button', () => {
     expect(button.id).toBe('1');
     expect(button).toHaveStyle('background-color: rgba(0, 0, 0, 0);');
     //expect(button).toHaveStyle('color: var(--main-blue);');
-    expect(button).toHaveStyle('outline: 2px solid var(--main-blue);');
+    expect(button).toHaveStyle('outline: 2px solid var(--secondary-blue);');
     expect(button).toHaveStyle('outline-offset: -2px;');
     expect(button).toHaveStyle('border-radius: 7px;');
   });
