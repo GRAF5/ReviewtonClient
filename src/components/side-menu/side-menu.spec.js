@@ -86,7 +86,7 @@ describe('SideMenu', () => {
       expect(img).not.toBe(null);
       fireEvent.click(img);
       links = view.container.querySelectorAll('a');
-      expect(links.length).toBe(11);
+      expect(links.length).toBe(13);
     });
   })
 });

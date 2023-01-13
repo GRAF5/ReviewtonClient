@@ -5,6 +5,7 @@ import CustomLink from '../link/link';
 import './side-menu.css'
 import iconMenuWhite from '../../icons/menu_white_24dp.svg'
 import closeMenu from '../../icons/icons8-close.svg'
+import AuthInfo from '../auth-info/auth-info';
 
 export default function SideMenu({...props}) {
   const {width} = useWindowSize();
@@ -31,6 +32,13 @@ export default function SideMenu({...props}) {
   const [menu, setMenu] = useState(false);
   const location = useLocation();
   const secondary =   <div className='secondary'>
+    {
+      width < 1276 ? 
+      <div className='item'>
+        <AuthInfo onClick={onMenu}/>
+      </div>
+      : null
+    }
     {
         items.map((el, i) => {
           if (el.childs) {

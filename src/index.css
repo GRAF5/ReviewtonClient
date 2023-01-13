@@ -12,7 +12,7 @@ code {
     monospace;
 }
 
-html, body, #root, .App, .Body, .body-left-side, .body-right-side {
+html, body, #root, .App, .Body, .body-right-side {
   min-height: 100vh;
 }
 
@@ -24,5 +24,5 @@ html, body, #root, .App, .Body, .body-left-side, .body-right-side {
   --secondary-blue: #3264FF;
   --danger: #FF5454;
   --header-height: 70px;
-
+  --body-content-width: 576px;
 }
