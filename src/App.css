@@ -16,7 +16,6 @@ body, input, textarea, button {
 .body-left-side {
   min-width: fit-content;
   max-width: 340px;
-  width: 30%;
   display: grid;
   position: fixed;
   height: 100%;
@@ -29,5 +28,49 @@ body, input, textarea, button {
   margin: 70px 0px 0px 0px;
 }
 .content-wrapper {
-  width: var(--body-content-width);
+  padding: 20px;
+  height: 100%;
+}
+.bordered-content {
+  padding: 25px 40px;
+  margin-bottom: 25px;
+  border-radius: 7px;
+  border: 1px solid var(--third-dark);
+}
+.content {
+  padding: 15px 5px;
+  margin-bottom: 15px;
+  border-radius: 7px;
+}
+.title-1 {
+  margin: 0;
+  font-weight: bold;
+  font-size: 50px;
+}
+p {
+  margin: 0;
+}
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.eye-icon {
+  cursor: pointer;
+  background-color: var(--main-dark);
+  -webkit-mask: url('./icons/eye-white.svg') no-repeat center;
+  mask: url('./icons/eye-white.svg') no-repeat center;
+  mask-size: contain;
+  height: 35px;
+  width: 35px;
+}
+.eye-slash-icon {
+  cursor: pointer;
+  background-color: var(--main-dark);
+  -webkit-mask: url('./icons/eye-slash-white.svg') no-repeat center;
+  mask: url('./icons/eye-slash-white.svg') no-repeat center;
+  mask-size: contain;
+  height: 35px;
+  width: 35px;
 }

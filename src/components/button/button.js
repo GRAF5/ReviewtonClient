@@ -11,6 +11,9 @@ const StyledButton = styled.button`
   border-radius: ${(props) => props.circle ? '20px' : '7px'};
   border: 0px;
   cursor: pointer;
+  width: 100%;
+  min-height: 41px;
+  height: fit-content;
   `;
 
 export default function Button({id, text, name, onClick, ...props}) {

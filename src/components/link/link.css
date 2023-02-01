@@ -8,16 +8,26 @@ a.outlined {
   color: var(--main-blue);
   outline: 2px solid var(--main-blue);
   outline-offset: -2px;
-  padding: 5px 20px;
+  padding: 0 20px;
   border-radius: 7px;
-  height: 35px;
+  min-height: 41px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  align-items: center;
+  display: inline-flex;
 }
 
 a.contained {
   background-color: var(--main-blue);
   color: white;
   border: 0px;
-  padding: 5px 20px;
+  padding: 0 20px;
   border-radius: 7px;
-  height: 35px;
+  min-height: 41px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  align-items: center;
+  display: inline-flex;
 }

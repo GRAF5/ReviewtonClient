@@ -20,13 +20,24 @@ function App() {
       <div className='Body'>
         <Header />
         <div className='body-left-side'>
-          <SideMenu />
+          <div style={width >= 1276 ?{
+            'width': '340px',
+            'height': '100%',
+            'overflow': 'auto',
+            'position': 'fixed',
+            'display': 'grid'
+          }:{
+            'height': '100%',
+            'overflow': 'auto',
+            'position': 'fixed',
+            'display': 'grid'}}>
+            <SideMenu />
+          </div>
         </div>
         <div className={width >= 1276 ? 'body-right-side' : 'body-right-side-adaptive'}>
-          {width}
           <div className='content-wrapper' style={{
             'marginLeft': width >= 1276 ? `${(width - bodyW) / 2 - 340}px` : `${(width - bodyW) / 2}px`,
-            'width': `${bodyW}px`}}>
+            'width': `${bodyW - 40}px`}}>
             {R}
           </div>
         </div>

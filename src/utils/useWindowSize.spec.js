@@ -12,7 +12,7 @@ describe('useWindowSize', () => {
   const { window } = global;
   afterEach(() => {
     global.window = window;
-  })
+  });
 
   test('should return window size', () => {
     global.window.innerWidth = 1920;

@@ -1,6 +1,7 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-container */
-import { render, cleanup, fireEvent } from '@testing-library/react';
+import { render, cleanup, fireEvent, act} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import InputField from './input-field';
 
 afterEach(cleanup);
@@ -63,16 +64,27 @@ describe('InputField', () => {
     expect(input.placeholder).toBe('placeholder');
   });
 
+  // test('should use event beforeInput', async () => {
+  //   let onBI = jest.fn();
+  //   let view = render(<InputField id='1' onBeforeInput={onBI}/>);
+  //   const input = view.container.querySelector('input');
+  //   input.addEventListener('beforeinput', onBI);
+  //   userEvent.type(input, 'test');
+  //   fireEvent.input(input, 'test');
+  //   console.log(onBI.mock.calls)
+  //   expect(onBI).toHaveBeenCalledTimes(4);
+  // });
+
   test('should validate min length', async () => {
     let onCh = jest.fn();
     let view = render(<InputField id='1' minLength={2} onChange={onCh}/>);
     const input = view.container.querySelector('input');
     fireEvent.change(input,{target: {value: 't'}});
-    expect(onCh).toHaveBeenCalledTimes(1);
-    expect(onCh.mock.calls[0][1]).toBe(false);
+    expect(onCh).toHaveBeenCalledTimes(3);
+    expect(onCh.mock.calls[0][2]).toBe(false);
     fireEvent.change(input,{target: {value: 'te'}});
-    expect(onCh).toHaveBeenCalledTimes(2);
-    expect(onCh.mock.calls[1][1]).toBe(true);
+    expect(onCh).toHaveBeenCalledTimes(4);
+    expect(onCh.mock.calls[3][2]).toBe(true);
   });
 
   test('should validate max length', async () => {
@@ -80,11 +92,11 @@ describe('InputField', () => {
     let view = render(<InputField id='1' maxLength={2} onChange={onCh}/>);
     const input = view.container.querySelector('input');
     fireEvent.change(input,{target: {value: 't'}});
-    expect(onCh).toHaveBeenCalledTimes(1);
-    expect(onCh.mock.calls[0][1]).toBe(true);
+    expect(onCh).toHaveBeenCalledTimes(3);
+    expect(onCh.mock.calls[2][2]).toBe(true);
     fireEvent.change(input,{target: {value: 'tes'}});
-    expect(onCh).toHaveBeenCalledTimes(2);
-    expect(onCh.mock.calls[1][1]).toBe(false);
+    expect(onCh).toHaveBeenCalledTimes(4);
+    expect(onCh.mock.calls[3][2]).toBe(false);
   });
 
   test('should validate pattern', async () => {
@@ -92,10 +104,65 @@ describe('InputField', () => {
     let view = render(<InputField id='1' pattern={/^test$/} onChange={onCh}/>);
     const input = view.container.querySelector('input');
     fireEvent.change(input,{target: {value: 'tset'}});
-    expect(onCh).toHaveBeenCalledTimes(1);
-    expect(onCh.mock.calls[0][1]).toBe(false);
+    expect(onCh).toHaveBeenCalledTimes(3);
+    expect(onCh.mock.calls[2][2]).toBe(false);
     fireEvent.change(input,{target: {value: 'test'}});
-    expect(onCh).toHaveBeenCalledTimes(2);
-    expect(onCh.mock.calls[1][1]).toBe(true);
+    expect(onCh).toHaveBeenCalledTimes(4);
+    expect(onCh.mock.calls[3][2]).toBe(true);
+  });
+
+  test('should validate equal', async () => {
+    let onCh = jest.fn();
+    let view = render(<InputField id='1' equal='test' onChange={onCh}/>);
+    const input = view.container.querySelector('input');
+    fireEvent.change(input,{target: {value: 'tset'}});
+    expect(onCh).toHaveBeenCalledTimes(3);
+    expect(onCh.mock.calls[0][2]).toBe(false);
+    fireEvent.change(input,{target: {value: 'test'}});
+    expect(onCh).toHaveBeenCalledTimes(4);
+    expect(onCh.mock.calls[3][2]).toBe(true);
+  });
+
+  test('should add view/hide password', () => {
+    let view = render(<InputField id='1' type='password'/>);
+    const img = view.container.querySelector('img');
+    expect(img).not.toBe(null);
+    expect(img.className).toBe('eye-icon');
+    fireEvent.click(img);
+    expect(img.className).toBe('eye-slash-icon');
+  });
+
+  test('should use props error', async () => {
+    let view = render(<InputField id='1' label='label' error='Props Error' helperText='Helper text' />);
+    const input = view.container.querySelector('input');
+    const p = view.container.querySelector('p');
+    const label = view.container.querySelector('label');
+    expect(p.className.includes('error')).toBe(true);
+    expect(p.textContent).toBe('Props Error');
+    expect(label.className.includes('error')).toBe(true);
+    expect(input.className.includes('error')).toBe(true);
+  });
+
+  test('should use helperText for error', async () => {
+    let view = render(<InputField id='1' label='label' helperText='Helper text' required />);
+    const input = view.container.querySelector('input');
+    const p = view.container.querySelector('p');
+    const label = view.container.querySelector('label');
+    fireEvent.click(input);
+    expect(p.className.includes('error')).toBe(true);
+    expect(label.className.includes('error')).toBe(true);
+    expect(input.className.includes('error')).toBe(true);
+    expect(p.textContent).toBe('Helper text');
+  });
+
+  test('should set error for required', async () => {
+    let view = render(<InputField id='1' label='label' required />);
+    const input = view.container.querySelector('input');
+    const p = view.container.querySelector('p');
+    const label = view.container.querySelector('label');
+    expect(input).not.toBe(null);
+    fireEvent.click(input);
+    expect(label.className.includes('error')).toBe(true);
+    expect(input.className.includes('error')).toBe(true);
   });
 });
