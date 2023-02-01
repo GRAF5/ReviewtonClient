@@ -42,6 +42,7 @@ export default function InputField({id, name, maxLength, type, error, placeholde
 
   useEffect(() => {
     setData({...data, valid: isValid(data.value)});
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [equal]);
 
   useEffect(() => {    
@@ -51,6 +52,7 @@ export default function InputField({id, name, maxLength, type, error, placeholde
     // if (onBeforeInput) {
     //   onBeforeInput(id, data.value, data.valid);
     // }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
 

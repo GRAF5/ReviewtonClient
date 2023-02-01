@@ -70,6 +70,7 @@ export default function Form({title, button, formErrors, elements = [], onSubmit
 
   useEffect(() => {
     setFormValid(checkValid());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [valid]);  
 
   return (
