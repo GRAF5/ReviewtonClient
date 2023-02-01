@@ -1,0 +1,10 @@
+.form-errors{
+  background-color: var(--second-danger);
+  color: var(--danger);
+  padding: 6px 16px;
+  border-radius: 3px;
+  list-style-type: none;
+}
+.form-error{
+  padding: 8px 0;
+}

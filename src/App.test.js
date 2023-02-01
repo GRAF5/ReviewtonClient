@@ -52,7 +52,7 @@ describe('App', () => {
     expect(right).toBe(true);
   });
 
-  test('should use windows width for content wrapper', () => {
+  test('should use windows width - padding for content wrapper', () => {
     global.window.innerWidth = 400;
     let view = render(
       <BrowserRouter>
@@ -67,6 +67,6 @@ describe('App', () => {
     })
     expect(bodyWrapper).not.toBe(null);
     expect(bodyWrapper).not.toBe(undefined);
-    expect(bodyWrapper.style.width).toBe('400px');
+    expect(bodyWrapper.style.width).toBe('360px');
   });
 });

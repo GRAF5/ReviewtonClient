@@ -23,6 +23,7 @@ html, body, #root, .App, .Body, .body-right-side {
   --main-blue: #1941DF;
   --secondary-blue: #3264FF;
   --danger: #FF5454;
+  --second-danger: #ffd6db;
   --header-height: 70px;
   --body-content-width: 576px;
 }
