@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import Button from '../../components/button/button';
-import FormErrors from '../../components/form-errors/form-errors';
+import React, { useState } from 'react';
 import Form from '../../components/form/form';
-import InputField from '../../components/input-field/input-field';
 import CustomLink from '../../components/link/link';
 import { userService } from '../../services/user.service';
 import useWindowSize from '../../utils/useWindowSize';
