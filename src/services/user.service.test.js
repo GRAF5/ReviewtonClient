@@ -20,7 +20,8 @@ describe('UserService', () => {
     json: () => Promise.resolve(fakeRes)
   }))});
 
-  afterEach(() => {
+  afterAll(() => {
+    localStorage.clear();
   });
 
   test('should fetch user authenticate', async () => {
@@ -47,6 +48,24 @@ describe('UserService', () => {
       return (
       <>
         <button onClick={() => userService.register({}).then(res => setData(JSON.stringify(res)))} />
+        {data ? <p>{data}</p> : null}
+      </>);
+    }
+    let view = render(<TestComponent />);
+    const button = view.container.querySelector('button');
+    fireEvent.click(button);
+    const p = await screen.findByText(JSON.stringify(fakeRes));
+    expect(p).not.toBe(null);
+  });
+
+  test('should fetch current', async () => {
+    localStorage.setItem('token', 'token');
+    function TestComponent() {
+      const [data, setData] = useState('');
+      
+      return (
+      <>
+        <button onClick={() => userService.current({}).then(res => setData(JSON.stringify(res)))} />
         {data ? <p>{data}</p> : null}
       </>);
     }

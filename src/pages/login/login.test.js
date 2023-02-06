@@ -1,6 +1,6 @@
 /* eslint-disable testing-library/no-container */
 /* eslint-disable testing-library/no-node-access */
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import * as userService from '../../services/user.service';
@@ -52,5 +52,27 @@ describe('Login', () => {
     expect(userService.userService.authenticate).toBeCalledTimes(1);
     const li = await screen.findByText('Error');
     expect(li).not.toBe(null);
+  });
+
+  test('should set set user and redirects', async () => {
+    let userStore = {
+      setUser: jest.fn()
+    };
+    userService.userService.authenticate = jest.fn(() => new Promise((res) => res({})));
+    jest.mock('react-router-dom', () => ({
+      ...jest.requireActual('react-router-dom'),
+      useNavigate: () => (jest.fn())
+    }));
+    let view = render(<MemoryRouter> 
+      <Login userStore={userStore} />
+      </MemoryRouter>);
+    const button = view.container.querySelector('button');
+    const inputs = view.container.querySelectorAll('input');
+    fireEvent.change(inputs[0], {target: {value: 'test'}});
+    fireEvent.change(inputs[1], {target: {value: 'pass'}});
+    fireEvent.click(button);
+    expect(userService.userService.authenticate).toBeCalledTimes(1);
+    await waitFor(() => expect(userStore.setUser).toHaveBeenCalledTimes(1));
+
   });
 });

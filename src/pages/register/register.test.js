@@ -1,10 +1,11 @@
 /* eslint-disable testing-library/no-container */
 /* eslint-disable testing-library/no-node-access */
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import Register from './register';
 import * as userService from '../../services/user.service';
+import * as router from 'react-router';
 
 describe('Register', () => {
   const { window } = global;
@@ -59,5 +60,23 @@ describe('Register', () => {
     expect(userService.userService.register).toBeCalledTimes(1);
     const li = await screen.findByText('Error');
     expect(li).not.toBe(null);
+  });
+
+  test('should redirects', async () => {
+    userService.userService.register = jest.fn(() => new Promise((res) => res()));
+    let mockNavigate = jest.fn();
+    jest.spyOn(router, 'useNavigate').mockImplementation(() => mockNavigate)
+    let view = render(<MemoryRouter> 
+      <Register />
+      </MemoryRouter>);
+    const button = view.container.querySelector('button');
+    const inputs = view.container.querySelectorAll('input');
+    fireEvent.change(inputs[0], {target: {value: 'test@test.com'}});
+    fireEvent.change(inputs[1], {target: {value: 'login'}});
+    fireEvent.change(inputs[2], {target: {value: 'Qwerty1234'}});
+    fireEvent.change(inputs[3], {target: {value: 'Qwerty1234'}});
+    fireEvent.click(button);
+    expect(userService.userService.register).toBeCalledTimes(1);
+    await waitFor(() => expect(mockNavigate).toBeCalledTimes(1));
   });
 });

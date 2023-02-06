@@ -1,11 +1,12 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-container */
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
+import * as userService from './services/user.service';
 
 afterEach(cleanup);
-
+const userStore = {user: {}, setUser: () => {}, checkAccessByRole: () => {}};
 describe('App', () => {
 
   afterAll(() => {
@@ -16,7 +17,7 @@ describe('App', () => {
     global.window.innerWidth = 1276;
     let view = render(
       <BrowserRouter>
-        <App />
+        <App userStore={userStore} />
       </BrowserRouter>);
     let divs = view.container.querySelectorAll('div');
     let right = false;
@@ -36,7 +37,7 @@ describe('App', () => {
     global.window.innerWidth = 1275;
     let view = render(
       <BrowserRouter>
-        <App />
+        <App userStore={userStore} />
       </BrowserRouter>);
     let divs = view.container.querySelectorAll('div');
     let right = false;
@@ -56,7 +57,7 @@ describe('App', () => {
     global.window.innerWidth = 400;
     let view = render(
       <BrowserRouter>
-        <App />
+        <App userStore={userStore} />
       </BrowserRouter>);
     let divs = view.container.querySelectorAll('div');
     let bodyWrapper;
@@ -68,5 +69,14 @@ describe('App', () => {
     expect(bodyWrapper).not.toBe(null);
     expect(bodyWrapper).not.toBe(undefined);
     expect(bodyWrapper.style.width).toBe('360px');
+  });
+
+  test('should call current', async () => {
+    userService.userService.current = jest.fn(() => new Promise((res) => res({})))
+    let view = render(
+      <BrowserRouter>
+        <App userStore={userStore} testId='id' />
+      </BrowserRouter>);
+    await waitFor(() => expect(userService.userService.current).toHaveBeenCalledTimes(1));
   });
 });

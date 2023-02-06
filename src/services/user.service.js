@@ -3,7 +3,8 @@ import handleResponse from './handleResponse';
 
 export const userService = {
   register,
-  authenticate
+  authenticate,
+  current
 };
 
 /**
@@ -44,4 +45,24 @@ function authenticate(data) {
     body: JSON.stringify(data)
   };
   return fetch(config.serverUrl + '/user/authenticate', opts).then(res => handleResponse(res));
+}
+
+/**
+ * Authenticate user by local token
+ * @returns {Promise<Object>}  return response object
+ */
+function current() {
+  const token = localStorage.getItem('token');
+  if (token) {
+    const opts = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    };
+    return fetch(config.serverUrl + '/authorization/current', opts).then(res => handleResponse(res));
+  }
+  return new Promise(res => res);
 }

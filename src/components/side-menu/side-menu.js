@@ -6,41 +6,49 @@ import './side-menu.css'
 import iconMenuWhite from '../../icons/menu_white_24dp.svg'
 import closeMenu from '../../icons/icons8-close.svg'
 import AuthInfo from '../auth-info/auth-info';
+import { observer } from 'mobx-react-lite';
 
-export default function SideMenu({...props}) {
+const SideMenu = observer(({userStore}) => {
   const {width} = useWindowSize();
   const [items, setItems] = useState([
     {text: 'Нові', path: '/'},
-    {text: 'Додати статтю', path: '/add-article'},
-    {text: 'Підписки', path: '/account//subscriptions'},
-    {text: 'Акаунт', path: '/account'},
-    {text: 'Повідомлення', path: '/account//add-article'},
-    {text: 'Мої статті', path: '/account//articles'},
+    {text: 'Додати статтю', path: '/add-article', requireAuth: true},
+    {text: 'Підписки', path: '/account//subscriptions', requireAuth: true},
+    {text: 'Акаунт', path: '/account', requireAuth: true},
+    {text: 'Повідомлення', path: '/account//add-article', requireAuth: true},
+    {text: 'Мої статті', path: '/account//articles', requireAuth: true},
     {text: 'Теми', path: '/subjects'},
     {text: 'Теги', path: '/tags'},
     {text: 'Модерація ⇵', open: false, childs: [
       {text: 'Користувачі', path: '/moderate/users'},
       {text: 'Статті', path: '/moderate/articles'},
       {text: 'Коментарі', path: '/moderate/comments'}
-    ]},
+    ], requireAuth: true, requireRole: 'moderator'},
     {text: 'Адміністрування ⇵', open: false, childs: [
       {text: 'Користувачі', path: '/administrate/users'},
       {text: 'Теми', path: '/administrate/subjects'},
       {text: 'Теги', path: '/administrate/tags'}
-    ]}
+    ], requireAuth: true, requireRole: 'admin'}
   ]);
   const [menu, setMenu] = useState(false);
   const location = useLocation();
+
   const secondary =   <div className='secondary'>
     {
       width < 1276 ? 
       <div className='item'>
-        <AuthInfo onClick={onMenu}/>
+        <AuthInfo user={userStore.user} onExit={handleExit} onClick={onMenu}/>
       </div>
       : null
     }
     {
         items.map((el, i) => {
+          if (el.requireAuth && !userStore.user) {
+            return null;
+          }
+          if (el.requireRole && !userStore.checkAccessByRole(el.requireRole)) {
+            return null;
+          }
           if (el.childs) {
             return (
               el.open || el.childs.some(ch => ch.path === location.pathname) ? 
@@ -67,6 +75,12 @@ export default function SideMenu({...props}) {
         })
     }
   </div>
+
+
+  function handleExit() {
+    userStore.exit();
+    onMenu();
+  }
 
   function onMenu(e) {
     const newItems = items.map(el => {
@@ -113,4 +127,6 @@ export default function SideMenu({...props}) {
       }
     </>
   )
-}
+})
+
+export default SideMenu;

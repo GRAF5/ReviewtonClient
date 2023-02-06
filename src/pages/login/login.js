@@ -1,17 +1,25 @@
+import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Form from '../../components/form/form';
 import CustomLink from '../../components/link/link';
 import { userService } from '../../services/user.service';
 import useWindowSize from '../../utils/useWindowSize';
 
-export default function Login({...props}) {
+const Login = observer(({userStore}) => {
   const {width} = useWindowSize();
   const [errors, setErrors] = useState([]);
+  const navigate = useNavigate();
 
   const bodyW = width >= 576 ? 576 : width;
 
   function submit(inputs) {
-    userService.authenticate(inputs).catch(res => {
+    userService.authenticate(inputs)
+    .then(res => {
+      userStore.setUser(res);
+      return navigate('/', {replace: true});
+    })
+    .catch(res => {
       setErrors([res.message]);
     });
   }
@@ -32,8 +40,10 @@ export default function Login({...props}) {
       </div>
       <div className={bodyW === width ? 'content' : 'bordered-content'}>
         <div className='centered'>
-          <p>Ще не маєте акаунту? &nbsp;<CustomLink to='/register' text='Зареєструйтесь' /></p>
+          <p>Ще не маєте акаунту? &nbsp;<CustomLink replace to='/register' text='Зареєструйтесь' /></p>
         </div>
       </div>
   </>)
-}
+});
+
+export default Login;

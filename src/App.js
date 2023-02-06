@@ -1,3 +1,5 @@
+import { observer } from 'mobx-react-lite';
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router';
 import './App.css';
 import Header from './components/header/header';
@@ -5,20 +7,32 @@ import SideMenu from './components/side-menu/side-menu';
 import Login from './pages/login/login';
 import Main from './pages/main/main';
 import Register from './pages/register/register';
+import { userService } from './services/user.service';
 import useWindowSize from './utils/useWindowSize';
 
-function App() {
+const App = observer(({userStore}) => {
+  
   const {width} = useWindowSize();
   const bodyW = width >= 576 ? 576 : width;
+
   const R = <Routes>
     <Route path='/' element={<Main/>} />
     <Route path='/register' element={<Register/>} />
-    <Route path='/login' element={<Login/>} />
-  </Routes>
+    <Route path='/login' element={<Login userStore={userStore}/>} />
+  </Routes>;
+
+  useEffect(() => {
+    userService.current()
+      .then(res => {
+        userStore.setUser(res);
+      });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className='App'>
       <div className='Body'>
-        <Header />
+        <Header userStore={userStore} />
         <div className='body-left-side'>
           <div style={width >= 1276 ?{
             'width': '340px',
@@ -31,7 +45,7 @@ function App() {
             'overflow': 'auto',
             'position': 'fixed',
             'display': 'grid'}}>
-            <SideMenu />
+            <SideMenu userStore={userStore}/>
           </div>
         </div>
         <div className={width >= 1276 ? 'body-right-side' : 'body-right-side-adaptive'}>
@@ -44,6 +58,6 @@ function App() {
       </div>
     </div>
   );
-}
+})
 
 export default App;
