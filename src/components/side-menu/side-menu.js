@@ -53,7 +53,7 @@ const SideMenu = observer(({userStore}) => {
             return (
               el.open || el.childs.some(ch => ch.path === location.pathname) ? 
               <div key={i}>
-                <CustomLink id={i} key={i} onClick={onOpen} className='item active' text={el.text} />
+                <CustomLink id={i} key={i} onClick={onOpen} className={el.path === location.pathname ? 'item active' : 'item inactive'} text={el.text} />
                 {
                     el.childs.map((ch, y) => 
                       <CustomLink 

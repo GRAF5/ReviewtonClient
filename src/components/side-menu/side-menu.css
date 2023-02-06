@@ -28,6 +28,7 @@ div.secondary {
   display: flex;
 }
 .child {
+  background-color: var(--four-dark);
   width: auto;
   height: 40px;
   padding: 0px 40px 0px 70px;
@@ -106,4 +107,7 @@ div.secondary {
 }
 .close {
   cursor: pointer;
+}
+.opened-submenu {
+  background-color: var(--third-blue);
 }
