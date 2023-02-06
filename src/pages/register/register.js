@@ -3,15 +3,21 @@ import CustomLink from '../../components/link/link';
 import useWindowSize from '../../utils/useWindowSize';
 import { userService } from '../../services/user.service';
 import Form from '../../components/form/form';
+import { useNavigate } from 'react-router-dom';
 
 export default function Register({...props}) {
   const {width} = useWindowSize();
   const [errors, setErrors] = useState([]);
+  const navigate = useNavigate();
 
   const bodyW = width >= 576 ? 576 : width;
 
   function submit(inputs) {
-    userService.register(inputs).catch(res => {
+    userService.register(inputs)
+    .then(() => {
+      return navigate('/login');
+    })
+    .catch(res => {
       let errors = res.details.errors.map(err => err.msg);
       setErrors(errors);
     });
@@ -49,7 +55,7 @@ export default function Register({...props}) {
       </div>
       <div className={bodyW === width ? 'content' : 'bordered-content'}>
         <div className='centered'>
-          <p>Вже зареэстровані? &nbsp;<CustomLink to='/login' text='Увійдіть' /></p>
+          <p>Вже зареэстровані? &nbsp;<CustomLink replace to='/login' text='Увійдіть' /></p>
         </div>
       </div>
   </>)

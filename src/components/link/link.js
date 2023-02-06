@@ -9,6 +9,6 @@ export default function CustomLink({id, className, href, to, onClick, text, ...p
     href ? 
       <a id={id} className={clazz} href={href} onClick={onClick}>{text}</a>
     :
-      <Link id={id} className={clazz} to={to} onClick={onClick}>{text}</Link>
+      <Link replace={props.replace} id={id} className={clazz} to={to} onClick={onClick}>{text}</Link>
   );
 }
