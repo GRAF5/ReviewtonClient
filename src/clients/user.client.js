@@ -1,7 +1,7 @@
 import config from '../config';
 import handleResponse from './handleResponse';
 
-export const userService = {
+export const userClient = {
   register,
   authenticate,
   current
@@ -25,7 +25,7 @@ function register(data) {
     },
     body: JSON.stringify(data)
   };
-  return fetch(config.serverUrl + '/user/register', opts).then(res => handleResponse(res));
+  return fetch(`${process.env.REACT_APP_SERVER_URL || config.serverUrl}/user/register`, opts).then(res => handleResponse(res));
 }
 
 /**
@@ -44,7 +44,7 @@ function authenticate(data) {
     },
     body: JSON.stringify(data)
   };
-  return fetch(config.serverUrl + '/user/authenticate', opts).then(res => handleResponse(res));
+  return fetch(`${process.env.REACT_APP_SERVER_URL || config.serverUrl}/user/authenticate`, opts).then(res => handleResponse(res));
 }
 
 /**
@@ -62,7 +62,7 @@ function current() {
         Authorization: `Bearer ${token}`
       }
     };
-    return fetch(config.serverUrl + '/authorization/current', opts).then(res => handleResponse(res));
+    return fetch(`${process.env.REACT_APP_SERVER_URL || config.serverUrl}/authorization/current`, opts).then(res => handleResponse(res));
   }
   return new Promise(res => res);
 }

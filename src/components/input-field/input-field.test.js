@@ -125,11 +125,11 @@ describe('InputField', () => {
 
   test('should add view/hide password', () => {
     let view = render(<InputField id='1' type='password'/>);
-    const img = view.container.querySelector('img');
+    const img = view.container.querySelector('svg');
     expect(img).not.toBe(null);
-    expect(img.className).toBe('eye-icon');
+    expect(img.getAttribute('class')).toBe('eye-icon');
     fireEvent.click(img);
-    expect(img.className).toBe('eye-slash-icon');
+    expect(img.getAttribute('class')).toBe('eye-slash-icon');
   });
 
   test('should use props error', async () => {

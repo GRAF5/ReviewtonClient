@@ -1,0 +1,45 @@
+.comment {
+  margin-top: 5px;
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+}
+#login.self {
+  background-color: var(--secondary-blue);
+  color: white;
+  border: 1px solid var(--secondary-blue);
+  border-radius: 30px;
+  padding: 2px 14px;
+}
+#login.self:hover {
+  background-color: var(--main-blue);
+  border: 1px solid var(--main-blue);
+  color: white;
+}
+.comment-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  color: var(--third-dark);
+}
+#time {
+  font-size: 14px;
+}
+.comment.self #time {
+  margin-left: auto;
+  color: var(--third-blue);
+}
+#answer {
+  cursor: pointer;
+}
+#answer:hover {
+  color: var(--secondary-blue);
+}
+.thread {
+  cursor: pointer;
+  padding-right: 15px;
+  color: var(--third-dark);
+}
+.thread:hover {
+  color: var(--secondary-blue);
+}

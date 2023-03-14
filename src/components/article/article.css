@@ -1,0 +1,45 @@
+
+.like-icon {
+  height: 25px;
+  width: 25px;
+}
+.dislike-icon {
+  height: 25px;
+  width: 25px;
+}
+.views-icon {
+  height: 25px;
+  width: 25px;
+}
+.views {
+  color: var(--third-dark);
+  display: flex;
+  align-items: center;
+}
+.like, .dislike {
+  color: var(--third-dark);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.like.setted, .dislike.setted, .like:hover, .dislike:hover {
+  color: var(--secondary-blue);
+}
+.comments {
+  display: flex;
+  flex-flow: column;
+}
+#login {
+  cursor: pointer;
+  width: fit-content;
+  font-weight: bold;
+}
+#login:hover, #subject:hover {
+  color: var(--main-blue);
+}
+#subject {
+  cursor: pointer;
+  width: fit-content;
+  font-weight: bold;
+  font-size: 26px;
+}

@@ -38,3 +38,18 @@ div.input-field-form {
 .input-field-helpText.error{
     color: var(--danger);
 }
+.resizeble-input {
+    width: 100%;
+    word-break: break-word;
+    border: 1px solid var(--third-dark);
+    padding: 7px 14px;
+    box-sizing: border-box;
+    border-radius: 7px;
+    outline: none;
+    min-height: 41px;
+}
+[placeholder].resizeble-input:empty::before {
+  cursor: text;
+    content: attr(placeholder);
+    color: #888;
+}

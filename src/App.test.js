@@ -1,9 +1,9 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-container */
-import { render, cleanup, screen, waitFor } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import * as userService from './services/user.service';
+import * as userClient from './clients/user.client';
 
 afterEach(cleanup);
 const userStore = {user: {}, setUser: () => {}, checkAccessByRole: () => {}};
@@ -72,11 +72,11 @@ describe('App', () => {
   });
 
   test('should call current', async () => {
-    userService.userService.current = jest.fn(() => new Promise((res) => res({})))
+    userClient.userClient.current = jest.fn(() => new Promise((res) => res({})))
     let view = render(
       <BrowserRouter>
         <App userStore={userStore} testId='id' />
       </BrowserRouter>);
-    await waitFor(() => expect(userService.userService.current).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(userClient.userClient.current).toHaveBeenCalledTimes(1));
   });
 });

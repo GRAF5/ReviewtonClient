@@ -1,0 +1,25 @@
+.input-star-rating-list{
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    font-size: 35px;
+    color: #ddd;
+    margin: 0;
+}
+.input-star-rating-list li{
+    padding: 2px 5px;
+    cursor: pointer;
+}
+/*Закрашивание всех предыдущих звезд при наведении*/
+.input-star-rating-list:hover .input-star{
+    color: #ffd700;
+}
+/*Закрашивание всех последующих звёзд*/
+.input-star:hover,
+.input-star:hover ~ .input-star{
+    color: #ddd;
+}
+
+.input-star.checked {
+    color: #ffd700;
+}
