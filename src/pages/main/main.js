@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { contentClient } from '../../clients/content.client';
 import Article from '../../components/article/article';

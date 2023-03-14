@@ -5,7 +5,6 @@ import Form from '../../components/form/form';
 import CustomLink from '../../components/link/link';
 import { userClient } from '../../clients/user.client';
 import useWindowSize from '../../utils/useWindowSize';
-import config from '../../config';
 
 const Login = observer(({userStore}) => {
   const {width, contentWidth} = useWindowSize();
