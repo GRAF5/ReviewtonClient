@@ -1,7 +1,7 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-container */
 import { render, cleanup, fireEvent, act} from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+// import userEvent from '@testing-library/user-event';
 import InputField from './input-field';
 
 afterEach(cleanup);
