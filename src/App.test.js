@@ -4,6 +4,7 @@ import { render, cleanup, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import * as userClient from './clients/user.client';
+import 'core-js';
 
 afterEach(cleanup);
 const userStore = {user: {}, setUser: () => {}, checkAccessByRole: () => {}};

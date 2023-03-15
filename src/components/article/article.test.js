@@ -7,6 +7,7 @@ import { contentClient } from '../../clients/content.client';
 import config from '../../config';
 import Article from './article';
 import 'intersection-observer';
+import 'core-js';
 
 describe('Article', () => {
   let article;
