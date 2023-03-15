@@ -48,6 +48,7 @@ describe('Form', () => {
 
   test('should calc form valid state', async () => {
     let view = render(<Form
+      button='test'
       elements={[
         {
           name: 'test', type: 'input', label: 'label', required: true
@@ -71,6 +72,7 @@ describe('Form', () => {
 
   test('should set input equal text', async () => {
     let view = render(<Form
+      button='test'
       elements={[
         {
           name: 'test', type: 'input', label: 'label', equal: 'text'
@@ -85,6 +87,7 @@ describe('Form', () => {
 
   test('should set input equal another input', async () => {
     let view = render(<Form
+      button='test'
       elements={[
         {
           name: 'test', type: 'input', label: 'label'

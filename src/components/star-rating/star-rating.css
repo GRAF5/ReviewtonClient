@@ -1,0 +1,29 @@
+.star-rating{
+    display: flex;
+    list-style-type: none;
+    text-align: center;
+    padding: 0;
+    font-size: 30px;
+    margin: 0;
+    position: relative;
+    word-wrap: normal;
+    width:max-content;
+    z-index: -1;
+}
+.star-rating li{
+    padding: 0px;
+}
+.star-rating-bottom{
+    display: flex;
+    color: #ddd;
+    z-index: 0;
+}
+.star-rating-top{
+    top: 0;
+    left: 0;
+    display: flex;
+    color: #ffd700;
+    position: absolute;
+    z-index: 1;
+    overflow: hidden;
+}

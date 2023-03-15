@@ -7,6 +7,7 @@ import iconMenuWhite from '../../icons/menu_white_24dp.svg'
 import closeMenu from '../../icons/icons8-close.svg'
 import AuthInfo from '../auth-info/auth-info';
 import { observer } from 'mobx-react-lite';
+import config from '../../config';
 
 const SideMenu = observer(({userStore}) => {
   const {width} = useWindowSize();
@@ -35,7 +36,7 @@ const SideMenu = observer(({userStore}) => {
 
   const secondary =   <div className='secondary'>
     {
-      width < 1276 ? 
+      width < 345 * 2 + config.contentWidth ? 
       <div className='item'>
         <AuthInfo user={userStore.user} onExit={handleExit} onClick={onMenu}/>
       </div>
@@ -82,15 +83,17 @@ const SideMenu = observer(({userStore}) => {
     onMenu();
   }
 
-  function onMenu(e) {
-    const newItems = items.map(el => {
-      if (el.open) {
-        el.open = false;
-      }
-      return el;
-    });
-    setItems(newItems);
-    setMenu(!menu);
+  function onMenu(e = {}, value = !menu) {
+    if (!e.key || e.key === 'Enter') {
+      const newItems = items.map(el => {
+        if (el.open) {
+          el.open = false;
+        }
+        return el;
+      });
+      setItems(newItems);
+      setMenu(value);
+    }
   }
 
   function onOpen(e) {
@@ -106,16 +109,16 @@ const SideMenu = observer(({userStore}) => {
   return (
     <>
       {
-        width >= 1276 ? 
+        width >= 345 * 2 + config.contentWidth ? 
         <>
-        <CustomLink onClick={onMenu} key='head' className='item head' to='/' text='Reviewton'/>
+        <CustomLink onClick={(e) => onMenu(e, false)} key='head' className='item head' to='/' text='Reviewton'/>
         {secondary}
         </>
         :
         <>
         <div className='item head'>
-          <img className='menu' onClick={onMenu} src={!menu ? iconMenuWhite : closeMenu} alt='menu' /> 
-          <CustomLink onClick={onMenu} key='head' to='/' text='Reviewton'/>
+          <img tabIndex={0} className='menu' onKeyDown={onMenu} onClick={onMenu} src={!menu ? iconMenuWhite : closeMenu} alt='menu' /> 
+          <CustomLink onClick={(e) => onMenu(e, false)} key='head' to='/' text='Reviewton'/>
         </div>
         {menu ? 
           <>

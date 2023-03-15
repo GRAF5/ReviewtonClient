@@ -1,6 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import 'core-js';
 
 // mocks react-dom and its render method
 // so that we can assert that render is

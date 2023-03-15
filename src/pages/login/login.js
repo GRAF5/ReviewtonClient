@@ -3,18 +3,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Form from '../../components/form/form';
 import CustomLink from '../../components/link/link';
-import { userService } from '../../services/user.service';
+import { userClient } from '../../clients/user.client';
 import useWindowSize from '../../utils/useWindowSize';
 
 const Login = observer(({userStore}) => {
-  const {width} = useWindowSize();
+  const {width, contentWidth} = useWindowSize();
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
 
-  const bodyW = width >= 576 ? 576 : width;
-
   function submit(inputs) {
-    userService.authenticate(inputs)
+    userClient.authenticate(inputs)
     .then(res => {
       userStore.setUser(res);
       return navigate('/', {replace: true});
@@ -26,7 +24,7 @@ const Login = observer(({userStore}) => {
 
   return (
   <>
-      <div className={bodyW === width ? 'content' : 'bordered-content'}>
+      <div className={contentWidth === width ? 'content' : 'bordered-content'}>
         <Form 
           title='Вхід'
           button='Увійти'
@@ -38,7 +36,7 @@ const Login = observer(({userStore}) => {
           ]}
          />
       </div>
-      <div className={bodyW === width ? 'content' : 'bordered-content'}>
+      <div className={contentWidth === width ? 'content' : 'bordered-content'}>
         <div className='centered'>
           <p>Ще не маєте акаунту? &nbsp;<CustomLink replace to='/register' text='Зареєструйтесь' /></p>
         </div>

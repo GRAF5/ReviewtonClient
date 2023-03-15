@@ -1,7 +1,7 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-container */
 import { render, cleanup, fireEvent, act} from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+// import userEvent from '@testing-library/user-event';
 import InputField from './input-field';
 
 afterEach(cleanup);
@@ -125,11 +125,11 @@ describe('InputField', () => {
 
   test('should add view/hide password', () => {
     let view = render(<InputField id='1' type='password'/>);
-    const img = view.container.querySelector('img');
+    const img = view.container.querySelector('svg');
     expect(img).not.toBe(null);
-    expect(img.className).toBe('eye-icon');
+    expect(img.getAttribute('class')).toBe('eye-icon');
     fireEvent.click(img);
-    expect(img.className).toBe('eye-slash-icon');
+    expect(img.getAttribute('class')).toBe('eye-slash-icon');
   });
 
   test('should use props error', async () => {

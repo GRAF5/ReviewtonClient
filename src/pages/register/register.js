@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import CustomLink from '../../components/link/link';
 import useWindowSize from '../../utils/useWindowSize';
-import { userService } from '../../services/user.service';
+import { userClient } from '../../clients/user.client';
 import Form from '../../components/form/form';
 import { useNavigate } from 'react-router-dom';
 
 export default function Register({...props}) {
-  const {width} = useWindowSize();
+  const {width, contentWidth} = useWindowSize();
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
 
-  const bodyW = width >= 576 ? 576 : width;
-
   function submit(inputs) {
-    userService.register(inputs)
+    userClient.register(inputs)
     .then(() => {
       return navigate('/login');
     })
@@ -25,7 +23,7 @@ export default function Register({...props}) {
 
   return (
   <>
-      <div className={bodyW === width ? 'content' : 'bordered-content'}>
+      <div className={contentWidth === width ? 'content' : 'bordered-content'}>
         <Form
           title='Реєстрація'
           button='Зареэструватись'
@@ -53,7 +51,7 @@ export default function Register({...props}) {
           ]}
         />
       </div>
-      <div className={bodyW === width ? 'content' : 'bordered-content'}>
+      <div className={contentWidth === width ? 'content' : 'bordered-content'}>
         <div className='centered'>
           <p>Вже зареэстровані? &nbsp;<CustomLink replace to='/login' text='Увійдіть' /></p>
         </div>

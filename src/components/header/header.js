@@ -5,16 +5,15 @@ import AuthInfo from '../auth-info/auth-info';
 import './header.css';
 
 const Header = observer(({userStore}) => {
-  const {width} = useWindowSize();
-  const bodyW = width >= 576 ? 576 : width;
+  const {width, contentWidth} = useWindowSize();
   function handleExit() {
     userStore.exit();
   }
   return (
     <div className='header'>
       <div className='center' style={{
-        'marginLeft': `${(width - bodyW) / 2}px`,
-        'width': `${bodyW}px`}}></div>
+        'marginLeft': `${(width - contentWidth) / 2}px`,
+        'width': `${contentWidth}px`}}></div>
         {
           width >= 1276 ? <div className='right'> <AuthInfo user={userStore.user} onExit={handleExit} /> </div>:null
         }        

@@ -3,8 +3,9 @@
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import config from '../../config';
 import SideMenu from './side-menu';
-
+const maxWidth = config.contentWidth + 345 * 2;
 afterEach(cleanup);
 let userStore = {
   user: {id: 'id'}, 
@@ -15,7 +16,7 @@ describe('SideMenu', () => {
   describe('normal', () => {
 
     beforeAll(() => {
-      global.window.innerWidth = 1276;
+      global.window.innerWidth = maxWidth;
     });
 
     afterAll(() => {
@@ -65,7 +66,7 @@ describe('SideMenu', () => {
       expect(link.className).toBe('child active ');
     });
 
-    test('should render adaptive if width < 1276', async () => {
+    test('should render adaptive if width < maxWidth', async () => {
       global.window.innerWidth = 1275;
       let view = render(
         <BrowserRouter>
@@ -112,7 +113,7 @@ describe('SideMenu', () => {
     });
     
     test('should not render require auth childs', async () => {
-      global.window.innerWidth = 1276;
+      global.window.innerWidth = maxWidth;
       let userStore = {
         user: null,
         checkAccessByRole: () => {}
@@ -127,7 +128,7 @@ describe('SideMenu', () => {
     });
     
     test('should not render require role childs', async () => {
-      global.window.innerWidth = 1276;
+      global.window.innerWidth = maxWidth;
       let userStore = {
         user: {id: 'id'},
         checkAccessByRole: () => { return false; }

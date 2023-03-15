@@ -1,3 +1,4 @@
 module.exports = {
-  serverUrl: 'http://localhost:3030'
+  serverUrl: 'https://reviewton.onrender.com',
+  contentWidth: 700
 };

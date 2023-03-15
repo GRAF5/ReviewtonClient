@@ -1,4 +1,5 @@
-import React from  "react";
+import React from  'react';
+import config from '../config';
 
 export default function useWindowSize() {
     //Серверный рендеринг или клиентский
@@ -8,10 +9,14 @@ export default function useWindowSize() {
         //Если серверный рендеринг устанавливаем стандарнтные значения
         width: window.innerWidth,
         height: window.innerHeight,
+        contentWidth: window.innerWidth >= config.contentWidth ? config.contentWidth : window.innerWidth
     });
 
     function changeWindowSize() {
-        setWindowSize({ width: window.innerWidth, height: window.innerHeight});
+        setWindowSize({ 
+          width: window.innerWidth, 
+          height: window.innerHeight, 
+          contentWidth: window.innerWidth >= config.contentWidth ? config.contentWidth : window.innerWidth});
     }
 
     React.useEffect(() => {

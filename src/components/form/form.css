@@ -1,0 +1,11 @@
+textarea {
+  width: 100%;
+  min-height: 41px;
+  height: fit-content;
+  border: 1px solid var(--third-dark);
+  padding: 7px 14px;
+  box-sizing: border-box;
+  border-radius: 7px;
+  outline: none;
+  resize: none;
+}

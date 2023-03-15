@@ -2,25 +2,32 @@ import React, { useEffect, useState } from 'react';
 import Button from '../button/button';
 import FormErrors from '../form-errors/form-errors';
 import InputField from '../input-field/input-field';
+import './form.css';
 
 /**
  * @typedef FormElement
- * @property {String} type type of element. Enum input
+ * @property {String} type type of element. Enum input, button, reset
+ * @property {String} id unique id 
  * @property {String} name unique element name 
+ * @property {String} [label] input label
  * @property {Number} [maxLength] max value length used for input validation
  * @property {Number} [minLength] min value length used for input validation
  * @property {String} [pattern] pattern used for input validation
  * @property {String} [equal] value equal to. Used for input validation
  * @property {String} [inputType] input type used for input
+ * @property {String} [helperText] input helperText
  * @property {String} [error] element error
  * @property {String} [placeholder] input placeholder
  * @property {Boolean} [required] is input required
- * @property {String} [helperText] input helperText
- * @property {string} [label] input label
+ * @property {Boolean} [resizeble] is input resizeble
+ * @property {Boolean} [outlined] is button outlined style
+ * @property {Boolean} [danger] is button danger style
+ * @property {String} [text] button text
+ * @property {Array<String>} [values] values that returned on click
  */
 
 /**
- * 
+ * Render custom form
  * @param {Object} param0 
  * @param {String} param0.title form title 
  * @param {String} param0.button submit button text
@@ -30,6 +37,7 @@ import InputField from '../input-field/input-field';
  */
 export default function Form({title, button, formErrors, elements = [], onSubmit, ...props}) {
   const [inputs, setInputs] = useState(getEmtpyElementObj());
+  const [reset, setReset] = useState(0);
   const [valid, setValid] = useState(getFalseElementObj());
   const [formValid, setFormValid] = useState(false);
   
@@ -59,13 +67,74 @@ export default function Form({title, button, formErrors, elements = [], onSubmit
     }
     return true;
   }
-  function handleChange(id, value, isValid) {
-    setInputs(inputs => ({...inputs, [id]:value}));
-    setValid(valid => ({...valid, [id]: isValid}));
+  function handleChange(name, value, isValid) {
+    setInputs(inputs => ({...inputs, [name]:value}));
+    setValid(valid => ({...valid, [name]: isValid}));
   }
   function submit(e) {
     e.preventDefault();
     onSubmit(inputs);
+  }
+  function getValues(values = []) {
+    let res = {};
+    values.forEach(el => res[el] = inputs[el]);
+    return res;
+  }
+  function createElement(el, key) {
+    return <div key={key} style={{'marginTop': '10px', 'display': 'flex', 'alignItems': 'end'}}>
+      {getEl(el, `/${key}`)}
+    </div>
+  }
+  function getEl(el, key) {
+    if (el.type === 'input') {
+      return (
+        <>
+        <InputField
+          key={key}
+          id={el.id} 
+          name={el.name} 
+          label={el.label}
+          maxLength={el.maxLength}
+          minLength={el.minLength}
+          pattern={el.pattern}
+          equal={el.equal ? el.equal.input ? inputs[el.equal.input] : el.equal : false}
+          type={el.inputType} 
+          helperText={el.helperText}
+          error={el.error} 
+          placeholder={el.placeholder}
+          required={el.required}
+          resizeble={el.resizeble}
+          onChange={handleChange}
+          reset={reset} />
+        {el.inlines ? el.inlines.map((ch, i) => <>&nbsp;{getEl(ch, `${key}/${i}`)}</>) : null}
+        </>)
+    } else if (el.type === 'button' || el.type === 'reset') {
+      return <Button 
+        key={key} 
+        style={{'width': 'fit-content'}} 
+        outlined={el.outlined} 
+        danger={el.danger} 
+        text={el.text} 
+        onClick={() => {
+          el.onClick(getValues(el.values));
+          if (el.type === 'reset') {
+            setReset(reset + 1);
+          }
+        }} 
+        onKeyDown={(e) => {
+          if (!e.key || e.key === 'Enter') {
+            el.onClick(getValues(el.values));
+          }
+         }} 
+        />
+    } else if (el.type === 'text-area') {
+      return <>
+        <textarea key={key} />
+        {el.inlines ? el.inlines.map((ch, i) => <>&nbsp;{getEl(ch, `${key}/${i}`)}</>) : null}
+        </>
+    } else {
+      return null
+    }
   }
 
   useEffect(() => {
@@ -76,30 +145,14 @@ export default function Form({title, button, formErrors, elements = [], onSubmit
   return (
     <div className='form'>
       { title ? <h1 className='title-1'>{title}</h1> : null}
-      <FormErrors errors={formErrors} />
+      <FormErrors key={'errors'} errors={formErrors} />
       {
-        elements.map((el, i) => {
-          if (el.type === 'input'){
-            return <div key={i} style={{'marginTop': '20px'}}><InputField 
-              id={el.name} 
-              name={el.name} 
-              label={el.label}
-              maxLength={el.maxLength}
-              minLength={el.minLength}
-              pattern={el.pattern}
-              equal={el.equal ? el.equal.input ? inputs[el.equal.input] : el.equal : false}
-              type={el.inputType} 
-              helperText={el.helperText}
-              error={el.error} 
-              placeholder={el.placeholder}
-              required={el.required}
-              onChange={handleChange} /></div>
-          } else {
-            return null
-          }
-        })
+        elements.map((el, i) => createElement(el, i))
       }
-      <div style={{'marginTop': '20px'}}><Button disabled={!formValid} text={button} onClick={submit}/></div>
+      {
+        button ? <div style={{'marginTop': '20px'}}><Button disabled={!formValid} text={button} onClick={submit}/></div>
+        : null
+      }
     </div>
   )
 }
