@@ -33,7 +33,7 @@ body, input, textarea, button {
 }
 .bordered-content {
   padding: 25px 40px;
-  margin-bottom: 25px;
+  margin-bottom: 1rem;
   border-radius: 7px;
   border: 2px solid var(--third-dark);
 }
@@ -52,7 +52,7 @@ body, input, textarea, button {
 }
 .content {
   padding: 15px 5px;
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
   border-radius: 7px;
 }
 .title-1 {

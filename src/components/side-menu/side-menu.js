@@ -7,7 +7,6 @@ import iconMenuWhite from '../../icons/menu_white_24dp.svg'
 import closeMenu from '../../icons/icons8-close.svg'
 import AuthInfo from '../auth-info/auth-info';
 import { observer } from 'mobx-react-lite';
-import config from '../../config';
 
 const SideMenu = observer(({userStore}) => {
   const {width} = useWindowSize();
@@ -36,7 +35,7 @@ const SideMenu = observer(({userStore}) => {
 
   const secondary =   <div className='secondary'>
     {
-      width < 345 * 2 + config.contentWidth ? 
+      width < 345 * 2 + (+process.env.REACT_APP_CONTENT_WIDTH) ? 
       <div className='item'>
         <AuthInfo user={userStore.user} onExit={handleExit} onClick={onMenu}/>
       </div>
@@ -109,7 +108,7 @@ const SideMenu = observer(({userStore}) => {
   return (
     <>
       {
-        width >= 345 * 2 + config.contentWidth ? 
+        width >= 345 * 2 + (+process.env.REACT_APP_CONTENT_WIDTH) ? 
         <>
         <CustomLink onClick={(e) => onMenu(e, false)} key='head' className='item head' to='/' text='Reviewton'/>
         {secondary}

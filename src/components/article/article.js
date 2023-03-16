@@ -226,12 +226,12 @@ function Article({article, isVisible, user, ...props}) {
         'justifyContent': 'space-between',
         'marginBottom': '15px'
       }}>
-        <p 
+        <h1 
           tabIndex={0}
           id='subject'
           onClick={(e) => navigateSubject(e, article.subject._id)} 
           onKeyDown={(e) => navigateSubject(e, article.subject._id)}>
-          {article.subject.name}</p>
+          {article.subject.name}</h1>
         <StarRating rating={data.rating} />
       </div>
       <div style={{

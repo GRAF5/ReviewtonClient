@@ -52,6 +52,9 @@ const App = observer(({userStore}) => {
         <meta name='twitter:title' content='Reviewton'/>
         <meta name='twitter:description' content='Веб-додаток для створення відгуків чи повноцінних обзорів на будь-які товари чи послуги'/>
         <meta name='twitter:image' content=''/>
+        
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7524316440680134"
+          crossorigin="anonymous"></script>
       </Helmet>
       <div className='Body'>
         <Header userStore={userStore} />
@@ -60,12 +63,10 @@ const App = observer(({userStore}) => {
             'width': '340px',
             'height': '100%',
             'overflow': 'auto',
-            'position': 'fixed',
             'display': 'grid'
           }:{
             'height': '100%',
             'overflow': 'auto',
-            'position': 'fixed',
             'display': 'grid'}}>
             <SideMenu userStore={userStore}/>
           </div>

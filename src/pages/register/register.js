@@ -42,7 +42,7 @@ export default function Register({...props}) {
             {
               name: 'password', type: 'input',  minLength: 8, label: 'Пароль:', inputType: 'password',
               pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}/, required: true,
-              helperText: 'Пароль повинен містити мінімум 8 символів, включати латинські літери верхнього та нижнього регістру, а також цифр'
+              helperText: 'Пароль повинен містити мінімум 8 символів, включати латинські літери верхнього та нижнього регістру, а також цифри'
             },
             {
               name: 'passwordRepeat', type: 'input', label: 'Підтвердіть пароль:', inputType: 'password',
