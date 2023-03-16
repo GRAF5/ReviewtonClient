@@ -4,7 +4,6 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { contentClient } from '../../clients/content.client';
-import config from '../../config';
 import Article from './article';
 import 'intersection-observer';
 import 'core-js';
@@ -45,7 +44,7 @@ describe('Article', () => {
   });
 
   test('should render article', async () => {
-    global.window.innerWidth = config.contentWidth + 1;
+    global.window.innerWidth = (+process.env.REACT_APP_CONTENT_WIDTH) + 1;
     let view = render(
       <MemoryRouter>
         <Article article={article} user={user} />
@@ -64,7 +63,7 @@ describe('Article', () => {
   });
 
   test('should render article adaptive', async () => {
-    global.window.innerWidth = config.contentWidth -1;
+    global.window.innerWidth = (+process.env.REACT_APP_CONTENT_WIDTH) -1;
     let view = render(
       <MemoryRouter>
         <Article article={article} user={user} />

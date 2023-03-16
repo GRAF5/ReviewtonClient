@@ -17,7 +17,7 @@ describe('Header', () => {
       user: {id: 'id'},
       exit: jest.fn()
     };
-    global.window.innerWidth = 1276;
+    global.window.innerWidth = 345 * 2 + (+process.env.REACT_APP_CONTENT_WIDTH);
     let view = render(
       <MemoryRouter>
         <Header userStore={userStore} />

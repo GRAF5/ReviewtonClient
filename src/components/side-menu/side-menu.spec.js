@@ -1,11 +1,11 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-container */
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
-import config from '../../config';
 import SideMenu from './side-menu';
-const maxWidth = config.contentWidth + 345 * 2;
+
+const maxWidth = (+process.env.REACT_APP_CONTENT_WIDTH) + 345 * 2;
 afterEach(cleanup);
 let userStore = {
   user: {id: 'id'}, 

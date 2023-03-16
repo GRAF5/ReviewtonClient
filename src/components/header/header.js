@@ -15,7 +15,7 @@ const Header = observer(({userStore}) => {
         'marginLeft': `${(width - contentWidth) / 2}px`,
         'width': `${contentWidth}px`}}></div>
         {
-          width >= 1276 ? <div className='right'> <AuthInfo user={userStore.user} onExit={handleExit} /> </div>:null
+          width >= 345 * 2 + (+process.env.REACT_APP_CONTENT_WIDTH) ? <div className='right'> <AuthInfo user={userStore.user} onExit={handleExit} /> </div>:null
         }        
     </div>
   )
