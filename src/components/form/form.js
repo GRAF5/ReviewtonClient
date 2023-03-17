@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Autocomplete from '../autocomplete/autocomplete';
 import Button from '../button/button';
 import FormErrors from '../form-errors/form-errors';
 import InputField from '../input-field/input-field';

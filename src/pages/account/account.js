@@ -11,6 +11,7 @@ export default function Account({user, ...props}) {
   useEffect(() => {
     userClient.getUserById(id)
       .then(res => setAccount(res));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 

@@ -10,6 +10,7 @@ export default function Tag({user, ...props}) {
   useEffect(() => {
     contentClient.getTagById(id)
       .then(res => setTag(res));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 

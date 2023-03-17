@@ -10,6 +10,7 @@ export default function Subject({user, ...props}) {
   useEffect(() => {
     contentClient.getSubjectById(id)
       .then(res => setSubject(res));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 
