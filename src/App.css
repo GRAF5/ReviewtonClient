@@ -19,6 +19,7 @@ body, input, textarea, button {
   display: grid;
   position: fixed;
   height: 100%;
+  z-index: 2000;
 }
 
 .body-right-side {
@@ -45,6 +46,7 @@ body, input, textarea, button {
   margin-bottom: 15px;
   border: 1px solid var(--third-dark);
   color: var(--third-dark);
+  word-break: 'break-word';
 }
 .rounded:hover {
   border: 1px solid var(--secondary-blue);
@@ -97,4 +99,7 @@ button:focus, .outlined:focus, *:focus {
   color: var(--secondary-dark);
   border-bottom: 2px solid #D6D6D6;
   margin-bottom: 15px;
+}
+.page-header h1 {
+  font-size: 26px;
 }

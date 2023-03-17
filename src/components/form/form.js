@@ -127,12 +127,7 @@ export default function Form({title, button, formErrors, elements = [], onSubmit
           }
          }} 
         />
-    } else if (el.type === 'text-area') {
-      return <>
-        <textarea key={key} />
-        {el.inlines ? el.inlines.map((ch, i) => <>&nbsp;{getEl(ch, `${key}/${i}`)}</>) : null}
-        </>
-    } else {
+    }  else {
       return null
     }
   }

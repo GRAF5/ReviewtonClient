@@ -26,7 +26,7 @@ export default function Register({...props}) {
       <div className={contentWidth === width ? 'content' : 'bordered-content'}>
         <Form
           title='Реєстрація'
-          button='Зареэструватись'
+          button='Зареєструватись'
           formErrors={errors}
           onSubmit={(inputs) => {setErrors([]); submit(inputs);}}
           elements={[
@@ -53,7 +53,7 @@ export default function Register({...props}) {
       </div>
       <div className={contentWidth === width ? 'content' : 'bordered-content'}>
         <div className='centered'>
-          <p>Вже зареэстровані? &nbsp;<CustomLink replace to='/login' text='Увійдіть' /></p>
+          <p>Вже зареєстровані? &nbsp;<CustomLink replace to='/login' text='Увійдіть' /></p>
         </div>
       </div>
   </>)

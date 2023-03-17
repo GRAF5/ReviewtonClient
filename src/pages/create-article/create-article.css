@@ -1,0 +1,21 @@
+.remove-tag {
+  width: fit-content;
+  cursor: pointer;
+  border: 1px solid var(--danger);
+  border-radius: 25px;
+  padding: 0 8px;
+  color: white;
+  background-color: var(--danger);
+} 
+.remove-tag:hover {
+  background-color: #DD5454;
+}
+.tag-el {
+  padding: 8px 25px;
+  border-radius: 25px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  border: 1px solid var(--third-dark);
+  color: var(--third-dark);
+  word-break: 'break-word';
+}

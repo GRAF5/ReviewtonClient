@@ -4,7 +4,8 @@ import handleResponse from './handleResponse';
 export const userClient = {
   register,
   authenticate,
-  current
+  current,
+  getUserById
 };
 
 /**
@@ -65,4 +66,15 @@ function current() {
     return fetch(`${process.env.REACT_APP_SERVER_URL || config.serverUrl}/authorization/current`, opts).then(res => handleResponse(res));
   }
   return new Promise(res => res);
+}
+
+function getUserById(id) {
+  const opts = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    }
+  };
+  return fetch(`${process.env.REACT_APP_SERVER_URL || config.serverUrl}/user/${id}`, opts).then(res => handleResponse(res));
 }

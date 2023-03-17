@@ -7,7 +7,7 @@
     margin: 0;
 }
 .input-star-rating-list li{
-    padding: 2px 5px;
+    padding: 0;
     cursor: pointer;
 }
 /*Закрашивание всех предыдущих звезд при наведении*/

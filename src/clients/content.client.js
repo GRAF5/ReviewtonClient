@@ -1,12 +1,15 @@
-import config from '../config';
 import handleResponse from './handleResponse';
 
 export const contentClient = {
   getArticles,
-  getComments,
-  getAnswers,
-  createComment,
-  createAnswer
+  getArticlesByUserId,
+  getArticlesBySubjectId,
+  getArticlesByTagId,
+  createArticle,
+  getSubjects,
+  getSubjectById,
+  getTags,
+  getTagById
 }
 
 /**
@@ -21,15 +24,10 @@ function getArticles(limit = 1000, offset = 0) {
       Accept: 'application/json'
     }
   };
-  return fetch(`${process.env.REACT_APP_SERVER_URL || config.serverUrl}/content/articles?limit=${limit}&offset=${offset}`, opts).then(res => handleResponse(res));
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/articles?limit=${limit}&offset=${offset}`, opts).then(res => handleResponse(res));
 }
 
-/**
- * Get article comments
- * @param {String} articleId article id
- * @returns {Promise<Object>} return response object
- */
-function getComments(articleId) {
+function getArticlesByUserId(userId, limit = 1000, offset = 0) {
   const opts = {
     method: 'GET',
     headers: {
@@ -37,16 +35,10 @@ function getComments(articleId) {
       Accept: 'application/json'
     }
   };
-  return fetch(`${process.env.REACT_APP_SERVER_URL || config.serverUrl}/content/articles/${articleId}/comments`, opts).then(res => handleResponse(res));
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/articles/user/${userId}?limit=${limit}&offset=${offset}`, opts).then(res => handleResponse(res));
 }
 
-/**
- * Get comment answers
- * @param {String} articleId article id
- * @param {String} commentId comment id
- * @returns {Promise<Object>} return response object
- */
-function getAnswers(articleId, commentId) {
+function getArticlesBySubjectId(subjectId, limit = 1000, offset = 0) {
   const opts = {
     method: 'GET',
     headers: {
@@ -54,17 +46,66 @@ function getAnswers(articleId, commentId) {
       Accept: 'application/json'
     }
   };
-  return fetch(`${process.env.REACT_APP_SERVER_URL || config.serverUrl}/content/articles/${articleId}/comments/${commentId}/answers`, opts).then(res => handleResponse(res));
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/articles/subject/${subjectId}?limit=${limit}&offset=${offset}`, opts).then(res => handleResponse(res));
 }
 
-/**
- * Add comment to article
- * @param {String} text comment text 
- * @param {String} articleId articleId
- * @param {String} token user token 
- * @returns {Promise}
- */
-function createComment(text, articleId, token) {
+function getArticlesByTagId(tagId, limit = 1000, offset = 0) {
+  const opts = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    }
+  };
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/articles/tag/${tagId}?limit=${limit}&offset=${offset}`, opts).then(res => handleResponse(res));
+}
+
+function getSubjects(filter = '') {
+  const opts = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }
+  };
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/subjects?${ filter !== '' ? `filter=${filter}`: ''}`, opts).then(res => handleResponse(res));
+}
+
+function getSubjectById(id) {
+  const opts = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }
+  };
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/subjects/${id}`, opts).then(res => handleResponse(res));
+}
+
+function getTags(filter = '') {
+  const opts = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }
+  };
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/tags?${ filter !== '' ? `filter=${filter}`: ''}`, opts).then(res => handleResponse(res));
+}
+
+function getTagById(id) {
+  const opts = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }
+  };
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/tags/${id}`, opts).then(res => handleResponse(res));
+}
+
+function createArticle(data) {
+  const token = localStorage.getItem('token');
   const opts = {
     method: 'POST',
     headers: {
@@ -72,28 +113,7 @@ function createComment(text, articleId, token) {
       Accept: 'application/json',
       Authorization: `Bearer ${token}`
     },
-    body: JSON.stringify({text})
+    body: JSON.stringify(data)
   };
-  return fetch(`${process.env.REACT_APP_SERVER_URL || config.serverUrl}/content/articles/${articleId}/comments`, opts).then(res => handleResponse);
-}
-
-/**
- * Add answer to comment
- * @param {String} text answer text 
- * @param {String} articleId article id 
- * @param {String} commentId comment id
- * @param {String} token user token
- * @returns {Promise}
- */
-function createAnswer(text, articleId, commentId, token) {
-  const opts = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${token}`
-    },
-    body: JSON.stringify({text})
-  };
-  return fetch(`${process.env.REACT_APP_SERVER_URL || config.serverUrl}/content/articles/${articleId}/comments/${commentId}`, opts).then(res => handleResponse);
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/articles`, opts).then(res => handleResponse(res));
 }
