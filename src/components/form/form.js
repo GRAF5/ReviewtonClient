@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Autocomplete from '../autocomplete/autocomplete';
 import Button from '../button/button';
 import FormErrors from '../form-errors/form-errors';
 import InputField from '../input-field/input-field';
@@ -127,12 +128,7 @@ export default function Form({title, button, formErrors, elements = [], onSubmit
           }
          }} 
         />
-    } else if (el.type === 'text-area') {
-      return <>
-        <textarea key={key} />
-        {el.inlines ? el.inlines.map((ch, i) => <>&nbsp;{getEl(ch, `${key}/${i}`)}</>) : null}
-        </>
-    } else {
+    }  else {
       return null
     }
   }

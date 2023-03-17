@@ -29,7 +29,7 @@ describe('SideMenu', () => {
           <SideMenu userStore={userStore} />
         </BrowserRouter>);
       const links = view.container.querySelectorAll('a');
-      expect(links.length).toBe(11);
+      expect(links.length).toBe(8);
     });
     
     test('should render side menu with open item', async () => {
@@ -38,9 +38,9 @@ describe('SideMenu', () => {
           <SideMenu userStore={userStore} />
         </BrowserRouter>);
       let links = view.container.querySelectorAll('a');
-      fireEvent.click(links[9]);
+      fireEvent.click(links[links.length - 1]);
       let nLinks = view.container.querySelectorAll('a');
-      expect(nLinks.length).toBe(14);
+      expect(nLinks.length).toBe(11);
     });
 
     test('should close opened on link click', async () => {
@@ -49,12 +49,12 @@ describe('SideMenu', () => {
           <SideMenu userStore={userStore} />
         </BrowserRouter>);
       let links = view.container.querySelectorAll('a');
-      fireEvent.click(links[9]);
-      links = view.container.querySelectorAll('a');
-      expect(links.length).toBe(14);
-      fireEvent.click(links[1]);
+      fireEvent.click(links[links.length - 1]);
       links = view.container.querySelectorAll('a');
       expect(links.length).toBe(11);
+      fireEvent.click(links[1]);
+      links = view.container.querySelectorAll('a');
+      expect(links.length).toBe(8);
     });
 
     test('should active child', async () => {
@@ -139,7 +139,7 @@ describe('SideMenu', () => {
         </MemoryRouter>
       );
       let links = view.container.querySelectorAll('a');
-      expect(links.length).toBe(9);
+      expect(links.length).toBe(6);
     });
   });
 });

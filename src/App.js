@@ -5,20 +5,33 @@ import './App.css';
 import Header from './components/header/header';
 import SideMenu from './components/side-menu/side-menu';
 import Login from './pages/login/login';
-import Main from './pages/main/main';
 import Register from './pages/register/register';
 import { userClient } from './clients/user.client';
 import useWindowSize from './utils/useWindowSize';
 import { Helmet } from 'react-helmet';
+import ArticleFeed from './pages/article-feed/article-feed';
+import CreateArticle from './pages/create-article/create-article';
+import Account from './pages/account/account';
+import { contentClient } from './clients/content.client';
+import Subjects from './pages/subjects/subjects';
+import Subject from './pages/subjects/subject';
+import Tags from './pages/tags/tags';
+import Tag from './pages/tags/tag';
 
 const App = observer(({userStore}) => {
   
   const {width, contentWidth} = useWindowSize();
 
   const R = <Routes>
-    <Route path='/' element={<Main user={userStore.user}/>} />
+    <Route path='/' element={<ArticleFeed pageName={'Нові'} user={userStore.user} receive={contentClient.getArticles}/>} />
     <Route path='/register' element={<Register/>} />
     <Route path='/login' element={<Login userStore={userStore}/>} />
+    <Route path='add-article' element={<CreateArticle user={userStore.user} />}/>
+    <Route path='users/:id' element={<Account user={userStore.user} />} />
+    <Route path='subjects' element={<Subjects />} />
+    <Route path='subjects/:id' element={<Subject user={userStore.user} />} />
+    <Route path='tags' element={<Tags />} />
+    <Route path='tags/:id' element={<Tag user={userStore.user} />} />
   </Routes>;
 
   useEffect(() => {

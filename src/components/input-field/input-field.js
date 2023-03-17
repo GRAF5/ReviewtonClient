@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import './input-field.css';
 
-export default function InputField({id, name, maxLength, type, error, placeholder, onChange, pattern, minLength, equal, label, helperText, onBeforeInput, onClick, reset, ...props}) {
+const InputField =React.forwardRef(({id, style, name, maxLength, type, error, placeholder, onChange, pattern, minLength, equal, label, helperText, onBeforeInput, onClick, reset, ...props}, ref) => {
   const [viewPass, setViewPass] = useState(false);
   const [data, setData] = useState({value: '', valid: false, touched: false});
   
@@ -54,7 +54,7 @@ export default function InputField({id, name, maxLength, type, error, placeholde
 
   useEffect(() => {    
     if (onChange) {
-      onChange(name, data.value, data.valid);
+      onChange(name, data.value, data.valid, data.touched);
     }
     // if (onBeforeInput) {
     //   onBeforeInput(id, data.value, data.valid);
@@ -93,6 +93,7 @@ export default function InputField({id, name, maxLength, type, error, placeholde
             <input
               className={'input-field '+(error || (!data.valid && data.touched) ? 'error' : '')}
               id={id}
+              ref={ref}
               name={name}
               maxLength={maxLength}
               type={type && !viewPass ? type : 'text'}
@@ -100,7 +101,7 @@ export default function InputField({id, name, maxLength, type, error, placeholde
               onChange={handleChange}
               // onBeforeInput={handleBeforeInput}
               onClick={handleClick}
-              style={type === 'password' ? {'paddingRight': '41px'} : {}}
+              style={type === 'password' ? {...(style || {}), 'paddingRight': '41px'} : {...(style || {})}}
               ></input>
             {
               type === 'password' ? 
@@ -116,4 +117,6 @@ export default function InputField({id, name, maxLength, type, error, placeholde
       {helperComp}
     </div>
   )
-}
+})
+
+export default InputField

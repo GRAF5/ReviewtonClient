@@ -237,10 +237,11 @@ function Article({article, isVisible, user, ...props}) {
       <div style={{
         'marginBottom': '15px'
       }}>
-        {parseHTML(data.text, {library: {key: 'key'}})}
+        {parseHTML(data.text)}
       </div>
       <div style={{
-        'display': 'flex'
+        'display': 'flex',
+        flexWrap: 'wrap'
       }}>
         {article.tags.map(tag => 
           <div 
