@@ -60,22 +60,27 @@ function Article({article, isVisible, user, ...props}) {
   const {width, contentWidth} = useWindowSize();
   const [commentsRender, setCommentsRender] = useState(false);
 
+  function onConnect() {
+    socket.on(`article-update-${article._id}`, setData);
+    if (isVisible) {
+      socket.emit('article-feed:subscribe', {data: {commentsRender, article: article._id, authorization: `Bearer ${user?.token}`}})
+    }
+  }
+
   useEffect(() => {
-    socket.connect();
+    socket.on('connect', onConnect.bind(this));
+    socket.on(`article-update-${article._id}`, setData);
     return () => {
       if (socket) {
         socket.emit('article-feed:unsubscribe', {data: {article: article._id}});
+        socket.off('connect', onConnect);
+        socket.off(`article-update-${article._id}`, setData);
       }
     }
   }, []);
 
   useEffect(() => {
-    if (socket) {
-      socket.on(`article-update-${article._id}`, setData);
-    }
-  }, [socket]);
-
-  useEffect(() => {
+    socket.on('connect', onConnect.bind(this));
     if (isVisible && socket) {
       socket.emit('article-feed:subscribe', {data: {commentsRender, article: article._id, authorization: `Bearer ${user?.token}`}})
     } else if (socket) {
