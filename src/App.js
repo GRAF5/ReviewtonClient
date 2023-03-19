@@ -8,7 +8,6 @@ import Login from './pages/login/login';
 import Register from './pages/register/register';
 import { userClient } from './clients/user.client';
 import useWindowSize from './utils/useWindowSize';
-import { Helmet } from 'react-helmet';
 import ArticleFeed from './pages/article-feed/article-feed';
 import CreateArticle from './pages/create-article/create-article';
 import Account from './pages/account/account';
@@ -43,32 +42,6 @@ const App = observer(({userStore}) => {
   }, []);
   return (
     <div className='App'>
-      <Helmet>                
-        {/* !-- HTML Meta Tags --> */}
-        <title>Reviewton</title>
-        <meta name='description' content='Веб-додаток для створення відгуків чи повноцінних обзорів на будь-які товари чи послуги'/>
-
-        {/* <!-- Google / Search Engine Tags --> */}
-        <meta itemprop='name' content='Reviewton'/>
-        <meta itemprop='description' content='Веб-додаток для створення відгуків чи повноцінних обзорів на будь-які товари чи послуги'/>
-        <meta itemprop='image' content=''/>
-
-        {/* <!-- Facebook Meta Tags --> */}
-        <meta property='og:url' content='https://reviewton-li40.onrender.com'/>
-        <meta property='og:type' content='website'/>
-        <meta property='og:title' content='Reviewton'/>
-        <meta property='og:description' content='Веб-додаток для створення відгуків чи повноцінних обзорів на будь-які товари чи послуги'/>
-        <meta property='og:image' content=''/>
-
-        {/* <!-- Twitter Meta Tags --> */}
-        <meta name='twitter:card' content='summary_large_image'/>
-        <meta name='twitter:title' content='Reviewton'/>
-        <meta name='twitter:description' content='Веб-додаток для створення відгуків чи повноцінних обзорів на будь-які товари чи послуги'/>
-        <meta name='twitter:image' content=''/>
-        
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7524316440680134"
-          crossorigin="anonymous"></script>
-      </Helmet>
       <div className='Body'>
         <Header userStore={userStore} />
         <div className='body-left-side'>
