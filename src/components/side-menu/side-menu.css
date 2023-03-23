@@ -6,6 +6,7 @@ div.secondary {
   align-content: baseline;
   height: auto;
   overflow-y: scroll;
+  z-index: 1;
 }
 div.secondary::-webkit-scrollbar {
   display: none;
@@ -41,17 +42,6 @@ div.secondary {
   margin-right: 10px;
   cursor: pointer;
   height: 25px;
-}
-
-.screen-fade {
-  width: 100%; 
-  height: 100%; 
-  margin: var(--header-height) 0em 0em 0px;
-  left: 0em; 
-  top: 0em; 
-  background: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  z-index: -1;
 }
 
 #shadow-top {

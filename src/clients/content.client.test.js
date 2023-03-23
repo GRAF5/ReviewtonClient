@@ -20,7 +20,7 @@ describe('ContentClient', () => {
     let res = await contentClient.getArticles();
     expect(res).toStrictEqual({});
     expect(global.fetch.mock.calls.length).toBe(1);
-    expect(global.fetch.mock.lastCall).toEqual([`${process.env.REACT_APP_SERVER_URL}/content/articles?limit=1000&offset=0`, {
+    expect(global.fetch.mock.lastCall).toEqual([`${process.env.REACT_APP_SERVER_URL}/content/articles?limit=1000&offset=0&filter=`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

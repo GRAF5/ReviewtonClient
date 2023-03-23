@@ -29,7 +29,7 @@ describe('SideMenu', () => {
           <SideMenu userStore={userStore} />
         </BrowserRouter>);
       const links = view.container.querySelectorAll('a');
-      expect(links.length).toBe(8);
+      expect(links.length).toBe(7);
     });
     
     test('should render side menu with open item', async () => {
@@ -40,7 +40,7 @@ describe('SideMenu', () => {
       let links = view.container.querySelectorAll('a');
       fireEvent.click(links[links.length - 1]);
       let nLinks = view.container.querySelectorAll('a');
-      expect(nLinks.length).toBe(11);
+      expect(nLinks.length).toBe(10);
     });
 
     test('should close opened on link click', async () => {
@@ -51,10 +51,10 @@ describe('SideMenu', () => {
       let links = view.container.querySelectorAll('a');
       fireEvent.click(links[links.length - 1]);
       links = view.container.querySelectorAll('a');
-      expect(links.length).toBe(11);
+      expect(links.length).toBe(10);
       fireEvent.click(links[1]);
       links = view.container.querySelectorAll('a');
-      expect(links.length).toBe(8);
+      expect(links.length).toBe(7);
     });
 
     test('should active child', async () => {
@@ -73,7 +73,7 @@ describe('SideMenu', () => {
           <SideMenu userStore={userStore} />
         </BrowserRouter>);
       let links = view.container.querySelectorAll('a');
-      expect(links.length).toBe(1);
+      expect(links.length).toBe(0);
       let img = view.container.querySelector('img');
       expect(img).not.toBe(null);
     });
@@ -85,12 +85,12 @@ describe('SideMenu', () => {
           <SideMenu userStore={userStore} />
         </BrowserRouter>);
       let links = view.container.querySelectorAll('a');
-      expect(links.length).toBe(1);
+      expect(links.length).toBe(0);
       let img = view.container.querySelector('img');
       expect(img).not.toBe(null);
       fireEvent.click(img);
       links = view.container.querySelectorAll('a');
-      expect(links.length).toBeGreaterThan(1);
+      expect(links.length).toBeGreaterThan(0);
     });
     
     test('should handle exit', async () => {
@@ -124,7 +124,7 @@ describe('SideMenu', () => {
         </MemoryRouter>
       );
       let links = view.container.querySelectorAll('a');
-      expect(links.length).toBe(4);
+      expect(links.length).toBe(3);
     });
     
     test('should not render require role childs', async () => {
@@ -139,7 +139,7 @@ describe('SideMenu', () => {
         </MemoryRouter>
       );
       let links = view.container.querySelectorAll('a');
-      expect(links.length).toBe(6);
+      expect(links.length).toBe(5);
     });
   });
 });

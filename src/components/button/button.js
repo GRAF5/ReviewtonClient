@@ -19,6 +19,6 @@ const StyledButton = styled.button`
 export default function Button({id, text, name, onClick, ...props}) {
 
   return (
-    <StyledButton id = {id} onClick = {onClick} name = {name} {...props}>{text}</StyledButton>
+    <StyledButton id = {id} onClick = {onClick} name = {name} {...props}>{text || props.children}</StyledButton>
   )
 }

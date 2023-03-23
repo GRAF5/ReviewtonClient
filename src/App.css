@@ -83,6 +83,23 @@ p {
   height: 35px;
   width: 35px;
 }
+.loading-icon {
+  height: 35px;
+  width: 35px;
+  color: var(--third-dark);
+  animation: rotate 1.2s linear infinite;
+}
+.loading-icon.white {
+  color: white;
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 button:focus, .outlined:focus, *:focus {
   outline: 2px solid;
@@ -102,4 +119,14 @@ button:focus, .outlined:focus, *:focus {
 }
 .page-header h1 {
   font-size: 26px;
+}
+.screen-fade {
+  width: 100%; 
+  height: 100%; 
+  margin: var(--header-height) 0em 0em 0px;
+  left: 0em; 
+  top: 0em; 
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  z-index: 0;
 }

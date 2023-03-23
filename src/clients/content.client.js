@@ -9,14 +9,15 @@ export const contentClient = {
   getSubjects,
   getSubjectById,
   getTags,
-  getTagById
+  getTagById,
+  getFilters
 }
 
 /**
  * Get articles
  * @returns {Promise<Object>} return response object
  */
-function getArticles(limit = 1000, offset = 0) {
+function getArticles(filter = '', limit = 1000, offset = 0) {
   const opts = {
     method: 'GET',
     headers: {
@@ -24,10 +25,10 @@ function getArticles(limit = 1000, offset = 0) {
       Accept: 'application/json'
     }
   };
-  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/articles?limit=${limit}&offset=${offset}`, opts).then(res => handleResponse(res));
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/articles?limit=${limit}&offset=${offset}&filter=${filter}`, opts).then(res => handleResponse(res));
 }
 
-function getArticlesByUserId(userId, limit = 1000, offset = 0) {
+function getArticlesByUserId(userId, filter = '', limit = 1000, offset = 0) {
   const opts = {
     method: 'GET',
     headers: {
@@ -35,10 +36,10 @@ function getArticlesByUserId(userId, limit = 1000, offset = 0) {
       Accept: 'application/json'
     }
   };
-  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/articles/user/${userId}?limit=${limit}&offset=${offset}`, opts).then(res => handleResponse(res));
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/articles/user/${userId}?limit=${limit}&offset=${offset}&filter=${filter}`, opts).then(res => handleResponse(res));
 }
 
-function getArticlesBySubjectId(subjectId, limit = 1000, offset = 0) {
+function getArticlesBySubjectId(subjectId, filter = '', limit = 1000, offset = 0) {
   const opts = {
     method: 'GET',
     headers: {
@@ -46,10 +47,10 @@ function getArticlesBySubjectId(subjectId, limit = 1000, offset = 0) {
       Accept: 'application/json'
     }
   };
-  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/articles/subject/${subjectId}?limit=${limit}&offset=${offset}`, opts).then(res => handleResponse(res));
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/articles/subject/${subjectId}?limit=${limit}&offset=${offset}&filter=${filter}`, opts).then(res => handleResponse(res));
 }
 
-function getArticlesByTagId(tagId, limit = 1000, offset = 0) {
+function getArticlesByTagId(tagId, filter = '', limit = 1000, offset = 0) {
   const opts = {
     method: 'GET',
     headers: {
@@ -57,7 +58,7 @@ function getArticlesByTagId(tagId, limit = 1000, offset = 0) {
       Accept: 'application/json'
     }
   };
-  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/articles/tag/${tagId}?limit=${limit}&offset=${offset}`, opts).then(res => handleResponse(res));
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/articles/tag/${tagId}?limit=${limit}&offset=${offset}&filter=${filter}`, opts).then(res => handleResponse(res));
 }
 
 function getSubjects(filter = '') {
@@ -116,4 +117,15 @@ function createArticle(data) {
     body: JSON.stringify(data)
   };
   return fetch(`${process.env.REACT_APP_SERVER_URL}/content/articles`, opts).then(res => handleResponse(res));
+}
+
+function getFilters(filter = '') {
+  const opts = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }
+  };
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/filters/${filter}`, opts).then(res => handleResponse(res));
 }

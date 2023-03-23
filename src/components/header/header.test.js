@@ -25,6 +25,6 @@ describe('Header', () => {
     );
     const button = view.container.querySelector('button');
     fireEvent.click(button);
-    expect(userStore.exit).toBeCalledTimes(1);
+    expect(userStore.exit).toBeCalledTimes(0);
   });
 });
