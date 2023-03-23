@@ -21,6 +21,7 @@ export default function Subjects({...props}) {
   
   useEffect(() => {
     load();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function navigateSubject(e, id) {
