@@ -23,7 +23,7 @@ const Login = observer(({userStore}) => {
       setErrors([res.message]);
     })
     .finally(() => {
-      setLoadProcessing(true);
+      setLoadProcessing(false);
     });
   }
 
