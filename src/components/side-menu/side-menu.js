@@ -136,7 +136,7 @@ const SideMenu = observer(({userStore}) => {
         width >= 345 * 2 + (+process.env.REACT_APP_CONTENT_WIDTH) ? 
         <>
         {/* <CustomLink onClick={(e) => onMenu(e, false)} key='head' className='item head' to='/' text='Reviewton'/> */}
-        <img alt='Main' style={{
+        <img alt='Main' tabIndex={0} style={{
           width: '130px',
           height: 'auto',
           padding: '24px 40px',
@@ -149,11 +149,11 @@ const SideMenu = observer(({userStore}) => {
         <div className='item head'>
           <img tabIndex={0} className='menu' onKeyDown={onMenu} onClick={onMenu} src={!menu ? iconMenuWhite : closeMenu} alt='menu' /> 
           {/* <CustomLink onClick={(e) => onMenu(e, false)} key='head' to='/' text='Reviewton'/> */}
-          <img alt='Main' style={{
+          <img alt='Main' tabIndex={0}
+          style={{
           width: '130px',
           height: 'auto',
           zIndex: '-1',
-          padding: '24px 40px',
           cursor: 'pointer'
         }} src={logo} onClick={() => navigate('/', {replace: true})} />
         </div>
