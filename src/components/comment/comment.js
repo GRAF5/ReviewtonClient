@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
+import calcTime from '../../utils/calcTime';
 import Form from '../form/form';
 import './comment.css'
 
@@ -47,7 +48,7 @@ export default function Comment({comment, user, replyNum, onCloseReply, socket, 
             onClick={(e) => navigateUser(e, comment.user._id)}
             onKeyDown={(e) => navigateUser(e, comment.user._id)}>{comment.user.login}</p> 
           &nbsp;&nbsp;
-          <p id='time'>{comment.createTime}</p>
+          <p id='time'>{calcTime(comment.createTime)}</p>
         </div>
         <p id='text'>{comment.text}</p>
         {
@@ -96,7 +97,7 @@ export default function Comment({comment, user, replyNum, onCloseReply, socket, 
       </div>
       </div>
       {
-        viewAnswers ? comment.answers.map(el => <Comment onCloseReply={closeReply} key={el._id} replyNum={(replyNum || 0) + 1} comment={{...el}} user={user} socket={socket}/>) : null
+        viewAnswers ? comment.answers.map(el => <Comment onCloseReply={closeReply} key={el._id} replyNum={(replyNum || 0) + 1} comment={el} user={user} socket={socket}/>) : null
       }
     </div>
   )

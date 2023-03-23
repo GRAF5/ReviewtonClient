@@ -16,13 +16,14 @@ import Subjects from './pages/subjects/subjects';
 import Subject from './pages/subjects/subject';
 import Tags from './pages/tags/tags';
 import Tag from './pages/tags/tag';
+import { useSearchParams } from 'react-router-dom';
 
 const App = observer(({userStore}) => {
-  
+  let [searchParams] = useSearchParams();
   const {width, contentWidth} = useWindowSize();
 
   const R = <Routes>
-    <Route path='/' element={<ArticleFeed pageName={'Нові'} user={userStore.user} receive={contentClient.getArticles}/>} />
+    <Route path='/' element={<ArticleFeed pageName={'Нові'} filter={searchParams.get('filter')} user={userStore.user} receive={contentClient.getArticles}/>} />
     <Route path='/register' element={<Register/>} />
     <Route path='/login' element={<Login userStore={userStore}/>} />
     <Route path='add-article' element={<CreateArticle user={userStore.user} />}/>

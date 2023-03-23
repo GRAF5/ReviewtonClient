@@ -94,8 +94,8 @@ export default function CreateArticle({user, ...props}) {
         <FormErrors key={'errors'} errors={errors} />
         <Autocomplete 
           name='subject' 
-          label='Тема:'
-          placeholder='Введіть або оберіть тему'
+          label='Тема/Назва:'
+          placeholder='Введіть або оберіть тему/назву'
           required={true}
           onChange={handleChange}
           options={subjects}

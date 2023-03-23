@@ -106,7 +106,7 @@ export default function Form({title, button, formErrors, elements = [], onSubmit
           resizeble={el.resizeble}
           onChange={handleChange}
           reset={reset} />
-        {el.inlines ? el.inlines.map((ch, i) => <>&nbsp;{getEl(ch, `${key}/${i}`)}</>) : null}
+        {el.inlines ? el.inlines.map((ch, i) => <div key={i}>&nbsp;{getEl(ch, `${key}/${i}`)}</div>) : null}
         </>)
     } else if (el.type === 'button' || el.type === 'reset') {
       return <Button 

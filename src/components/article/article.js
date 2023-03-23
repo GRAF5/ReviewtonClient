@@ -10,6 +10,7 @@ import Comment from '../comment/comment';
 import Form from '../form/form';
 import Button from '../button/button';
 import { withIsVisible } from 'react-is-visible';
+import calcTime from '../../utils/calcTime';
 
 /**
  * @typedef Tag
@@ -134,33 +135,6 @@ function Article({article, isVisible, user, ...props}) {
       navigate(`/tags/${id}`)
     }
   }
-  function calcTime(time) {
-    let date = new Date(time);
-    // let milliseconds = Date.now() - date.getTime();
-    return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} ${date.getDay()}-${date.getMonth()}-${date.getFullYear()}`
-    // let seconds = Math.round(milliseconds / 1000);
-    // if (seconds < 60) {
-    //   return seconds;
-    // }
-    // let minutes = Math.round(seconds / 60);
-    // if (minutes < 60) {
-    //   return minutes;
-    // }
-    // let hours = Math.round(minutes / 60);
-    // if (hours <  24) {
-    //   return hours;
-    // }
-    // let days = Math.round(hours / 24);
-    // if (days < 30) {
-    //   return days;
-    // }
-    // let months = Math.round(days / 30);
-    // if (months < 12) {
-    //   return months;
-    // }
-    // let years = Math.round(months / 12);
-    // return years;
-  }
 
   function setAnswers(comment) {
     comment.answers = data.comments.filter(c => c.comment === comment._id);
@@ -202,16 +176,15 @@ function Article({article, isVisible, user, ...props}) {
             text='🗙'
             onClick={ () => {setCommentsRender(false); socket.emit('article-feed:unsubscribe-comments', {data: {article: article._id}})}} />
       }
-      {(data.comments || []).map(el => {
+      {(data.comments || []).map((el, i) => {
         if (!el.comment) {
           setAnswers(el);
           return(
-            <>
               <Comment 
-                comment={{...el, createTime: calcTime(el.createTime)}} 
+                key={i}
+                comment={el} 
                 user={user} 
-                socket={socket} />
-            </>)
+                socket={socket} />)
         }
         return null;
       })}
@@ -220,11 +193,15 @@ function Article({article, isVisible, user, ...props}) {
     null;
   return (
     <div className={contentWidth === width ? 'content' : 'bordered-content'}>
-      <p 
-        id='login'
-        tabIndex={0}
-        onClick={(e) => navigateUser(e, article.user._id)} 
-        onKeyDown={(e) => navigateUser(e, article.user._id)}>{article.user.login}</p>
+      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+        <p 
+          id='login'
+          tabIndex={0}
+          onClick={(e) => navigateUser(e, article.user._id)} 
+          onKeyDown={(e) => navigateUser(e, article.user._id)}>{article.user.login}</p>
+          &nbsp;
+          <p id='time'>{calcTime(article.createTime)}</p>
+      </div>
       <div style={{
         'display': 'flex',
         'alignItems': 'center',
@@ -298,8 +275,6 @@ function Article({article, isVisible, user, ...props}) {
           <svg className='views-icon' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" fill="currentColor"></path> <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" fill="currentColor"></path> </svg> 
           &nbsp;
           {data.views}
-          &nbsp;
-          {calcTime(article.createTime)}
         </div>
       </div>
       <div style={{'borderTop': '1px solid var(--third-dark)'}}>

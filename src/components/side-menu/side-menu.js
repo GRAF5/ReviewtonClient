@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import useWindowSize from '../../utils/useWindowSize';
 import CustomLink from '../link/link';
 import './side-menu.css'
@@ -7,6 +7,7 @@ import iconMenuWhite from '../../icons/menu_white_24dp.svg'
 import closeMenu from '../../icons/icons8-close.svg'
 import AuthInfo from '../auth-info/auth-info';
 import { observer } from 'mobx-react-lite';
+import logo from '../../icons/logo.png';
 
 const SideMenu = observer(({userStore}) => {
   const {width} = useWindowSize();
@@ -32,6 +33,7 @@ const SideMenu = observer(({userStore}) => {
   ]);
   const [menu, setMenu] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setItems([
@@ -133,14 +135,27 @@ const SideMenu = observer(({userStore}) => {
       {
         width >= 345 * 2 + (+process.env.REACT_APP_CONTENT_WIDTH) ? 
         <>
-        <CustomLink onClick={(e) => onMenu(e, false)} key='head' className='item head' to='/' text='Reviewton'/>
+        {/* <CustomLink onClick={(e) => onMenu(e, false)} key='head' className='item head' to='/' text='Reviewton'/> */}
+        <img alt='Main' style={{
+          width: '130px',
+          height: 'auto',
+          padding: '24px 40px',
+          cursor: 'pointer'
+        }} className='item head' src={logo} onClick={() => navigate('/', {replace: true})} />
         {secondary}
         </>
         :
         <>
         <div className='item head'>
           <img tabIndex={0} className='menu' onKeyDown={onMenu} onClick={onMenu} src={!menu ? iconMenuWhite : closeMenu} alt='menu' /> 
-          <CustomLink onClick={(e) => onMenu(e, false)} key='head' to='/' text='Reviewton'/>
+          {/* <CustomLink onClick={(e) => onMenu(e, false)} key='head' to='/' text='Reviewton'/> */}
+          <img alt='Main' style={{
+          width: '130px',
+          height: 'auto',
+          zIndex: '-1',
+          padding: '24px 40px',
+          cursor: 'pointer'
+        }} src={logo} onClick={() => navigate('/', {replace: true})} />
         </div>
         {menu ? 
           <>

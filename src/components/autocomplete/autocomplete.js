@@ -60,13 +60,14 @@ export default function Autocomplete({id, options, button, name, maxLength, type
       input.current.dispatchEvent(ev2);
     }
   }
-  function onButton() {
+  function onButton(e) {
     button.onClick(data.value);
     if (button.reset) {
       var nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
       nativeInputValueSetter.call(input.current, '');
       let ev2 = new Event('input', { bubbles: true});
       input.current.dispatchEvent(ev2);
+      e.currentTarget.blur();
     }
   }
 
@@ -99,7 +100,7 @@ export default function Autocomplete({id, options, button, name, maxLength, type
         top: `${input.current.offsetTop}px`,
         position: 'absolute'
         }}><Button
-          className={'button'} text={button.text} onClick={onButton}/></div> : null}
+          className={'button'} text={button.text} onClick={onButton}>{button.childs}</Button></div> : null}
     { popoverVisible ? popover : null}
   </div>);
 }
