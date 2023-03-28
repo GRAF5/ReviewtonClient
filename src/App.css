@@ -128,5 +128,5 @@ button:focus, .outlined:focus, *:focus {
   top: 0em; 
   background: rgba(0, 0, 0, 0.5);
   position: fixed;
-  z-index: 0;
+  z-index: 910;
 }

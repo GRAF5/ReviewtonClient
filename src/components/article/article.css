@@ -48,6 +48,9 @@
   
   overflow: hidden;
 }
+.article-text img {
+  width: 100%;
+}
 .overflow {
   background: linear-gradient(transparent 150px, white,white);
 }
@@ -68,6 +71,7 @@ ul.options {
   background-color: white;
   box-shadow: 0 0 7px var(--third-dark);
   border-radius: 2px;
+  z-index: 900;
 }
 .options li {
   padding: 0px 10px;

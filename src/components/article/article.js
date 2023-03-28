@@ -267,17 +267,36 @@ function Article({article, info, isVisible, user, ...props}) {
                   d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
               </svg> : null
           }          
-          {isOptions ? <div style={{
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            width: '100%',
-            height: '100%',
-            zIndex: 6000
-          }}
-          onClick={handleOptions}>
+          {isOptions ? <>
+            {  width >= 1276 ? <div style={{
+              position: 'fixed',
+              left: 0,
+              top: 0,
+              width: '340px',
+              height: '100%',
+              zIndex: 3000
+            }}
+            onClick={handleOptions}></div> : null}          
+            <div style={{
+              position: 'fixed',
+              left: 0,
+              top: 0,
+              width: '100%',
+              height: '100%',
+              zIndex: 800
+            }}
+            onClick={handleOptions}></div>          
+            <div style={{
+              position: 'fixed',
+              left: 0,
+              top: 0,
+              width: '100%',
+              height: '70px',
+              zIndex: 2000
+            }}
+            onClick={handleOptions}></div>          
             {options}
-          </div> : null}
+          </> : null}
         </div>
       </div>
       <div style={{
@@ -309,7 +328,7 @@ function Article({article, info, isVisible, user, ...props}) {
         style={{
           cursor: 'pointer',
           transform: 'translate(0px, -315px)',
-          width: `${contentWidth - 124}px`,
+          width: `${contentWidth - (contentWidth === width ? 50 : 124)}px`,
           height: '300px',
           zIndex: 5,
           position: 'absolute',
