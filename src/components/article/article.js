@@ -314,7 +314,8 @@ function Article({article, info, isVisible, user, ...props}) {
         style={{
           maxHeight: info ? undefined : '300px',
           cursor: info ? undefined : 'pointer',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          padding: '0'
         }}
         className='ql-editor article-text' id={`${article._id}-text`}
         onClick={navigateArticle}
