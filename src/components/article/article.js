@@ -169,9 +169,6 @@ function Article({article, info, isVisible, user, ...props}) {
     }
   }
   function navigateChangeArticle(e) {
-    if (info) {
-      return;
-    }
     if (!e.key || e.key === 'Enter') {
       navigate(`/articles/change/${article._id}`);
     }
