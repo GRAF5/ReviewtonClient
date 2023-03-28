@@ -1,9 +1,6 @@
-/* eslint-disable testing-library/no-container */
-/* eslint-disable testing-library/no-node-access */
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { contentClient } from '../../clients/content.client';
 import Article from './article';
 import 'intersection-observer';
 import 'core-js';
@@ -63,7 +60,7 @@ describe('Article', () => {
   });
 
   test('should render article adaptive', async () => {
-    global.window.innerWidth = (+process.env.REACT_APP_CONTENT_WIDTH) -1;
+    global.window.innerWidth = (+process.env.REACT_APP_CONTENT_WIDTH) - 1;
     let view = render(
       <MemoryRouter>
         <Article article={article} user={user} />

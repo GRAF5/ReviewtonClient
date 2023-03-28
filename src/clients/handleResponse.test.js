@@ -1,4 +1,4 @@
-import handleResponse from "./handleResponse";
+import handleResponse from './handleResponse';
 
 describe('handleResponse', () => {
 
@@ -20,7 +20,6 @@ describe('handleResponse', () => {
       let res = await handleResponse(data);
       throw 'Error expected';
     } catch (err) {
-      // eslint-disable-next-line jest/no-conditional-expect
       expect(err).toBe('Data error');
     }
   });

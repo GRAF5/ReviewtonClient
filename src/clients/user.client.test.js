@@ -1,8 +1,5 @@
-/* eslint-disable testing-library/no-container */
-/* eslint-disable testing-library/no-node-access */
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup } from '@testing-library/react';
 import { userClient } from './user.client';
-import React, { useState } from 'react';
 
 
 afterEach(cleanup);
@@ -30,13 +27,13 @@ describe('UserClient', () => {
     expect(global.fetch.mock.calls.length).toBe(1);
     expect(global.fetch.mock.lastCall).toEqual([
       `${process.env.REACT_APP_SERVER_URL}/user/authenticate`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      body: JSON.stringify({})
-    }]);
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify({})
+      }]);
   });
 
   test('should fetch user register', async () => {
@@ -45,13 +42,13 @@ describe('UserClient', () => {
     expect(global.fetch.mock.calls.length).toBe(1);
     expect(global.fetch.mock.lastCall).toEqual([
       `${process.env.REACT_APP_SERVER_URL}/user/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      body: JSON.stringify({})
-    }]);
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify({})
+      }]);
   });
 
   test('should fetch current', async () => {
@@ -61,12 +58,12 @@ describe('UserClient', () => {
     expect(global.fetch.mock.calls.length).toBe(1);
     expect(global.fetch.mock.lastCall).toEqual([
       `${process.env.REACT_APP_SERVER_URL}/authorization/current`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: `Bearer token`
-      }
-    }]);
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: 'Bearer token'
+        }
+      }]);
   });
 });

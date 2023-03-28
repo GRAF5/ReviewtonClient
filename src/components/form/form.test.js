@@ -1,6 +1,5 @@
-/* eslint-disable testing-library/no-node-access */
-/* eslint-disable testing-library/no-container */
-import { render, cleanup, fireEvent, act} from '@testing-library/react';
+import React from 'react';
+import { render, cleanup, fireEvent} from '@testing-library/react';
 import Form from './form';
 
 afterEach(cleanup);
@@ -79,10 +78,10 @@ describe('Form', () => {
         }
       ]} />);
     const button = view.container.querySelector('button');
-     expect(button).toBeDisabled();
-     const input = view.container.querySelector('input');
-     fireEvent.change(input,{target: {value: 'text'}});
-     expect(button).not.toBeDisabled();
+    expect(button).toBeDisabled();
+    const input = view.container.querySelector('input');
+    fireEvent.change(input,{target: {value: 'text'}});
+    expect(button).not.toBeDisabled();
   });
 
   test('should set input equal another input', async () => {
@@ -97,10 +96,10 @@ describe('Form', () => {
         }
       ]} />);
     const button = view.container.querySelector('button');
-     const inputs = view.container.querySelectorAll('input');
-     fireEvent.change(inputs[0],{target: {value: 'text'}});
-     expect(button).toBeDisabled();
-     fireEvent.change(inputs[1],{target: {value: 'text'}});
-     expect(button).not.toBeDisabled();
+    const inputs = view.container.querySelectorAll('input');
+    fireEvent.change(inputs[0],{target: {value: 'text'}});
+    expect(button).toBeDisabled();
+    fireEvent.change(inputs[1],{target: {value: 'text'}});
+    expect(button).not.toBeDisabled();
   });
 });

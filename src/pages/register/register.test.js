@@ -1,5 +1,3 @@
-/* eslint-disable testing-library/no-container */
-/* eslint-disable testing-library/no-node-access */
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
@@ -16,7 +14,7 @@ describe('Register', () => {
   test('should render login page', async () => {
     let view = render(<MemoryRouter> 
       <Register />
-      </MemoryRouter>);
+    </MemoryRouter>);
     const divs = view.container.querySelectorAll('div');
     expect(divs[0].className).toBe('bordered-content');
   });
@@ -25,7 +23,7 @@ describe('Register', () => {
     global.window.innerWidth = 575;
     let view = render(<MemoryRouter> 
       <Register />
-      </MemoryRouter>);
+    </MemoryRouter>);
     const divs = view.container.querySelectorAll('div');
     expect(divs[0].className).toBe('content');
   });
@@ -33,7 +31,7 @@ describe('Register', () => {
   test('should contains four inputs', async () => {
     let view = render(<MemoryRouter> 
       <Register />
-      </MemoryRouter>);
+    </MemoryRouter>);
     const inputs = view.container.querySelectorAll('input');
     expect(inputs.length).toBe(4);
     expect(inputs[0].name).toBe('email');
@@ -49,7 +47,7 @@ describe('Register', () => {
       }})));
     let view = render(<MemoryRouter> 
       <Register />
-      </MemoryRouter>);
+    </MemoryRouter>);
     const button = view.container.querySelector('button');
     const inputs = view.container.querySelectorAll('input');
     fireEvent.change(inputs[0], {target: {value: 'test@test.com'}});
@@ -65,10 +63,10 @@ describe('Register', () => {
   test('should redirects', async () => {
     userClient.userClient.register = jest.fn(() => new Promise((res) => res()));
     let mockNavigate = jest.fn();
-    jest.spyOn(router, 'useNavigate').mockImplementation(() => mockNavigate)
+    jest.spyOn(router, 'useNavigate').mockImplementation(() => mockNavigate);
     let view = render(<MemoryRouter> 
       <Register />
-      </MemoryRouter>);
+    </MemoryRouter>);
     const button = view.container.querySelector('button');
     const inputs = view.container.querySelectorAll('input');
     fireEvent.change(inputs[0], {target: {value: 'test@test.com'}});

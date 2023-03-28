@@ -1,5 +1,6 @@
 import { cleanup, fireEvent, render } from '@testing-library/react';
 import useWindowSize from './useWindowSize';
+import React from 'react';
 
 afterEach(cleanup);
 

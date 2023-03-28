@@ -1,6 +1,4 @@
-/* eslint-disable testing-library/no-node-access */
-/* eslint-disable testing-library/no-container */
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, render} from '@testing-library/react';
 import React from 'react';
 import FormErrors from './form-errors';
 

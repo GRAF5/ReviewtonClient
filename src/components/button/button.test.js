@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
 import Button from './button';
 import '../../index.css';
@@ -84,5 +85,4 @@ describe('Button', () => {
     expect(button.id).toBe('1');
     expect(button).toHaveStyle('border-radius: 20px;');
   });
-  
-}); 
+});

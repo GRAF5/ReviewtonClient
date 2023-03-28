@@ -1,5 +1,4 @@
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
-import config from '../config';
+import { cleanup } from '@testing-library/react';
 import { contentClient } from './content.client';
 
 afterEach(cleanup);
@@ -20,12 +19,13 @@ describe('ContentClient', () => {
     let res = await contentClient.getArticles();
     expect(res).toStrictEqual({});
     expect(global.fetch.mock.calls.length).toBe(1);
-    expect(global.fetch.mock.lastCall).toEqual([`${process.env.REACT_APP_SERVER_URL}/content/articles?limit=1000&offset=0&filter=`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      }
-    }]);
+    expect(global.fetch.mock.lastCall).toEqual(
+      [`${process.env.REACT_APP_SERVER_URL}/content/articles?limit=1000&offset=0&filter=`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        }
+      }]);
   });
 });

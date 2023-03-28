@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '../button/button';
 import CustomLink from '../link/link';
+import PropTypes from 'prop-types';
 
 export default function AuthInfo({ user, onExit, onClick, ...props}) {
   return (
@@ -17,5 +18,11 @@ export default function AuthInfo({ user, onExit, onClick, ...props}) {
           </>
       }
     </div>
-  )
+  );
 }
+
+AuthInfo.propTypes = {
+  user: PropTypes.object,
+  onExit: PropTypes.func,
+  onClick: PropTypes.func
+};

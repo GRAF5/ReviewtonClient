@@ -3,6 +3,7 @@ import Button from '../button/button';
 import FormErrors from '../form-errors/form-errors';
 import InputField from '../input-field/input-field';
 import './form.css';
+import PropTypes from 'prop-types';
 
 /**
  * @typedef FormElement
@@ -68,8 +69,8 @@ export default function Form({title, button, formErrors, elements = [], onSubmit
     return true;
   }
   function handleChange(name, value, isValid) {
-    setInputs(inputs => ({...inputs, [name]:value}));
-    setValid(valid => ({...valid, [name]: isValid}));
+    setInputs(({...inputs, [name]:value}));
+    setValid(({...valid, [name]: isValid}));
   }
   function submit(e) {
     e.preventDefault();
@@ -83,31 +84,32 @@ export default function Form({title, button, formErrors, elements = [], onSubmit
   function createElement(el, key) {
     return <div key={key} style={{'marginTop': '10px', 'display': 'flex', 'alignItems': 'end'}}>
       {getEl(el, `/${key}`)}
-    </div>
+    </div>;
   }
   function getEl(el, key) {
     if (el.type === 'input') {
       return (
         <>
-        <InputField
-          key={key}
-          id={el.id} 
-          name={el.name} 
-          label={el.label}
-          maxLength={el.maxLength}
-          minLength={el.minLength}
-          pattern={el.pattern}
-          equal={el.equal ? el.equal.input ? inputs[el.equal.input] : el.equal : false}
-          type={el.inputType} 
-          helperText={el.helperText}
-          error={el.error} 
-          placeholder={el.placeholder}
-          required={el.required}
-          resizeble={el.resizeble}
-          onChange={handleChange}
-          reset={reset} />
-        {el.inlines ? el.inlines.map((ch, i) => <div key={i}>&nbsp;{getEl(ch, `${key}/${i}`)}</div>) : null}
-        </>)
+          <InputField
+            key={key}
+            id={el.id} 
+            name={el.name} 
+            label={el.label}
+            maxLength={el.maxLength}
+            minLength={el.minLength}
+            pattern={el.pattern}
+            equal={el.equal ? el.equal.input ? inputs[el.equal.input] : el.equal : undefined}
+            type={el.inputType} 
+            helperText={el.helperText}
+            error={el.error} 
+            placeholder={el.placeholder}
+            required={el.required}
+            resizeble={el.resizeble}
+            onChange={handleChange}
+            reset={reset} />
+          {el.inlines ? el.inlines.map((ch, i) => <div key={i}>
+            {getEl(ch, `${key}/${i}`)}</div>) : null}
+        </>);
     } else if (el.type === 'button' || el.type === 'reset') {
       return <Button 
         key={key} 
@@ -125,16 +127,15 @@ export default function Form({title, button, formErrors, elements = [], onSubmit
           if (!e.key || e.key === 'Enter') {
             el.onClick(getValues(el.values));
           }
-         }} 
-        />
+        }} 
+      >{el.childs}</Button>;
     }  else {
-      return null
+      return null;
     }
   }
 
   useEffect(() => {
     setFormValid(checkValid());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [valid]);  
 
   return (
@@ -145,9 +146,19 @@ export default function Form({title, button, formErrors, elements = [], onSubmit
         elements.map((el, i) => createElement(el, i))
       }
       {
-        button ? <div style={{'marginTop': '20px'}}><Button disabled={!formValid} text={button} onClick={submit}/></div>
-        : null
+        button ? 
+          <div style={{'marginTop': '20px'}}>
+            <Button disabled={!formValid} text={button} onClick={submit}/>
+          </div> : null
       }
     </div>
-  )
+  );
 }
+
+Form.propTypes = {
+  title: PropTypes.string,
+  button: PropTypes.string,
+  formErrors: PropTypes.arrayOf(PropTypes.string),
+  elements: PropTypes.arrayOf(PropTypes.object),
+  onSubmit: PropTypes.func
+};

@@ -1,5 +1,3 @@
-/* eslint-disable testing-library/no-container */
-/* eslint-disable testing-library/no-node-access */
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
@@ -15,7 +13,7 @@ describe('Login', () => {
   test('should render login page', async () => {
     let view = render(<MemoryRouter> 
       <Login />
-      </MemoryRouter>);
+    </MemoryRouter>);
     const divs = view.container.querySelectorAll('div');
     expect(divs[0].className).toBe('bordered-content');
   });
@@ -24,7 +22,7 @@ describe('Login', () => {
     global.window.innerWidth = 575;
     let view = render(<MemoryRouter> 
       <Login />
-      </MemoryRouter>);
+    </MemoryRouter>);
     const divs = view.container.querySelectorAll('div');
     expect(divs[0].className).toBe('content');
   });
@@ -32,7 +30,7 @@ describe('Login', () => {
   test('should contains two inputs', async () => {
     let view = render(<MemoryRouter> 
       <Login />
-      </MemoryRouter>);
+    </MemoryRouter>);
     const inputs = view.container.querySelectorAll('input');
     expect(inputs.length).toBe(2);
     expect(inputs[0].name).toBe('credentials');
@@ -43,7 +41,7 @@ describe('Login', () => {
     userClient.userClient.authenticate = jest.fn(() => new Promise((res, rej) => rej({message: 'Error'})));
     let view = render(<MemoryRouter> 
       <Login />
-      </MemoryRouter>);
+    </MemoryRouter>);
     const button = view.container.querySelector('button');
     const inputs = view.container.querySelectorAll('input');
     fireEvent.change(inputs[0], {target: {value: 'test'}});
@@ -65,7 +63,7 @@ describe('Login', () => {
     }));
     let view = render(<MemoryRouter> 
       <Login userStore={userStore} />
-      </MemoryRouter>);
+    </MemoryRouter>);
     const button = view.container.querySelector('button');
     const inputs = view.container.querySelectorAll('input');
     fireEvent.change(inputs[0], {target: {value: 'test'}});
