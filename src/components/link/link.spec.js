@@ -1,5 +1,4 @@
-/* eslint-disable testing-library/no-node-access */
-/* eslint-disable testing-library/no-container */
+import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import CustomLink from './link';
@@ -60,7 +59,7 @@ describe('CustomLink', () => {
         <BrowserRouter>
           <CustomLink to='/test'/>
         </BrowserRouter>
-        );
+      );
       const a = view.container.querySelector('a');
       expect(a).not.toBe(null);
       expect(a.href).toBe('http://localhost/test');
@@ -72,7 +71,7 @@ describe('CustomLink', () => {
         <BrowserRouter>
           <CustomLink outlined to='/test'/>
         </BrowserRouter>
-        );
+      );
       const a = view.container.querySelector('a');
       expect(a).not.toBe(null);
       expect(a.className).toBe(' outlined');
@@ -83,7 +82,7 @@ describe('CustomLink', () => {
         <BrowserRouter>
           <CustomLink contained to='/test'/>
         </BrowserRouter>
-        );
+      );
       const a = view.container.querySelector('a');
       expect(a).not.toBe(null);
       expect(a.className).toBe(' contained');

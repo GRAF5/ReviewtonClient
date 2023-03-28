@@ -41,19 +41,19 @@ export default class UserStore {
 
   checkAccessByRole(role) {
     switch (role) {
-      case 'user': {
-        return true;
-      }
-      case 'moderator': {
-        return this.user.role === 'moderator' ||
-          this.user.role.includes('admin');
-      }
-      case 'admin': {
-        return this.user.role.includes('admin');
-      }
-      default: {
-        return false;
-      }
+    case 'user': {
+      return true;
+    }
+    case 'moderator': {
+      return this.user.role === 'moderator' ||
+        this.user.role.includes('admin');
+    }
+    case 'admin': {
+      return this.user.role.includes('admin');
+    }
+    default: {
+      return false;
+    }
     }
   }
 }

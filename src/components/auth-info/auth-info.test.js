@@ -1,17 +1,16 @@
-/* eslint-disable testing-library/no-node-access */
-/* eslint-disable testing-library/no-container */
-import { render } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
-import AuthInfo from "./auth-info";
+import React from 'react';
+import { render } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
+import AuthInfo from './auth-info';
 
 describe('AuthInfo', () => {
 
   test('should render login and register', () => {
     let view = render(
       <BrowserRouter>
-      <AuthInfo user={null} />
+        <AuthInfo user={null} />
       </BrowserRouter>
-    )
+    );
     let links = view.container.querySelectorAll('a');
     expect(links.length).toBe(2);
     let button = view.container.querySelectorAll('button');
@@ -21,9 +20,9 @@ describe('AuthInfo', () => {
   test('should render logout', () => {
     let view = render(
       <BrowserRouter>
-      <AuthInfo user={{id: 'id'}} />
+        <AuthInfo user={{id: 'id'}} />
       </BrowserRouter>
-    )
+    );
     let links = view.container.querySelectorAll('a');
     expect(links.length).toBe(0);
     let button = view.container.querySelectorAll('button');

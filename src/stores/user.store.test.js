@@ -1,4 +1,4 @@
-import UserStore from "./user.store";
+import UserStore from './user.store';
 
 describe('UserStore', () => {
   let userStore;

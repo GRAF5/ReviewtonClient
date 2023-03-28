@@ -31,3 +31,7 @@ a.contained {
   align-items: center;
   display: inline-flex;
 }
+
+p.item {
+  cursor: pointer;
+}

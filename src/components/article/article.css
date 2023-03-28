@@ -43,3 +43,40 @@
   font-weight: bold;
   font-size: 26px;
 }
+.article-text {
+  margin-bottom: 15px;
+  
+  overflow: hidden;
+}
+.article-text img {
+  width: 100%;
+}
+.overflow {
+  background: linear-gradient(transparent 150px, white,white);
+}
+.article-menu {
+  height: 25px;
+  cursor: pointer;
+  color: var(--third-dark);
+}
+.article-menu:hover {
+  color: var(--main-blue);
+}
+ul.options {
+  margin: 0;
+  width: 110px;
+  padding: 10px;
+  list-style-type: none;
+  color: var(--third-dark);
+  background-color: white;
+  box-shadow: 0 0 7px var(--third-dark);
+  border-radius: 2px;
+  z-index: 900;
+}
+.options li {
+  padding: 0px 10px;
+  cursor: pointer;
+}
+.options li:hover {
+  color: var(--secondary-blue);
+}

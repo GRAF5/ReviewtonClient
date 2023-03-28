@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import ReactQuill from 'react-quill';
 import { contentClient } from '../../clients/content.client';
 import Autocomplete from '../../components/autocomplete/autocomplete';
 import FormErrors from '../../components/form-errors/form-errors';
 import InputStarRating from '../../components/star-rating/input-star-rating/InputStarRating';
 import useWindowSize from '../../utils/useWindowSize';
-import './create-article.css'
+import './create-article.css';
 import 'react-quill/dist/quill.snow.css';
 import Button from '../../components/button/button';
 import { useNavigate } from 'react-router';
+import ImageCompress from 'quill-image-compress';
+import Quill from 'quill';
+import PropTypes from 'prop-types';
 
 export default function CreateArticle({user, ...props}) {
   const {width, contentWidth} = useWindowSize();
   const [inputs, setInputs] = useState({
-    subject: '', tags: [], rating: 0, text: ''
+    subject: '', tags: [], rating: 0
   });
+  const [text, setText] = useState('');
   const [valid, setValid] = useState({
     subject: false, rating: false
   });
@@ -25,23 +28,61 @@ export default function CreateArticle({user, ...props}) {
   const [errors, setErrors] = useState([]);
   const [loadProcessing, setLoadProcessing] = useState(false);
   const navigate = useNavigate();
-  
+  useEffect(() => {
+    if (!user) {
+      return navigate('/login');
+    }
+    Quill.register('modules/imageCompress', ImageCompress);
+    const quill = new Quill('#editor', {
+      modules: {
+        toolbar: [
+          [{ 'header': [1, 2, false] }],
+          ['bold', 'italic', 'underline','strike', 'blockquote'],
+          [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}, 
+            {'align': ''}, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' }],
+          ['link', 'image'],
+          ['clean']
+        ],
+        imageCompress: {
+          quality: 0.7, // default
+          maxWidth: +process.env.REACT_APP_ARTICLE_MAX_IMAGE_SIZE, // default
+          maxHeight: +process.env.REACT_APP_ARTICLE_MAX_IMAGE_SIZE, // default
+          imageType: 'image/jpeg', // default
+          debug: false, // default
+          suppressErrorLogging: false, // default
+          insertIntoEditor: false // default
+        }
+      },
+      theme: 'snow',
+      formats: [
+        'header',
+        'bold', 'italic', 'underline', 'strike', 'blockquote',
+        'list', 'bullet', 'indent', 'align',
+        'link', 'image'
+      ],
+      placeholder: 'Ваш відгук'
+    });
+    quill.on('text-change', (delta, oldDelta, source) => {
+      setText(quill.root.innerHTML);
+    });
+  }, []);
   useEffect(() => {
     setFilteredTags(tags.filter(tag => !inputs.tags.some(t => t === tag)));
   }, [inputs, tags]);
 
   useEffect(() => {
     setFormValid(checkValid());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [valid]);  
 
+  // eslint-disable-next-line complexity
   function handleChange(name, value, isValid) {
     if (name === 'subject' && value !== '') {
       if (!subjects.some(s => s.includes(value))) {
         contentClient.getSubjects(value)
           .then(res => {
             if (res.subjects.length) {
-              setSubjects(subjects.concat(res.subjects.filter(s => !subjects.some(sub => sub === s.name)).map(s => s.name)));
+              setSubjects(subjects.concat(
+                res.subjects.filter(s => !subjects.some(sub => sub === s.name)).map(s => s.name)));
             }
           });
       }
@@ -54,14 +95,14 @@ export default function CreateArticle({user, ...props}) {
         });
     }
     if (value !== inputs[name]) {
-      setInputs(inputs => ({...inputs, [name]:value}));
+      setInputs({...inputs, [name]:value});
     }
     if (valid !== valid[name] && name !== 'tag') {
-      setValid(valid => ({...valid, [name]: isValid}));
+      setValid({...valid, [name]: isValid});
     }
   }
   function addTag(tag) {
-    setInputs({...inputs, tags: inputs.tags.some(t => t === tag) ? inputs.tags : inputs.tags.concat(tag) })
+    setInputs({...inputs, tags: inputs.tags.some(t => t === tag) ? inputs.tags : inputs.tags.concat(tag) });
   }
   function handleRating(e) {
     setValid({...valid, rating: true});
@@ -78,7 +119,7 @@ export default function CreateArticle({user, ...props}) {
   function submit() {
     setErrors([]);
     setLoadProcessing(true);
-    contentClient.createArticle(inputs)
+    contentClient.createArticle({...inputs, text})
       .then(res => {
         return navigate('/', {replace: true});
       })
@@ -89,11 +130,10 @@ export default function CreateArticle({user, ...props}) {
         setLoadProcessing(false);
       });
   }
-
-  return(
+  return (
     <>      
       <div className='page-header'>
-        <h1>Додати статтю</h1>
+        <h1>Додати відгук</h1>
       </div>
       <div className={contentWidth === width ? 'content' : 'bordered-content'}>
         <FormErrors key={'errors'} errors={errors} />
@@ -101,6 +141,7 @@ export default function CreateArticle({user, ...props}) {
           name='subject' 
           label='Тема/Назва:'
           placeholder='Введіть або оберіть тему/назву'
+          helperText='Краще вказати конкретну назву'
           required={true}
           onChange={handleChange}
           options={subjects}
@@ -120,13 +161,13 @@ export default function CreateArticle({user, ...props}) {
               tabIndex={0} 
               key={i} 
               className='tag-el' >
-                <div style={{
-                  position: 'absolute',
-                  transform: 'translate(-20px, -70%)',
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'end'
-                }}><p
+              <div style={{
+                position: 'absolute',
+                transform: 'translate(-20px, -70%)',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'end'
+              }}><p
                   className='remove-tag'
                   tabIndex={0}
                   onClick={() => setInputs({...inputs, tags: inputs.tags.filter(t => t !== tag)})}
@@ -137,6 +178,7 @@ export default function CreateArticle({user, ...props}) {
         <Autocomplete 
           name='tag' 
           placeholder='Введіть або оберіть тег'
+          helperText='Краще вказувати загальний опис чи характеристики'
           onChange={handleChange}
           options={filteredTags}
           button={{
@@ -153,41 +195,36 @@ export default function CreateArticle({user, ...props}) {
         </div>
         <div style={{marginTop: '10px'}}></div>
         <label style={{marginBottom: '0'}} className={'field-label'} >Ваш відгук:</label>
-        <ReactQuill 
-                    value={inputs.text}
-                    onChange={(text) => setInputs({...inputs, text})}
-                    modules={{
-                      toolbar: [
-                        [{ 'header': [1, 2, false] }],
-                        ['bold', 'italic', 'underline','strike', 'blockquote'],
-                        [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-                        ['link'],
-                        ['clean']
-                      ],
-                    }}
-                    formats={[
-                      'header',
-                      'bold', 'italic', 'underline', 'strike', 'blockquote',
-                      'list', 'bullet', 'indent',
-                      'link'
-                    ]}   
-                    placeholder="Ваш відгук"
-                    style={{fontSize: '18px'}}
-                /> 
+        <div id="editor">
+          <p></p>
+        </div>
         <div style={{marginTop: '10px'}}></div>
         <Button disabled={!formValid} text='Написати' onClick={submit} />
       </div>
       {
         loadProcessing ? 
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }} className='screen-fade'>
-          <svg className='loading-icon white' viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M512.056 908.647c-84.516 0-166.416-27.084-235.266-78.637-84.15-63.028-138.741-155.109-153.675-259.2-14.934-104.119 11.559-207.816 74.588-291.994 130.162-173.812 377.438-209.25 551.194-79.172 72.844 54.562 124.819 133.228 146.391 221.484 3.684 15.103-5.569 30.319-20.644 34.003-15.075 3.572-30.319-5.541-34.003-20.644-18.45-75.628-63-143.044-125.466-189.816-148.866-111.516-360.844-81.112-472.444 67.866-54.028 72.141-76.725 161.016-63.9 250.256 12.797 89.241 59.597 168.131 131.737 222.131 149.006 111.656 360.956 81.197 472.5-67.781 29.194-39.009 49.219-82.716 59.456-129.938 3.319-15.188 18.366-24.834 33.441-21.544 15.188 3.291 24.834 18.281 21.544 33.441-12.009 55.181-35.353 106.2-69.413 151.762-63.028 84.15-155.109 138.769-259.256 153.675-18.984 2.756-37.941 4.106-56.784 4.106z"  /></svg>
-        </div>
-        : null
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }} className='screen-fade'>
+            <svg 
+              className='loading-icon white' 
+              viewBox="0 0 1024 1024" 
+              version="1.1" 
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                fill="currentColor" 
+                // eslint-disable-next-line max-len
+                d="M512.056 908.647c-84.516 0-166.416-27.084-235.266-78.637-84.15-63.028-138.741-155.109-153.675-259.2-14.934-104.119 11.559-207.816 74.588-291.994 130.162-173.812 377.438-209.25 551.194-79.172 72.844 54.562 124.819 133.228 146.391 221.484 3.684 15.103-5.569 30.319-20.644 34.003-15.075 3.572-30.319-5.541-34.003-20.644-18.45-75.628-63-143.044-125.466-189.816-148.866-111.516-360.844-81.112-472.444 67.866-54.028 72.141-76.725 161.016-63.9 250.256 12.797 89.241 59.597 168.131 131.737 222.131 149.006 111.656 360.956 81.197 472.5-67.781 29.194-39.009 49.219-82.716 59.456-129.938 3.319-15.188 18.366-24.834 33.441-21.544 15.188 3.291 24.834 18.281 21.544 33.441-12.009 55.181-35.353 106.2-69.413 151.762-63.028 84.15-155.109 138.769-259.256 153.675-18.984 2.756-37.941 4.106-56.784 4.106z"/>
+            </svg>
+          </div> : null
       }
     </>
-  )
+  );
 }
+
+CreateArticle.propTypes = {
+  user: PropTypes.object
+};

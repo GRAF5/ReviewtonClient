@@ -7,7 +7,7 @@ const socket = io(process.env.REACT_APP_SERVER_URL, {
 });
 
 socket.on('disconnect', (reason) => {
-  if (reason === "io server disconnect") {
+  if (reason === 'io server disconnect') {
     // the disconnection was initiated by the server, you need to reconnect manually
     socket.connect();
 

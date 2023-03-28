@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import { contentClient } from '../../clients/content.client';
 import { userClient } from '../../clients/user.client';
 import ArticleFeed from '../article-feed/article-feed';
+import PropTypes from 'prop-types';
 
 export default function Account({user, ...props}) {
   const [account, setAccount] = useState();
@@ -11,13 +12,16 @@ export default function Account({user, ...props}) {
   useEffect(() => {
     userClient.getUserById(id)
       .then(res => setAccount(res));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 
-  return(
+  return (
     <>
       <ArticleFeed user={user} pageName={account?.login} receive={contentClient.getArticlesByUserId.bind(this, id)} />
     </>
-  )
+  );
 }
+
+Account.propTypes = {
+  user: PropTypes.object
+};

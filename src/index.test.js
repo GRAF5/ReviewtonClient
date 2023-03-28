@@ -3,7 +3,7 @@ import 'core-js';
 // mocks react-dom and its render method
 // so that we can assert that render is
 // called with <App /> and HTML element with id = root
-jest.mock("react-dom/client", () => ({ 
+jest.mock('react-dom/client', () => ({ 
   createRoot: jest.fn().mockImplementation(() => ({
     render: jest.fn() 
   }))

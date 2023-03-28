@@ -1,5 +1,4 @@
-/* eslint-disable testing-library/no-node-access */
-/* eslint-disable testing-library/no-container */
+import React from 'react';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import Header from './header';

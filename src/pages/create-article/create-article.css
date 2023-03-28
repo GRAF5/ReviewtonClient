@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans');
 .remove-tag {
   width: fit-content;
   cursor: pointer;
@@ -18,4 +19,8 @@
   border: 1px solid var(--third-dark);
   color: var(--third-dark);
   word-break: 'break-word';
+}
+#editor {
+  font-size: 18px;
+  font-family: 'Open Sans';
 }

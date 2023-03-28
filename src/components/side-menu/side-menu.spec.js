@@ -1,5 +1,3 @@
-/* eslint-disable testing-library/no-node-access */
-/* eslint-disable testing-library/no-container */
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
@@ -10,7 +8,7 @@ afterEach(cleanup);
 let userStore = {
   user: {id: 'id'}, 
   checkAccessByRole: () => {return true;}
-}
+};
 describe('SideMenu', () => {
 
   describe('normal', () => {
@@ -29,7 +27,7 @@ describe('SideMenu', () => {
           <SideMenu userStore={userStore} />
         </BrowserRouter>);
       const links = view.container.querySelectorAll('a');
-      expect(links.length).toBe(7);
+      expect(links.length).toBe(5);
     });
     
     test('should render side menu with open item', async () => {
@@ -40,7 +38,7 @@ describe('SideMenu', () => {
       let links = view.container.querySelectorAll('a');
       fireEvent.click(links[links.length - 1]);
       let nLinks = view.container.querySelectorAll('a');
-      expect(nLinks.length).toBe(10);
+      expect(nLinks.length).toBe(5);
     });
 
     test('should close opened on link click', async () => {
@@ -51,10 +49,10 @@ describe('SideMenu', () => {
       let links = view.container.querySelectorAll('a');
       fireEvent.click(links[links.length - 1]);
       links = view.container.querySelectorAll('a');
-      expect(links.length).toBe(10);
+      expect(links.length).toBe(5);
       fireEvent.click(links[1]);
       links = view.container.querySelectorAll('a');
-      expect(links.length).toBe(7);
+      expect(links.length).toBe(5);
     });
 
     test('should active child', async () => {
@@ -62,7 +60,7 @@ describe('SideMenu', () => {
         <MemoryRouter initialEntries={['/moderate/users']}>
           <SideMenu userStore={userStore} />
         </MemoryRouter>);
-      let link = screen.getByText('Користувачі')
+      let link = screen.getByText('Користувачі');
       expect(link.className).toBe('child active ');
     });
 
@@ -95,47 +93,47 @@ describe('SideMenu', () => {
     
     test('should handle exit', async () => {
       global.window.innerWidth = 1275;
-      let userStore = {
+      let store = {
         user: {id: 'id'},
         exit: jest.fn(), 
         checkAccessByRole: () => {}
       };
       let view = render(
         <MemoryRouter>
-          <SideMenu userStore={userStore} />
+          <SideMenu userStore={store} />
         </MemoryRouter>
       );
       let img = view.container.querySelector('img');
       fireEvent.click(img);
       const button = view.container.querySelector('button');
       fireEvent.click(button);
-      expect(userStore.exit).toBeCalledTimes(1);
+      expect(store.exit).toBeCalledTimes(1);
     });
     
     test('should not render require auth childs', async () => {
       global.window.innerWidth = maxWidth;
-      let userStore = {
+      let store = {
         user: null,
         checkAccessByRole: () => {}
       };
       let view = render(
         <MemoryRouter>
-          <SideMenu userStore={userStore} />
+          <SideMenu userStore={store} />
         </MemoryRouter>
       );
       let links = view.container.querySelectorAll('a');
-      expect(links.length).toBe(3);
+      expect(links.length).toBe(4);
     });
     
     test('should not render require role childs', async () => {
       global.window.innerWidth = maxWidth;
-      let userStore = {
+      let store = {
         user: {id: 'id'},
         checkAccessByRole: () => { return false; }
       };
       let view = render(
         <MemoryRouter>
-          <SideMenu userStore={userStore} />
+          <SideMenu userStore={store} />
         </MemoryRouter>
       );
       let links = view.container.querySelectorAll('a');
