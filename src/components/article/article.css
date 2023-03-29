@@ -80,3 +80,6 @@ ul.options {
 .options li:hover {
   color: var(--secondary-blue);
 }
+.ql-editor.article-text * {
+  cursor: default;
+}

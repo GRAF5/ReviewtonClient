@@ -40,7 +40,7 @@ export default function UpdateArticle({user, ...props}) {
           [{ 'header': [1, 2, false] }],
           ['bold', 'italic', 'underline','strike', 'blockquote'],
           [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}, 
-            {'align': ''}, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' }],
+            {'align': ['', 'center', 'right', 'justify']}],
           ['link', 'image'],
           ['clean']
         ],

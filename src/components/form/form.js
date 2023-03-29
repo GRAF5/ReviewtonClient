@@ -69,8 +69,8 @@ export default function Form({title, button, formErrors, elements = [], onSubmit
     return true;
   }
   function handleChange(name, value, isValid) {
-    setInputs(({...inputs, [name]:value}));
-    setValid(({...valid, [name]: isValid}));
+    setInputs(inputsState => ({...inputsState, [name]:value}));
+    setValid(validState => ({...validState, [name]: isValid}));
   }
   function submit(e) {
     e.preventDefault();

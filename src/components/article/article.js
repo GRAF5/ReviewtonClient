@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import useWindowSize from '../../utils/useWindowSize';
 import StarRating from '../star-rating/star-rating';
 import parseHTML from 'html-react-parser';
-import './article.css';
 import { useNavigate } from 'react-router';
 import { socket } from '../../socket';
 import Comment from '../comment/comment';
@@ -12,6 +11,7 @@ import { withIsVisible } from 'react-is-visible';
 import calcTime from '../../utils/calcTime';
 import PropTypes from 'prop-types';
 import 'react-quill/dist/quill.snow.css';
+import './article.css';
 
 /**
  * @typedef Tag
@@ -313,7 +313,7 @@ function Article({article, info, isVisible, user, ...props}) {
       <div 
         style={{
           maxHeight: info ? undefined : '300px',
-          cursor: info ? undefined : 'pointer',
+          cursor: info ? 'text' : 'pointer',
           overflow: 'hidden',
           padding: '0'
         }}

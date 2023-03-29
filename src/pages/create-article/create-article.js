@@ -39,7 +39,7 @@ export default function CreateArticle({user, ...props}) {
           [{ 'header': [1, 2, false] }],
           ['bold', 'italic', 'underline','strike', 'blockquote'],
           [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}, 
-            {'align': ''}, { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' }],
+            {'align': ['', 'center', 'right', 'justify']}],
           ['link', 'image'],
           ['clean']
         ],
@@ -102,7 +102,9 @@ export default function CreateArticle({user, ...props}) {
     }
   }
   function addTag(tag) {
-    setInputs({...inputs, tags: inputs.tags.some(t => t === tag) ? inputs.tags : inputs.tags.concat(tag) });
+    if (!/^\s*$/.test(tag)) {
+      setInputs({...inputs, tags: inputs.tags.some(t => t === tag) ? inputs.tags : inputs.tags.concat(tag) });
+    }
   }
   function handleRating(e) {
     setValid({...valid, rating: true});
@@ -124,7 +126,9 @@ export default function CreateArticle({user, ...props}) {
         return navigate('/', {replace: true});
       })
       .catch(res => {
-        setErrors([res.message]);
+        let errs = res.details ? res.details.errors.map(err => err.msg) : [res.message];
+        setErrors(errs);
+        window.scroll(0, 0);
       })
       .finally(() => {
         setLoadProcessing(false);
