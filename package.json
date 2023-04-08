@@ -10,6 +10,7 @@
     "intersection-observer": "0.12.0",
     "mobx": "~6.7.0",
     "mobx-react-lite": "~3.4.0",
+    "node-fetch": "^2.6.9",
     "polished": "~4.2.2",
     "prop-types": "~15.8.1",
     "quill-image-compress": "~1.2.29",

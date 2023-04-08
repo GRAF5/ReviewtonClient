@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const fetch = require('node-fetch');
 
 const serverUrl = process.env.SERVER_URL || 'http://localhost:3030';
 const clientUrl = process.env.CLIENT_URL || 'http://localhost:3000';
