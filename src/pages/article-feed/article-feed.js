@@ -92,7 +92,7 @@ const ArticleFeed = ({user, pageName, receive, ...props}) => {
     setFilter(searchParams.get('filter'));
     // window.scroll(0, 0);
     window.addEventListener('scroll', scrollListener);
-  }, [searchParams.get('filter')]);
+  }, [searchParams.get('filter'), receive]);
 
   useEffect(() => {
     function onConnect() {
