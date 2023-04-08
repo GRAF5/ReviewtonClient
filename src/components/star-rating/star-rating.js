@@ -2,7 +2,7 @@ import React from 'react';
 import './star-rating.css';
 import PropTypes from 'prop-types';
 
-function StarRating({rating}) {
+function StarRating({rating, style}) {
   const starsCount = [1, 2, 3, 4, 5];
   const listItems = starsCount.map((id) => <li className="star" key={id} value={id}>★</li>);
 
@@ -16,7 +16,7 @@ function StarRating({rating}) {
   };
   
   return (
-    <ul className="star-rating">
+    <ul style={style} className="star-rating">
       <div className="star-rating-top" style={topStyle}>
         {listItems}
       </div>
@@ -28,7 +28,8 @@ function StarRating({rating}) {
 }
 
 StarRating.propTypes = {
-  rating: PropTypes.number
+  rating: PropTypes.number,
+  style: PropTypes.object
 };
 
 

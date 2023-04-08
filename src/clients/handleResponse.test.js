@@ -14,13 +14,17 @@ describe('handleResponse', () => {
   test('should throw error', async () => {
     let data = {
       ok: false,
-      json: () => 'Data error'
+      status: 404,
+      json: () => {return {msg: 'Data error'};}
     };
     try {
       let res = await handleResponse(data);
       throw 'Error expected';
     } catch (err) {
-      expect(err).toBe('Data error');
+      expect(err).toStrictEqual({
+        msg: 'Data error',
+        status: 404
+      });
     }
   });
 });

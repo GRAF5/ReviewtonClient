@@ -3,66 +3,25 @@ import { useLocation, useNavigate } from 'react-router';
 import useWindowSize from '../../utils/useWindowSize';
 import CustomLink from '../link/link';
 import './side-menu.css';
-import iconMenuWhite from '../../icons/menu_white_24dp.svg';
-import closeMenu from '../../icons/icons8-close.svg';
 import AuthInfo from '../auth-info/auth-info';
 import { observer } from 'mobx-react-lite';
-import logo from '../../icons/logo.png';
+import sideMenuOptions from './sideMenuOptions';
 
-const SideMenu = observer(({userStore}) => {
-  const {width} = useWindowSize();
-  const [items, setItems] = useState([
-    {text: 'Нові відгуки', path: '/'},
-    {text: 'Додати відгук', path: '/add-article'},
-    // {text: 'Підписки', path: '/account//subscriptions', requireAuth: true},
-    {text: 'Акаунт', path: `/account/${userStore?.user?.id}`, requireAuth: true},
-    // {text: 'Повідомлення', path: '/account//add-article', requireAuth: true},
-    // {text: 'Мої статті', path: '/account//articles', requireAuth: true},
-    {text: 'Теми', path: '/subjects'},
-    {text: 'Теги', path: '/tags'}
-    // {text: 'Модерація ⇵', open: false, childs: [
-    //   {text: 'Користувачі', path: '/moderate/users'},
-    //   {text: 'Статті', path: '/moderate/articles'},
-    //   {text: 'Коментарі', path: '/moderate/comments'}
-    // ], requireAuth: true, requireRole: 'moderator'},
-    // {text: 'Адміністрування ⇵', open: false, childs: [
-    //   {text: 'Користувачі', path: '/administrate/users'},
-    //   {text: 'Теми', path: '/administrate/subjects'},
-    //   {text: 'Теги', path: '/administrate/tags'}
-    // ], requireAuth: true, requireRole: 'admin'}
-  ]);
-  const [menu, setMenu] = useState(false);
+// eslint-disable-next-line complexity
+const SideMenu = observer(({userStore, open, onSelect}) => {
+  const {width, contentWidth} = useWindowSize();
+  const [items, setItems] = useState(sideMenuOptions(userStore.user));
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
-    setItems([
-      {text: 'Нові відгуки', path: '/'},
-      {text: 'Додати відгук', path: '/add-article'},
-      // {text: 'Підписки', path: '/account//subscriptions', requireAuth: true},
-      {text: 'Акаунт', path: `/users/${userStore?.user?.id}`, requireAuth: true},
-      // {text: 'Повідомлення', path: '/account//add-article', requireAuth: true},
-      // {text: 'Мої статті', path: '/account//articles', requireAuth: true},
-      {text: 'Теми', path: '/subjects'},
-      {text: 'Теги', path: '/tags'},
-      {text: 'Модерація ⇵', open: false, childs: [
-        {text: 'Користувачі', path: '/moderate/users'},
-        {text: 'Статті', path: '/moderate/articles'},
-        {text: 'Коментарі', path: '/moderate/comments'}
-      ], requireAuth: true, requireRole: 'moderator'},
-      {text: 'Адміністрування ⇵', open: false, childs: [
-        {text: 'Користувачі', path: '/administrate/users'},
-        {text: 'Теми', path: '/administrate/subjects'},
-        {text: 'Теги', path: '/administrate/tags'}
-      ], requireAuth: true, requireRole: 'admin'}
-    ]);
+    setItems(sideMenuOptions(userStore.user));
   }, [userStore.user]);
 
-  const secondary =   <div className='secondary'>
+  const secondary = <>
     {
-      width < 345 * 2 + (+process.env.REACT_APP_CONTENT_WIDTH) ? 
+      width < 340 * 2 + contentWidth ? 
         <div className='item'>
-          <AuthInfo user={userStore.user} onExit={handleExit} onClick={onMenu}/>
+          <AuthInfo user={userStore.user} onExit={handleExit} onClick={onSelect}/>
         </div> : null
     }
     {
@@ -87,7 +46,7 @@ const SideMenu = observer(({userStore}) => {
                 {
                   el.childs.map((ch, y) => 
                     <CustomLink 
-                      onClick={onMenu}
+                      onClick={onSelect}
                       key={`${i}${y}`} 
                       id={y === 0 ? 'shadow-top' : y === el.childs.length - 1 ? 'shadow-bot' : ''}
                       className={ch.path === location.pathname ? 'child active' : 'child inactive'} 
@@ -100,7 +59,7 @@ const SideMenu = observer(({userStore}) => {
           );
         } else {
           return <CustomLink 
-            onClick={onMenu} 
+            onClick={onSelect} 
             key={i} 
             className={el.path === location.pathname ? 'item active' : 'item inactive'} 
             to={el.path} 
@@ -108,25 +67,12 @@ const SideMenu = observer(({userStore}) => {
         }
       })
     }
-  </div>;
+  </>;
 
 
   function handleExit() {
     userStore.exit();
-    onMenu();
-  }
-
-  function onMenu(e = {}, value = !menu) {
-    if (!e.key || e.key === 'Enter') {
-      const newItems = items.map(el => {
-        if (el.open) {
-          el.open = false;
-        }
-        return el;
-      });
-      setItems(newItems);
-      setMenu(value);
-    }
+    onSelect();
   }
 
   function onOpen(e) {
@@ -139,59 +85,47 @@ const SideMenu = observer(({userStore}) => {
     });
     setItems(newItems);
   }
-  function onMain(e) {
-    if (!e.key || e.key === 'Enter') {
-      navigate('/', {replace: true});
-    }
-  }
   return (
-    <div className='body-left-side'>
-      <div style={width >= 1276 ? {
-        'width': '340px',
-        'height': '100%',
-        'overflow': 'auto',
-        'display': 'grid'
-      } : {
-        'height': '100%',
-        'overflow': 'auto',
-        'display': 'grid'}}>
+    <>
+      {
+        width < 340 * 2 + contentWidth && open ? 
+          <div style={{zIndex: -1}} className='screen-fade' onClick={onSelect}></div> : null
+      }
+      <div className='side-menu'
+        style={{
+          width: width > 340 * 2 + contentWidth ? '340px' : 'auto'
+        }}>
+        <div style={{
+          height: 'fit-content',
+          alignSelf: 'start'
+        }}>
+          {
+            open ? 
+              secondary : null
+          }
+        </div>
         {
-          width >= 345 * 2 + (+process.env.REACT_APP_CONTENT_WIDTH) ? 
-            <>
-              <img alt='Main' tabIndex={0} style={{
-                width: '130px',
-                height: 'auto',
-                padding: '24px 40px',
-                cursor: 'pointer'
-              }} className='item head' src={logo} onClick={onMain} onKeyDown={onMain} />
-              {secondary}
-            </> :
-            <>
-              <div className='item head'>
-                <img 
-                  tabIndex={0} 
-                  className='menu' 
-                  onKeyDown={onMenu} 
-                  onClick={onMenu} 
-                  src={!menu ? iconMenuWhite : closeMenu} 
-                  alt='menu' /> 
-                <img alt='Main' tabIndex={0}
-                  style={{
-                    width: '130px',
-                    height: 'auto',
-                    zIndex: '-1',
-                    cursor: 'pointer'
-                  }} src={logo} onClick={onMain} onKeyDown={onMain} />
-              </div>
-              {menu ? 
-                <>
-                  <div className='screen-fade' onClick={onMenu}></div>
-                  {secondary}
-                </> : null}
-            </>
+          open ? 
+            <div style={{
+              height: 'fit-content',
+              alignSelf: 'end',
+              borderTop: '1px solid var(--third-dark)'
+            }}>
+              <CustomLink
+                className={'/terms-of-use' === location.pathname ? 'item active' : 'item inactive'}  
+                onClick={onSelect} 
+                to={'/terms-of-use'} 
+                text='Умови використання' />
+              <CustomLink
+                className={'/privacy-policy' === location.pathname ? 'item active' : 'item inactive'}  
+                onClick={onSelect} 
+                to={'/privacy-policy'} 
+                text='Політика конфіденційності' />
+            </div> : null
         }
+        
       </div>
-    </div>
+    </>
   );
 });
 

@@ -5,6 +5,7 @@ export const contentClient = {
   getArticlesByUserId,
   getArticlesBySubjectId,
   getArticlesByTagId,
+  getArticlesBySubscriptions,
   getArticleById,
   updateArticle,
   createArticle,
@@ -29,6 +30,20 @@ function getArticles(filter = '', limit = 1000, offset = 0) {
   };
   return fetch(`${process.env.REACT_APP_SERVER_URL}/content/articles?limit=${limit}&offset=${offset}&filter=${filter}`, 
     opts).then(res => handleResponse(res));
+}
+
+function getArticlesBySubscriptions(filter = '', limit = 1000, offset = 0) {
+  const token = localStorage.getItem('token');
+  const opts = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  };
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/content/articles/user/subscriptions` +
+    `?limit=${limit}&offset=${offset}`, opts).then(res => handleResponse(res));
 }
 
 function getArticlesByUserId(userId, filter = '', limit = 1000, offset = 0) {

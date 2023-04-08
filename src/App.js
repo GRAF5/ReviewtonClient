@@ -18,25 +18,13 @@ import React from 'react';
 import Body from './components/body/body';
 import ArticleInfo from './pages/article/article-info';
 import UpdateArticle from './pages/create-article/update-article';
+import TermsOfUse from './pages/terms-of-use/terms-of-use';
+import PrivacyPolicy from './pages/privacy-policy/privacy-policy';
+import Subscriptions from './pages/account/subscriptions';
+import ErrorBoundary from './components/error-boundary/error-boundary';
 
 const App = observer(({userStore}) => {
 
-  // const R = <Routes>
-  //   <Route path='/' element={
-  //     <ArticleFeed 
-  //       pageName={'Нові'} 
-  //       filter={searchParams.get('filter')} 
-  //       user={userStore.user} 
-  //       receive={contentClient.getArticles}/>} />
-  //   <Route path='/register' element={<Register/>} />
-  //   <Route path='/login' element={<Login userStore={userStore}/>} />
-  //   <Route path='add-article' element={<CreateArticle user={userStore.user} />}/>
-  //   <Route path='users/:id' element={<Account user={userStore.user} />} />
-  //   <Route path='subjects' element={<Subjects />} />
-  //   <Route path='subjects/:id' element={<Subject user={userStore.user} />} />
-  //   <Route path='tags' element={<Tags />} />
-  //   <Route path='tags/:id' element={<Tag user={userStore.user} />} />
-  // </Routes>;
   const router = createBrowserRouter([
     {
       path: '/',
@@ -50,6 +38,14 @@ const App = observer(({userStore}) => {
             pageName={'Нові відгуки'}
             user={userStore.user}
             receive={contentClient.getArticles} />
+        },
+        {
+          path: 'subscriptions',
+          element: 
+          <ArticleFeed
+            pageName={'Підписки'}
+            user={userStore.user}
+            receive={contentClient.getArticlesBySubscriptions} />
         },
         {
           path: '/register',
@@ -68,28 +64,48 @@ const App = observer(({userStore}) => {
         },
         {
           path: 'users/:id',
+          loader: async ({params, request}) => {
+            return userClient.getUserById(params.id);
+          },
           element: 
-          <Account user={userStore.user} />
+          <Account userStore={userStore} />
         },
         {
           path: 'subjects/:id',
+          loader: async ({params, request}) => {
+            return contentClient.getSubjectById(params.id);
+          },
           element: 
-          <Subject user={userStore.user} />
+          <Subject userStore={userStore} />
         },
         {
           path: 'tags/:id',
+          loader: async ({params, request}) => {
+            return contentClient.getTagById(params.id);
+          },
           element: 
-          <Tag user={userStore.user} />
+          <Tag userStore={userStore} />
         },
         {
           path: 'articles/:id',
+          loader: async ({params, request}) => {
+            return contentClient.getArticleById(params.id);
+          },
           element: 
           <ArticleInfo user={userStore.user} />
         },
         {
           path: 'articles/change/:id',
+          loader: async ({params, request}) => {
+            return contentClient.getArticleById(params.id);
+          },
           element: 
           <UpdateArticle user={userStore.user} />
+        },
+        {
+          path: 'account/subscriptions',
+          element: 
+          <Subscriptions userStore={userStore} />
         },
         {
           path: 'subjects',
@@ -100,8 +116,19 @@ const App = observer(({userStore}) => {
           path: 'tags',
           element: 
           <Tags />
+        },
+        {
+          path: 'terms-of-use',
+          element:
+          <TermsOfUse />
+        },
+        {
+          path: 'privacy-policy',
+          element:
+          <PrivacyPolicy />
         }
-      ]
+      ],
+      errorElement: <ErrorBoundary userStore={userStore} />
     }
   ]);
 

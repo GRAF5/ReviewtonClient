@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Article from '../../components/article/article';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router';
+import { useLoaderData, useParams } from 'react-router';
 import { contentClient } from '../../clients/content.client';
 import { socket } from '../../socket';
+import { Helmet } from 'react-helmet';
 
 export default function ArticleInfo({user, ...props}) {
+  const article = useLoaderData();
   const [connected, setConnected] = useState(socket.connected);
-  const [article, setArticle] = useState();
+  // const [article, setArticle] = useState(data);
   const {id} = useParams();
 
   useEffect(() => {
@@ -19,8 +21,8 @@ export default function ArticleInfo({user, ...props}) {
     }
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
-    contentClient.getArticleById(id)
-      .then(res => setArticle(res));
+    // contentClient.getArticleById(id)
+    //   .then(res => setArticle(res));
     return () => {
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
@@ -29,6 +31,9 @@ export default function ArticleInfo({user, ...props}) {
 
   return (
     <>
+      <Helmet>
+        <title>Reviewton - Відгук {article.user.login} на {article.subject.name}</title>
+      </Helmet>
       {article ? <Article info={true} article={article} user={user} isVisible={true} /> : null}
       {
         !connected ? 

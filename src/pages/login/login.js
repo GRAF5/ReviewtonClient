@@ -5,6 +5,7 @@ import Form from '../../components/form/form';
 import CustomLink from '../../components/link/link';
 import { userClient } from '../../clients/user.client';
 import useWindowSize from '../../utils/useWindowSize';
+import { Helmet } from 'react-helmet';
 
 const Login = observer(({userStore}) => {
   const {width, contentWidth} = useWindowSize();
@@ -29,6 +30,9 @@ const Login = observer(({userStore}) => {
 
   return (
     <>
+      <Helmet>
+        <title>Reviewton - Вхід</title>
+      </Helmet>
       <div className={contentWidth === width ? 'content' : 'bordered-content'}>
         <Form 
           title='Вхід'

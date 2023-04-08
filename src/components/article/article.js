@@ -109,16 +109,17 @@ function Article({article, info, isVisible, user, ...props}) {
     if (!user) {
       return navigate('/login');
     }
-    if (data.text) {
+    if (commentData) {
       socket.emit('article-feed:upsert-comment', {
         data: {
-          text: commentData.text, 
+          text: commentData, 
           article: article._id, 
           authorization: `Bearer ${user?.token}`}});
     }
   }
   function handleLike(e) {
     if (!e.key || e.key === 'Enter') {
+      e.stopPropagation();
       if (data.userReaction === true) {
         _emitEstimateArticle(undefined);
       } else {
@@ -138,6 +139,7 @@ function Article({article, info, isVisible, user, ...props}) {
   }
   function handleDislike(e) {
     if (!e.key || e.key === 'Enter') {
+      e.stopPropagation();
       if (data.userReaction === false) {
         _emitEstimateArticle(undefined);
       } else {
@@ -147,16 +149,19 @@ function Article({article, info, isVisible, user, ...props}) {
   }
   function navigateUser(e, id) {
     if (!e.key || e.key === 'Enter') {
+      e.stopPropagation();
       navigate(`/users/${id}`);
     }
   }
   function navigateSubject(e, id) {
+    e.stopPropagation();
     if (!e.key || e.key === 'Enter') {
       navigate(`/subjects/${id}`);
     }
   }
   function navigateTag(e, id) {
     if (!e.key || e.key === 'Enter') {
+      e.stopPropagation();
       navigate(`/tags/${id}`);
     }
   }
@@ -165,11 +170,13 @@ function Article({article, info, isVisible, user, ...props}) {
       return;
     }
     if (!e.key || e.key === 'Enter') {
+      e.stopPropagation();
       navigate(`/articles/${article._id}`);
     }
   }
   function navigateChangeArticle(e) {
     if (!e.key || e.key === 'Enter') {
+      e.stopPropagation();
       navigate(`/articles/change/${article._id}`);
     }
   }
@@ -187,6 +194,7 @@ function Article({article, info, isVisible, user, ...props}) {
   }
   function handleOptions(e) {
     if (!e.key || e.key === 'Enter') {
+      e.stopPropagation();
       setIsOptions(!isOptions);
       if (!isOptions) {
         setOptions(
@@ -212,12 +220,11 @@ function Article({article, info, isVisible, user, ...props}) {
           type: 'input', 
           placeholder: 'Напишіть коментар', 
           resizeble: true,
-          inlines: [{
-            type: 'reset',
-            values: ['text'],
+          button: {
             text: '➤',
-            onClick: comment
-          }]
+            onClick: comment,
+            reset: true
+          }
         }]} 
       />
       {(data.comments || []).map((el, i) => {
@@ -234,14 +241,16 @@ function Article({article, info, isVisible, user, ...props}) {
       })}
     </div> : null;
   return (
-    <div className={contentWidth === width ? 'content' : 'bordered-content'}>
+    <article className={contentWidth === width ? 'content' : 'bordered-content'}
+      onClick={navigateArticle}
+      onKeyDown={navigateArticle}>
       <div style={{display: 'flex', justifyContent: 'space-between'}}>
-        <p 
+        <h4 
           id='login'
           tabIndex={0}
           onClick={(e) => navigateUser(e, article.user._id)} 
           onKeyDown={(e) => navigateUser(e, article.user._id)}>{article.user.login}
-        </p>
+        </h4>
         <div
           ref={option} 
           style={{display: 'flex'}}>
@@ -454,7 +463,7 @@ function Article({article, info, isVisible, user, ...props}) {
               onKeyDown={navigateArticle}>Коментарі ({data.commentsCount})</p>
         }
       </div>
-    </div>
+    </article>
   );
 }
 Article.propTypes = {

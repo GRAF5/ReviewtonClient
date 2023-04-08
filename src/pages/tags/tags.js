@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router';
 import { contentClient } from '../../clients/content.client';
 
@@ -30,12 +31,16 @@ export default function Tags({...props}) {
   }
   return (
     <>
+      <Helmet>
+        <title>Reviewton - Теги</title>
+      </Helmet>
       <div className='page-header'>
         <h1>Теги</h1>
       </div>
       <div style={{
         'display': 'flex',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        alignItems: 'center'
       }}>
         {tags.map(tag => 
           <div 

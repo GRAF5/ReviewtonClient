@@ -7,20 +7,24 @@ import useWindowSize from '../../utils/useWindowSize';
 import './create-article.css';
 import 'react-quill/dist/quill.snow.css';
 import Button from '../../components/button/button';
-import { useNavigate, useParams } from 'react-router';
+import { useLoaderData, useNavigate, useParams } from 'react-router';
 import ImageCompress from 'quill-image-compress';
 import Quill from 'quill';
 import PropTypes from 'prop-types';
+import { Helmet } from 'react-helmet';
 
 export default function UpdateArticle({user, ...props}) {
-  const [article, setArticle] = useState();
+  const data = useLoaderData();
   const {width, contentWidth} = useWindowSize();
   const [inputs, setInputs] = useState({
-    subject: '', tags: [], rating: 0
+    subject: data.subject.name, 
+    tags: data.tags.map(t => t.name), 
+    rating: data.rating
   });
   const [text, setText] = useState('');
   const [valid, setValid] = useState({
-    subject: false, rating: false
+    subject: data.subject ? true : false, 
+    rating: data.rating ? true : false
   });
   const [subjects, setSubjects] = useState([]);
   const [tags, setTags] = useState([]);
@@ -66,13 +70,14 @@ export default function UpdateArticle({user, ...props}) {
     quill.on('text-change', (delta, oldDelta, source) => {
       setText(quill.root.innerHTML);
     });    
-    contentClient.getArticleById(id)
-      .then(res => {
-        setArticle(res);
-        setInputs({...inputs, subject: res.subject.name, tags: res.tags.map(t => t.name), rating: res.rating});
-        quill.setContents(quill.clipboard.convert(res.text), 'api');
-        setValid({subject: res.subject ? true : false, rating: res.rating ? true : false});
-      });
+    quill.setContents(quill.clipboard.convert(data.text), 'api');
+    // contentClient.getArticleById(id)
+    //   .then(res => {
+    //     setArticle(res);
+    //     setInputs({...inputs, subject: res.subject.name, tags: res.tags.map(t => t.name), rating: res.rating});
+    //     quill.setContents(quill.clipboard.convert(res.text), 'api');
+    //     setValid({subject: res.subject ? true : false, rating: res.rating ? true : false});
+    //   });
   }, []);
   useEffect(() => {
     setFilteredTags(tags.filter(tag => !inputs.tags.some(t => t === tag)));
@@ -140,6 +145,9 @@ export default function UpdateArticle({user, ...props}) {
   }
   return (
     <>      
+      <Helmet>
+        <title>Reviewton - Змінити відгук</title>
+      </Helmet>
       <div className='page-header'>
         <h1>Змінити відгук</h1>
       </div>

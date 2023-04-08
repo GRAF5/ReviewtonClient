@@ -4,6 +4,7 @@ import { socket } from '../../socket';
 import PropTypes from 'prop-types';
 import { useSearchParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 const ArticleFeed = ({user, pageName, receive, ...props}) => {
   const [connected, setConnected] = useState(socket.connected);
@@ -128,9 +129,17 @@ const ArticleFeed = ({user, pageName, receive, ...props}) => {
 
   return (
     <div>
-      <div className='page-header'>
-        <h1>{searchParams.get('filter') || pageName}</h1>
-      </div>
+      {
+        pageName ?
+          <>
+            <div className='page-header'>
+              <h1>{searchParams.get('filter') || pageName}</h1>
+            </div>
+            <Helmet>
+              <title>Reviewton - {pageName}</title>
+            </Helmet>
+          </> : null 
+      }
       {
         articles.map(el => <Article key={el._id} article={el} user={user} />)
       }

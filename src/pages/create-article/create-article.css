@@ -18,7 +18,7 @@
   margin-bottom: 15px;
   border: 1px solid var(--third-dark);
   color: var(--third-dark);
-  word-break: 'break-word';
+  word-break: break-word;
 }
 #editor {
   font-size: 18px;

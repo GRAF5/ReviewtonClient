@@ -117,11 +117,12 @@ export default function Autocomplete({
           label={label}
           helperText={helperText}
           onClick={onClick}
+          button={button}
           style={{
             paddingRight: `${buttonRef.current ? buttonRef.current.offsetWidth + 14 : 0}px`
           }}
         />
-        { button && input ? 
+        {/* { button && input ? 
           <div
             ref={buttonRef}
             style={{          
@@ -129,8 +130,9 @@ export default function Autocomplete({
               top: `${inputTop}px`,
               position: 'absolute'
             }}><Button
+              style={{borderRadius: '0 7px 7px 0'}}
               className={'button'} text={button.text} onClick={onButton}>{button.childs}</Button></div> : null
-        }
+        } */}
       </div>
       { popoverVisible ? popover : null}
     </div>);

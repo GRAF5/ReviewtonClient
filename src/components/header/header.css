@@ -13,6 +13,14 @@
 .header .center {
   width: var(--body-content-width);
 }
-.header .right {
+.head-content {
+  display: flex;
+  align-items: center;
   padding: 0 40px;
+}
+.head-content.left {
+  justify-content: start;
+}
+.head-content.right {
+  justify-content: end;
 }
