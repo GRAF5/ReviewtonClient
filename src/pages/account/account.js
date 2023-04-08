@@ -14,25 +14,24 @@ const Account = observer(({userStore, ...props}) => {
   const {id} = useParams();
   const navigate = useNavigate();
 
-  // useEffect(async () => {
-  //   userClient.getUserById(id)
-  //     .then(res => setAccount(res));
-  // }, [id]);
+  useEffect(() => {
+    setAccount(data);
+  }, [data]);
 
 
   function upsertSubscription() {
     if (!userStore.user) {
       return navigate('/login');
     }
-    if (userStore.user.userSubscriptions.some(sub => sub._id === account?._id)) {
-      userClient.removeUserSubscription(account._id)
+    if (userStore.user.userSubscriptions.some(sub => sub._id === id)) {
+      userClient.removeUserSubscription(id)
         .then(res => {
           userStore.setUser({...userStore.user, userSubscriptions: res.userSubscriptions});
           userClient.getUserById(id)
             .then(accountData => setAccount(accountData));
         });
     } else {
-      userClient.addUserSubscription(account._id)
+      userClient.addUserSubscription(id)
         .then(res => {
           userStore.setUser({...userStore.user, userSubscriptions: res.userSubscriptions});
           userClient.getUserById(id)
@@ -61,8 +60,8 @@ const Account = observer(({userStore, ...props}) => {
           </div>
           <div>            
             {
-              userStore?.user?.id !== account?._id ?
-                (userStore?.user?.userSubscriptions || []).some(sub => sub._id === account?._id) ?
+              userStore?.user?.id !== id ?
+                (userStore?.user?.userSubscriptions || []).some(sub => sub._id === id) ?
                   <Button outlined danger text='Відписатися' onClick={upsertSubscription} /> :
                   <Button outlined text='Стежити' onClick={upsertSubscription} /> : 
                 <p 
