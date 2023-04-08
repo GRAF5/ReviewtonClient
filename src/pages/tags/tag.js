@@ -55,7 +55,7 @@ const Tag = observer(({userStore, ...props}) => {
           <div>            
             {
               (userStore?.user?.tagSubscriptions || []).some(sub => sub._id === tag?._id) ?
-                <Button outlined danger text='Відпісатись' onClick={upsertSubscription} /> :
+                <Button outlined danger text='Відписатися' onClick={upsertSubscription} /> :
                 <Button outlined text='Стежити' onClick={upsertSubscription} />
             }
           </div>
