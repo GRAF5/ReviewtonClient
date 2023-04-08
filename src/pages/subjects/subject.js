@@ -15,10 +15,9 @@ const Subject = observer(({userStore, ...props}) => {
   const {id} = useParams();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   contentClient.getSubjectById(id)
-  //     .then(res => setSubject(res));
-  // }, []);
+  useEffect(() => {
+    setSubject(data);
+  }, [data]);
 
   function upsertSubscription() {
     if (!userStore.user) {

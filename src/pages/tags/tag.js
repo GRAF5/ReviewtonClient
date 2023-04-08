@@ -14,10 +14,9 @@ const Tag = observer(({userStore, ...props}) => {
   const {id} = useParams();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   contentClient.getTagById(id)
-  //     .then(res => setTag(res));
-  // }, []);
+  useEffect(() => {
+    setTag(data);
+  }, [data]);
 
   function upsertSubscription() {
     if (!userStore.user) {
