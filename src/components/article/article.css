@@ -33,6 +33,7 @@
   cursor: pointer;
   width: fit-content;
   font-weight: bold;
+  margin: 0;
 }
 #login:hover, #subject:hover {
   color: var(--main-blue);
@@ -42,6 +43,8 @@
   width: fit-content;
   font-weight: bold;
   font-size: 26px;
+  margin: 10px 0;
+  word-break: break-word;
 }
 .article-text {
   margin-bottom: 15px;
@@ -49,7 +52,7 @@
   overflow: hidden;
 }
 .article-text img {
-  width: 100%;
+  max-width: 100%;
 }
 .overflow {
   background: linear-gradient(transparent 150px, white,white);

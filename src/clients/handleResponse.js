@@ -2,6 +2,6 @@ export default async function handleResponse(res) {
   if (res.ok) {
     return res.json();
   } else {
-    throw await res.json();
+    throw {...await res.json(), status: res.status};
   }
 }

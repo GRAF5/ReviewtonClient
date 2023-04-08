@@ -1,0 +1,32 @@
+.menu-bar {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.menu-bar p {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  padding: 10px 0;
+  border-bottom: 1px solid #d6d6d6;
+  cursor: pointer;
+}
+.menu-bar p.selected {
+  color: var(--secondary-blue);
+  border-bottom: 1px solid var(--secondary-blue);
+}
+.subscription {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #d6d6d6;
+}
+.subscription p {
+  cursor: pointer;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+.subscription p:hover {
+  color: var(--secondary-blue);
+} 

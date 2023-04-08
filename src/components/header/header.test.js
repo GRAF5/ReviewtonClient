@@ -14,7 +14,8 @@ describe('Header', () => {
   test('should handle exit', async () => {
     let userStore = {
       user: {id: 'id'},
-      exit: jest.fn()
+      exit: jest.fn(),
+      checkAccessByRole: jest.fn()
     };
     global.window.innerWidth = 345 * 2 + (+process.env.REACT_APP_CONTENT_WIDTH);
     let view = render(

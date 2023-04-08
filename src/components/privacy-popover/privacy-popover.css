@@ -1,0 +1,11 @@
+.privacy-popover {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  z-index: 900;
+}
+.privacy-popover p {
+  cursor: default;
+}

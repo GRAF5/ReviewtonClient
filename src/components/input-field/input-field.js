@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './input-field.css';
 import PropTypes from 'prop-types';
+import Button from '../button/button';
 
 // eslint-disable-next-line complexity
 const InputField = React.forwardRef(({
@@ -14,10 +15,12 @@ const InputField = React.forwardRef(({
   onChange, 
   resizeble,
   valueProp = '',
+  button,
   setHelperRef = () => {},
   pattern, minLength, equal, label, helperText, onBeforeInput, onClick, reset, required, ...props}, ref) => {
   const [viewPass, setViewPass] = useState(false);
   const [data, setData] = useState({value: valueProp, valid: false, touched: false});
+  const buttonRef = React.useRef();
   
   useEffect(() => {
     if (id) {
@@ -71,6 +74,15 @@ const InputField = React.forwardRef(({
     }
   }, [data]);
 
+  function onButton(e) {
+    button.onClick(data.value);
+    if (button.reset) {
+      setData({...data, value: ''});
+      document.getElementById(id).innerHTML = '';
+      e.currentTarget.blur();
+    }
+  }
+
 
   const labelComp = label ? 
     <label 
@@ -98,13 +110,17 @@ const InputField = React.forwardRef(({
         {
           resizeble ? 
             <div 
+              style={{
+                'paddingRight': button && buttonRef.current ? `${buttonRef.current.offsetWidth + 14}px` : 
+                  (style || {}).paddingRight
+              }}
               id={id}
+              ref={ref}
               name={name}
               className='resizeble-input'
               placeholder={placeholder}
               onInput={handleChange}
               onClick={handleClick}
-              value={valueProp}
               contentEditable={true} max={15}>
             </div> :
             <>
@@ -118,8 +134,14 @@ const InputField = React.forwardRef(({
                 placeholder={placeholder ? placeholder : ''}
                 onChange={handleChange}
                 onClick={handleClick}
-                value={!data.value ? valueProp : data.value}
-                style={type === 'password' ? {...(style || {}), 'paddingRight': '41px'} : {...(style || {})}}
+                value={!data.value ? valueProp || '' : data.value}
+                style={{
+                  ...(style || {}), 
+                  'paddingRight': 
+                    type === 'password' ? '41px' : 
+                      button && buttonRef.current ? `${buttonRef.current.offsetWidth + 14}px` : 
+                        (style || {}).paddingRight
+                }}
               ></input>
               {
                 type === 'password' ? 
@@ -168,6 +190,17 @@ const InputField = React.forwardRef(({
                     </svg> : null
               }
             </>
+        }        
+        {
+          button ? 
+            <div
+              ref={buttonRef}
+              style={{
+                marginLeft: buttonRef.current ? `-${buttonRef.current.offsetWidth}px` : 0,
+                alignSelf: 'end'
+              }}><Button
+                style={{borderRadius: '0 7px 7px 0'}}
+                className={'button'} text={button.text} onClick={onButton}>{button.childs}</Button></div> : null
         }
       </div>
       {helperComp}
@@ -197,7 +230,8 @@ InputField.propTypes = {
   required: PropTypes.bool,
   resizeble: PropTypes.bool,
   setHelperRef: PropTypes.func,
-  valueProp: PropTypes.string
+  valueProp: PropTypes.string,
+  button: PropTypes.object
 };
 
 export default InputField;

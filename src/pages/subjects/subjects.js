@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router';
 import { contentClient } from '../../clients/content.client';
 import StarRating from '../../components/star-rating/star-rating';
@@ -30,12 +31,16 @@ export default function Subjects({...props}) {
   }
   return (
     <>
+      <Helmet>
+        <title>Reviewton - Теми</title>
+      </Helmet>
       <div className='page-header'>
         <h1>Теми</h1>
       </div>
       <div style={{
         'display': 'flex',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        alignItems: 'center'
       }}>
         {subjects.map(sub => 
           <div 

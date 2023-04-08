@@ -8,7 +8,6 @@
     position: relative;
     word-wrap: normal;
     width:max-content;
-    z-index: -1;
 }
 .star-rating li{
     padding: 0px;

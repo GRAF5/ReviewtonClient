@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router';
 import ImageCompress from 'quill-image-compress';
 import Quill from 'quill';
 import PropTypes from 'prop-types';
+import { Helmet } from 'react-helmet';
 
 export default function CreateArticle({user, ...props}) {
   const {width, contentWidth} = useWindowSize();
@@ -136,6 +137,9 @@ export default function CreateArticle({user, ...props}) {
   }
   return (
     <>      
+      <Helmet>
+        <title>Reviewton - Додати відгук</title>
+      </Helmet>
       <div className='page-header'>
         <h1>Додати відгук</h1>
       </div>

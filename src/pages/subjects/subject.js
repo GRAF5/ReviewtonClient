@@ -1,26 +1,79 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useLoaderData, useNavigate, useParams } from 'react-router';
 import { contentClient } from '../../clients/content.client';
 import ArticleFeed from '../article-feed/article-feed';
 import PropTypes from 'prop-types';
+import StarRating from '../../components/star-rating/star-rating';
+import { observer } from 'mobx-react-lite';
+import { userClient } from '../../clients/user.client';
+import Button from '../../components/button/button';
+import { Helmet } from 'react-helmet';
 
-export default function Subject({user, ...props}) {
-  const [subject, setSubject] = useState();
+const Subject = observer(({userStore, ...props}) => {
+  const data = useLoaderData();
+  const [subject, setSubject] = useState(data);
   const {id} = useParams();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    contentClient.getSubjectById(id)
-      .then(res => setSubject(res));
-  }, []);
+  // useEffect(() => {
+  //   contentClient.getSubjectById(id)
+  //     .then(res => setSubject(res));
+  // }, []);
 
+  function upsertSubscription() {
+    if (!userStore.user) {
+      return navigate('/login');
+    }
+    if (userStore.user.subjectSubscriptions.some(sub => sub._id === subject?._id)) {
+      userClient.removeSubjectSubscription(subject._id)
+        .then(res => {
+          userStore.setUser({...userStore.user, subjectSubscriptions: res.subjectSubscriptions});
+          contentClient.getSubjectById(id)
+            .then(subjectData => setSubject(subjectData));
+        });
+    } else {
+      userClient.addSubjectSubscription(subject._id)
+        .then(res => {
+          userStore.setUser({...userStore.user, subjectSubscriptions: res.subjectSubscriptions});
+          contentClient.getSubjectById(id)
+            .then(subjectData => setSubject(subjectData));
+        });
+    }
+  }
 
   return (
     <>
-      <ArticleFeed user={user} pageName={subject?.name} receive={contentClient.getArticlesBySubjectId.bind(this, id)} />
+      <Helmet>
+        <title>Reviewton - {subject.name}</title>
+      </Helmet>
+      <div className='page-header'>
+        <div className='content-info'>
+          <h1>{subject?.name}</h1>
+          <h1 style={{textAlign: 'center'}}>
+            <p style={{color: '#ffd700', padding: 0}}>{subject?.rating.toFixed(2)}</p>
+            <StarRating style={{marginTop: '-12px'}} rating={subject?.rating} /></h1>
+        </div>  
+        <div className='content-info'>
+          <div>
+            <p className='count'>Підписників: {subject?.subscribers}</p>
+            <p className='count'>Відгуків: {subject?.articleCount}</p>
+          </div>
+          <div>     
+            {
+              (userStore?.user?.subjectSubscriptions || []).some(sub => sub._id === subject?._id) ?
+                <Button outlined danger text='Відпісатись' onClick={upsertSubscription} /> :
+                <Button outlined text='Стежити' onClick={upsertSubscription} />
+            }
+          </div>
+        </div>
+      </div>
+      <ArticleFeed user={userStore.user} receive={contentClient.getArticlesBySubjectId.bind(this, id)} />
     </>
   );
-}
+});
 
 Subject.propTypes = {
   user: PropTypes.object
 };
+
+export default Subject;

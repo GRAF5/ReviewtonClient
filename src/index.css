@@ -7,20 +7,32 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.error-element {
+  background-color: var(--four-dark);
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  color: white;
+}
+.error-element .status {
+  font-size: 46px;
+  margin: 0;
+  text-align: center;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
-html, body, #root, .App, .Body, .body-right-side {
+html, body, #root, .App, .Body, .body-right-side, .error-element {
   min-height: 100vh;
 }
 
 :root {
   --main-dark: #1B1B1B;
   --secondary-dark: #363636;
-  --third-dark: #929292;
+  --third-dark: #bbbbbb;
   --four-dark: #464646;
   --main-blue: #1941DF;
   --secondary-blue: #3264FF;

@@ -4,7 +4,13 @@ export const userClient = {
   register,
   authenticate,
   current,
-  getUserById
+  getUserById,
+  addTagSubscription,
+  removeTagSubscription,
+  addSubjectSubscription,
+  removeSubjectSubscription,
+  addUserSubscription,
+  removeUserSubscription
 };
 
 /**
@@ -76,4 +82,88 @@ function getUserById(id) {
     }
   };
   return fetch(`${process.env.REACT_APP_SERVER_URL}/user/${id}`, opts).then(res => handleResponse(res));
+}
+
+function addTagSubscription(subscription) {
+  const token = localStorage.getItem('token');
+  const opts = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  };
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/user/current/subscriptions/tags/${subscription}`, opts)
+    .then(res => handleResponse(res));
+}
+
+function removeTagSubscription(subscription) {
+  const token = localStorage.getItem('token');
+  const opts = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  };
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/user/current/subscriptions/tags/${subscription}`, opts)
+    .then(res => handleResponse(res));
+}
+
+function addSubjectSubscription(subscription) {
+  const token = localStorage.getItem('token');
+  const opts = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  };
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/user/current/subscriptions/subjects/${subscription}`, opts)
+    .then(res => handleResponse(res));
+}
+
+function removeSubjectSubscription(subscription) {
+  const token = localStorage.getItem('token');
+  const opts = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  };
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/user/current/subscriptions/subjects/${subscription}`, opts)
+    .then(res => handleResponse(res));
+}
+
+function addUserSubscription(subscription) {
+  const token = localStorage.getItem('token');
+  const opts = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  };
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/user/current/subscriptions/users/${subscription}`, opts)
+    .then(res => handleResponse(res));
+}
+
+function removeUserSubscription(subscription) {
+  const token = localStorage.getItem('token');
+  const opts = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  };
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/user/current/subscriptions/users/${subscription}`, opts)
+    .then(res => handleResponse(res));
 }

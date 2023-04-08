@@ -5,6 +5,7 @@ import { userClient } from '../../clients/user.client';
 import Form from '../../components/form/form';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Helmet } from 'react-helmet';
 
 const Register = ({...props}) => {
   const {width, contentWidth} = useWindowSize();
@@ -29,6 +30,9 @@ const Register = ({...props}) => {
 
   return (
     <>
+      <Helmet>
+        <title>Reviewton - Реєстрація</title>
+      </Helmet>
       <div className={contentWidth === width ? 'content' : 'bordered-content'}>
         <Form
           title='Реєстрація'

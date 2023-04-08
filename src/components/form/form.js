@@ -105,6 +105,7 @@ export default function Form({title, button, formErrors, elements = [], onSubmit
             placeholder={el.placeholder}
             required={el.required}
             resizeble={el.resizeble}
+            button={el.button}
             onChange={handleChange}
             reset={reset} />
           {el.inlines ? el.inlines.map((ch, i) => <div key={i}>

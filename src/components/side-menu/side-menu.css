@@ -1,18 +1,20 @@
-div.secondary {
-  margin-top: var(--header-height);
-  width: auto;
-  background-color: var(--secondary-dark);
+.side-menu {
+  left: 0;
+  top: 70px;
+  min-width: fit-content;
+  max-width: 340px;
   display: grid;
-  align-content: baseline;
-  height: auto;
-  overflow-y: scroll;
-  z-index: 911;
+  position: fixed;
+  height: calc(100% - 70px);
+  z-index: -1;
+  background-color: var(--secondary-dark);
+  overflow: scroll;
 }
-div.secondary::-webkit-scrollbar {
+.side-menu::-webkit-scrollbar {
   display: none;
 }
 /* Hide scrollbar for IE, Edge and Firefox */
-div.secondary {
+.side-menu {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
@@ -82,14 +84,6 @@ div.secondary {
 }
 .inactive:hover::before, .close:hover::before {
   transform: scaleX(1);
-}
-
-.head {
-  background-color: var(--main-dark);
-  font-weight: bold;
-  height: var(--header-height)    ;
-  position: fixed;
-  color: white;
 }
 .active {
   background-color: var(--main-blue);
