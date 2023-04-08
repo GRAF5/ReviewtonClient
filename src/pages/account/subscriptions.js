@@ -81,7 +81,7 @@ const Subscriptions = observer(({userStore}) => {
             onClick={e => navigateTo(e, sub._id)} 
             onKeyDown={e => navigateTo(e, sub._id)}>{sub.name || sub.login}</p>
           <div>
-            <Button outlined danger text='Відпісатись' onClick={() => removeSubscription(sub._id)} />
+            <Button outlined danger text='Відписатися' onClick={() => removeSubscription(sub._id)} />
           </div>
         </div>)
       }

@@ -63,7 +63,7 @@ const Account = observer(({userStore, ...props}) => {
             {
               userStore?.user?.id !== account?._id ?
                 (userStore?.user?.userSubscriptions || []).some(sub => sub._id === account?._id) ?
-                  <Button outlined danger text='Відпісатись' onClick={upsertSubscription} /> :
+                  <Button outlined danger text='Відписатися' onClick={upsertSubscription} /> :
                   <Button outlined text='Стежити' onClick={upsertSubscription} /> : 
                 <p 
                   tabIndex={0} 
