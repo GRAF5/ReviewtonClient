@@ -35,6 +35,7 @@ const App = observer(({userStore}) => {
           path: '/',
           element: 
           <ArticleFeed
+            key={'new-art-feed'}
             pageName={'Нові відгуки'}
             user={userStore.user}
             receive={contentClient.getArticles} />
@@ -43,6 +44,7 @@ const App = observer(({userStore}) => {
           path: 'subscriptions',
           element: 
           <ArticleFeed
+            key={'subscriptions-art-feed'}
             pageName={'Підписки'}
             user={userStore.user}
             receive={contentClient.getArticlesBySubscriptions} />

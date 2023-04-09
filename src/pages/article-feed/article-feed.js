@@ -6,12 +6,13 @@ import { useSearchParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
-const ArticleFeed = ({user, pageName, receive, ...props}) => {
+const ArticleFeed = ({user, pageName, receive, args, ...props}) => {
   const [connected, setConnected] = useState(socket.connected);
   const [articles, _setArticles] = useState(history.state.articles || []);
   
   const location = useLocation();
 
+  const argsRef = React.useRef(args);
   let [searchParams] = useSearchParams();
   const filterRef = React.useRef(searchParams.get('filter'));
   const setFilter = data => {
@@ -51,7 +52,8 @@ const ArticleFeed = ({user, pageName, receive, ...props}) => {
     if (!loadProcessingRef.current) {
       setLastLoad(Date.now);
       setLoadProcessing(true);
-      receive(filterRef.current, process.env.REACT_APP_ARTICLE_FEED_LIMIT, offsetRef.current)
+      receive(
+        ...(argsRef.current || []), filterRef.current, process.env.REACT_APP_ARTICLE_FEED_LIMIT, offsetRef.current)
         .then(res => {
           if (res.articles.length > 0) {
             let resArt = articlesRef.current.concat(
@@ -86,13 +88,13 @@ const ArticleFeed = ({user, pageName, receive, ...props}) => {
   }, [articles]);
 
   useEffect(() => {
+    argsRef.current = args;
     window.removeEventListener('scroll', scrollListener);
     setOffset(0);
     setArticles([]);
     setFilter(searchParams.get('filter'));
-    // window.scroll(0, 0);
     window.addEventListener('scroll', scrollListener);
-  }, [searchParams.get('filter'), pageName]);
+  }, [searchParams.get('filter'), args]);
 
   useEffect(() => {
     function onConnect() {
@@ -106,6 +108,7 @@ const ArticleFeed = ({user, pageName, receive, ...props}) => {
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
     if (!(history.state.articles || []).length) {
+      setArticles([]);
       loadArticles();
     } else {
       setArticles(history.state.articles);
@@ -188,7 +191,8 @@ ArticleFeed.propTypes = {
   filter: PropTypes.string,
   pageName: PropTypes.string,
   receive: PropTypes.func,
-  reload: PropTypes.bool
+  reload: PropTypes.bool,
+  args: PropTypes.array
 };
 
 export default ArticleFeed;

@@ -11,7 +11,6 @@ import { Helmet } from 'react-helmet';
 const Account = observer(({userStore, ...props}) => {
   const data = useLoaderData();
   const [account, setAccount] = useState(data);
-  const {id} = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,18 +22,18 @@ const Account = observer(({userStore, ...props}) => {
     if (!userStore.user) {
       return navigate('/login');
     }
-    if (userStore.user.userSubscriptions.some(sub => sub._id === id)) {
-      userClient.removeUserSubscription(id)
+    if (userStore.user.userSubscriptions.some(sub => sub._id === account._id)) {
+      userClient.removeUserSubscription(account._id)
         .then(res => {
           userStore.setUser({...userStore.user, userSubscriptions: res.userSubscriptions});
-          userClient.getUserById(id)
+          userClient.getUserById(account._id)
             .then(accountData => setAccount(accountData));
         });
     } else {
-      userClient.addUserSubscription(id)
+      userClient.addUserSubscription(account._id)
         .then(res => {
           userStore.setUser({...userStore.user, userSubscriptions: res.userSubscriptions});
-          userClient.getUserById(id)
+          userClient.getUserById(account._id)
             .then(accountData => setAccount(accountData));
         });
     }
@@ -60,8 +59,8 @@ const Account = observer(({userStore, ...props}) => {
           </div>
           <div>            
             {
-              userStore?.user?.id !== id ?
-                (userStore?.user?.userSubscriptions || []).some(sub => sub._id === id) ?
+              userStore?.user?.id !== account._id ?
+                (userStore?.user?.userSubscriptions || []).some(sub => sub._id === account._id) ?
                   <Button outlined danger text='Відписатися' onClick={upsertSubscription} /> :
                   <Button outlined text='Стежити' onClick={upsertSubscription} /> : 
                 <p 
@@ -76,7 +75,9 @@ const Account = observer(({userStore, ...props}) => {
           </div>
         </div>
       </div>
-      <ArticleFeed user={userStore.user} receive={contentClient.getArticlesByUserId.bind(this, id)} />
+      <ArticleFeed 
+        key={account._id} 
+        user={userStore.user} receive={contentClient.getArticlesByUserId} args={[account._id]}  />
     </>
   );
 });
