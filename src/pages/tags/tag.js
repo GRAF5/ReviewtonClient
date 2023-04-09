@@ -60,7 +60,9 @@ const Tag = observer(({userStore, ...props}) => {
           </div>
         </div>
       </div>
-      <ArticleFeed user={userStore.user} receive={contentClient.getArticlesByTagId.bind(this, id)} />
+      <ArticleFeed
+        key={id} 
+        user={userStore.user} receive={contentClient.getArticlesByTagId} args={[id]} />
     </>
   );
 });
