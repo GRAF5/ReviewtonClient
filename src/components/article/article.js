@@ -57,7 +57,7 @@ import { observer } from 'mobx-react-lite';
 // eslint-disable-next-line complexity
 const Article = observer(({article, info, isVisible, user, socketStore, ...props}) => {
   const navigate = useNavigate();
-  const data = Object.assign(article, socketStore.articles[article._id]);
+  const data = {...article, ...socketStore.articles[article._id]};
   const {width, contentWidth} = useWindowSize();
   const [isOptions, setIsOptions] = useState(false);
   const [options, setOptions] = useState();
