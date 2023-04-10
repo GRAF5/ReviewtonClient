@@ -57,7 +57,7 @@ import { observer } from 'mobx-react-lite';
 // eslint-disable-next-line complexity
 const Article = observer(({article, info, isVisible, user, socketStore, ...props}) => {
   const navigate = useNavigate();
-  const data = {...article, ...socketStore.articles[article._id]};
+  const data = Object.assign(article, socketStore.articles[article._id]);
   const {width, contentWidth} = useWindowSize();
   const [isOptions, setIsOptions] = useState(false);
   const [options, setOptions] = useState();
@@ -146,9 +146,8 @@ const Article = observer(({article, info, isVisible, user, socketStore, ...props
     }
   }
 
-  function setAnswers(commentData) {
-    commentData.answers = data?.comments.filter(c => c.comment === commentData._id);
-    commentData.answers.forEach(ans => setAnswers(ans));
+  function setAnswers(id) {
+    return data?.comments.filter(c => c.comment === id).map(ans => {return {...ans, answers: setAnswers(ans._id)};});
   }
   function isOverflown() {
     let element = document.getElementById(`${article._id}-text`);
@@ -194,13 +193,13 @@ const Article = observer(({article, info, isVisible, user, socketStore, ...props
       />
       {(data?.comments || []).map((el, i) => {
         if (!el.comment) {
-          setAnswers(el);
           return (
             <Comment 
-              key={i}
+              key={el._id}
               comment={el} 
+              answers={setAnswers(el._id)}
               user={user} 
-              socket={socketStore.socket} />);
+              socketStore={socketStore} />);
         }
         return null;
       })}

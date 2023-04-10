@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 export default class SocketStore {
   socket = null;
   connected = false;
-  articles = {};
+  _articles = {};
   _articleArgs = {};
 
   constructor() {
@@ -34,7 +34,7 @@ export default class SocketStore {
     
     this._articleArgs[id].closed = false;
     const token = localStorage.getItem('token');
-    if (!this.articles[id] ||
+    if (!this._articles[id] ||
       this._articleArgs[id].commentsRender !== commentsRender ||
       this._articleArgs[id].token !== token) {
       this._articleArgs[id].commentsRender = commentsRender;
@@ -56,7 +56,7 @@ export default class SocketStore {
             article: id
           });
           this.socket.off(`article-update-${id}`, this._articleArgs[id].listener);
-          delete this.articles[id];
+          delete this._articles[id];
           delete this._articleArgs[id];
         }
       }, 60 * 1000);
@@ -76,15 +76,16 @@ export default class SocketStore {
     });
   }
 
-  upsertComment(id, text) {
+  upsertComment(id, text, comment = undefined) {
     this._emit('article-feed:upsert-comment', {
       article: id,
-      text
+      text,
+      comment
     });
   }
 
   _updateArticle(data) {
-    this.articles[data._id] = data;
+    this._articles[data._id] = data;
   }
 
   _emit(path, data) {
@@ -95,5 +96,9 @@ export default class SocketStore {
         authorization: `Bearer ${token}`
       }
     });
+  }
+
+  get articles () {
+    return this._articles;
   }
 }
