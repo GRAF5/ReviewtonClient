@@ -131,7 +131,7 @@ const ArticleFeed = observer(({userStore, pageName, receive, args, socketStore, 
           </> : null 
       }
       {
-        articles.map(el => <Article key={el._id} socketStore={socketStore} article={el} user={userStore.user} />)
+        articles?.map(el => <Article key={el._id} socketStore={socketStore} article={el} user={userStore.user} />)
       }
       {
         loadProcessing && socketStore.connected ? 
