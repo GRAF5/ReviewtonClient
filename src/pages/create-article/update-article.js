@@ -137,7 +137,9 @@ export default function UpdateArticle({user, ...props}) {
         return navigate('/', {replace: true});
       })
       .catch(res => {
-        setErrors([res.message]);
+        let errs = res.details ? res.details.errors.map(err => err.msg) : [res.message];
+        setErrors(errs);
+        window.scroll(0, 0);
       })
       .finally(() => {
         setLoadProcessing(false);
