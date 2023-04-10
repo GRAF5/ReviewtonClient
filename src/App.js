@@ -23,7 +23,7 @@ import PrivacyPolicy from './pages/privacy-policy/privacy-policy';
 import Subscriptions from './pages/account/subscriptions';
 import ErrorBoundary from './components/error-boundary/error-boundary';
 
-const App = observer(({userStore}) => {
+const App = observer(({userStore, socketStore}) => {
 
   const router = createBrowserRouter([
     {
@@ -37,7 +37,8 @@ const App = observer(({userStore}) => {
           <ArticleFeed
             key={'new-art-feed'}
             pageName={'Нові відгуки'}
-            user={userStore.user}
+            userStore={userStore}
+            socketStore={socketStore}
             receive={contentClient.getArticles} />
         },
         {
@@ -46,7 +47,8 @@ const App = observer(({userStore}) => {
           <ArticleFeed
             key={'subscriptions-art-feed'}
             pageName={'Підписки'}
-            user={userStore.user}
+            userStore={userStore}
+            socketStore={socketStore}
             receive={contentClient.getArticlesBySubscriptions} />
         },
         {
@@ -70,7 +72,8 @@ const App = observer(({userStore}) => {
             return userClient.getUserById(params.id);
           },
           element: 
-          <Account userStore={userStore} />
+          <Account userStore={userStore}
+            socketStore={socketStore} />
         },
         {
           path: 'subjects/:id',
@@ -78,7 +81,8 @@ const App = observer(({userStore}) => {
             return contentClient.getSubjectById(params.id);
           },
           element: 
-          <Subject userStore={userStore} />
+          <Subject userStore={userStore}
+            socketStore={socketStore} />
         },
         {
           path: 'tags/:id',
@@ -86,7 +90,8 @@ const App = observer(({userStore}) => {
             return contentClient.getTagById(params.id);
           },
           element: 
-          <Tag userStore={userStore} />
+          <Tag userStore={userStore}
+            socketStore={socketStore} />
         },
         {
           path: 'articles/:id',
@@ -94,7 +99,8 @@ const App = observer(({userStore}) => {
             return contentClient.getArticleById(params.id);
           },
           element: 
-          <ArticleInfo user={userStore.user} />
+          <ArticleInfo userStore={userStore}
+            socketStore={socketStore} />
         },
         {
           path: 'articles/change/:id',

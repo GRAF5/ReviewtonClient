@@ -3,7 +3,6 @@ import useWindowSize from '../../utils/useWindowSize';
 import StarRating from '../star-rating/star-rating';
 import parseHTML from 'html-react-parser';
 import { useNavigate } from 'react-router';
-import { socket } from '../../socket';
 import Comment from '../comment/comment';
 import Form from '../form/form';
 import Button from '../button/button';
@@ -12,6 +11,7 @@ import calcTime from '../../utils/calcTime';
 import PropTypes from 'prop-types';
 import 'react-quill/dist/quill.snow.css';
 import './article.css';
+import { observer } from 'mobx-react-lite';
 
 /**
  * @typedef Tag
@@ -55,72 +55,41 @@ import './article.css';
  * @returns 
  */
 // eslint-disable-next-line complexity
-function Article({article, info, isVisible, user, ...props}) {
+const Article = observer(({article, info, isVisible, user, socketStore, ...props}) => {
   const navigate = useNavigate();
-  // const nodeRef = useRef();
-  // const isVisible = useIsVisible(nodeRef);
-  const [data, setData] = useState(article);
+  const data = {...article, ...socketStore.articles[article._id]};
   const {width, contentWidth} = useWindowSize();
   const [isOptions, setIsOptions] = useState(false);
   const [options, setOptions] = useState();
   const option = React.useRef();
 
-  function updateArticle(newArticleData) {
-    setData({...data, ...newArticleData});
-  }
-
-  function onConnect() {
-    socket.on(`article-update-${article._id}`, updateArticle);
-    if (isVisible || info) {
-      socket.emit('article-feed:subscribe', {
-        data: {
-          commentsRender: info, 
-          article: article._id, 
-          authorization: `Bearer ${user?.token}`}});
-    }
-  }
-
   useEffect(() => {
-    socket.on('connect', onConnect.bind(this));
-    socket.on(`article-update-${article._id}`, updateArticle);
+    socketStore.subscribeArticleUpdate(article._id, info);
     return () => {
-      if (socket) {
-        socket.emit('article-feed:unsubscribe', {data: {article: article._id}});
-        socket.off('connect', onConnect);
-        socket.off(`article-update-${article._id}`, updateArticle);
-      }
+      socketStore.unsubscribeArticleUpdate(article._id);
     };
   }, []);
 
   useEffect(() => {
-    socket.on('connect', onConnect.bind(this));
-    if ((isVisible || info) && socket) {
-      socket.emit('article-feed:subscribe', {
-        data: {
-          commentsRender: info, 
-          article: article._id, 
-          authorization: `Bearer ${user?.token}`}});
-    } else if (socket) {
-      socket.emit('article-feed:unsubscribe', {data: {article: article._id}});
+    if ((isVisible || info)) {
+      socketStore.subscribeArticleUpdate(article._id, info);
+    } else if (socketStore.socket) {
+      socketStore.unsubscribeArticleUpdate(article._id);
     }
-  }, [isVisible, user, socket]);
+  }, [isVisible, user]);
 
   function comment(commentData) {
     if (!user) {
       return navigate('/login');
     }
     if (commentData) {
-      socket.emit('article-feed:upsert-comment', {
-        data: {
-          text: commentData, 
-          article: article._id, 
-          authorization: `Bearer ${user?.token}`}});
+      socketStore.upsertComment(article._id, commentData);
     }
   }
   function handleLike(e) {
     if (!e.key || e.key === 'Enter') {
       e.stopPropagation();
-      if (data.userReaction === true) {
+      if (data?.userReaction === true) {
         _emitEstimateArticle(undefined);
       } else {
         _emitEstimateArticle(true);
@@ -131,16 +100,12 @@ function Article({article, info, isVisible, user, ...props}) {
     if (!user) {
       return navigate('/login');
     }
-    socket.emit('article-feed:estimate-article', {
-      data: {
-        reaction, 
-        article: article._id, 
-        authorization: `Bearer ${user?.token}`}});
+    socketStore.estimateArticle(article._id, reaction);
   }
   function handleDislike(e) {
     if (!e.key || e.key === 'Enter') {
       e.stopPropagation();
-      if (data.userReaction === false) {
+      if (data?.userReaction === false) {
         _emitEstimateArticle(undefined);
       } else {
         _emitEstimateArticle(false);
@@ -182,7 +147,7 @@ function Article({article, info, isVisible, user, ...props}) {
   }
 
   function setAnswers(commentData) {
-    commentData.answers = data.comments.filter(c => c.comment === commentData._id);
+    commentData.answers = data?.comments.filter(c => c.comment === commentData._id);
     commentData.answers.forEach(ans => setAnswers(ans));
   }
   function isOverflown() {
@@ -227,7 +192,7 @@ function Article({article, info, isVisible, user, ...props}) {
           }
         }]} 
       />
-      {(data.comments || []).map((el, i) => {
+      {(data?.comments || []).map((el, i) => {
         if (!el.comment) {
           setAnswers(el);
           return (
@@ -235,7 +200,7 @@ function Article({article, info, isVisible, user, ...props}) {
               key={i}
               comment={el} 
               user={user} 
-              socket={socket} />);
+              socket={socketStore.socket} />);
         }
         return null;
       })}
@@ -317,7 +282,7 @@ function Article({article, info, isVisible, user, ...props}) {
           onClick={(e) => navigateSubject(e, article.subject._id)} 
           onKeyDown={(e) => navigateSubject(e, article.subject._id)}>
           {article.subject.name}</h1>
-        <StarRating rating={data.rating} />
+        <StarRating rating={data?.rating} />
       </div>
       <div 
         style={{
@@ -329,7 +294,7 @@ function Article({article, info, isVisible, user, ...props}) {
         className='ql-editor article-text' id={`${article._id}-text`}
         onClick={navigateArticle}
         onKeyDown={navigateArticle}>
-        {parseHTML(data.text)}
+        {parseHTML(data?.text)}
       </div>
       {isOverflown() ? <div 
         style={{
@@ -381,7 +346,7 @@ function Article({article, info, isVisible, user, ...props}) {
           }}>
             <div 
               tabIndex={0} 
-              className={`like ${data.userReaction === true ? 'setted' : ''}`} 
+              className={`like ${data?.userReaction === true ? 'setted' : ''}`} 
               style={{'marginRight': '15px'}} 
               onClick={(e) => handleLike(e)} 
               onKeyDown={(e) => handleLike(e)}>
@@ -399,11 +364,11 @@ function Article({article, info, isVisible, user, ...props}) {
                   d="M2 42h8V18H2v24zm44-22c0-2.21-1.79-4-4-4H29.37l1.91-9.14c.04-.2.07-.41.07-.63 0-.83-.34-1.58-.88-2.12L28.34 2 15.17 15.17C14.45 15.9 14 16.9 14 18v20c0 2.21 1.79 4 4 4h18c1.66 0 3.08-1.01 3.68-2.44l6.03-14.1A4 4 0 0 0 46 24v-3.83l-.02-.02L46 20z"/>
               </svg>
               &nbsp;
-              {data.likes || 0}
+              {data?.likes || 0}
             </div>
             <div 
               tabIndex={0} 
-              className={`dislike ${data.userReaction === false ? 'setted' : ''}`} 
+              className={`dislike ${data?.userReaction === false ? 'setted' : ''}`} 
               onClick={(e) => handleDislike(e)} 
               onKeyDown={(e) => handleDislike(e)}>
               <svg 
@@ -423,7 +388,7 @@ function Article({article, info, isVisible, user, ...props}) {
                   d="M10.88 21.94l5.53-5.54c.37-.37.58-.88.58-1.41V5c0-1.1-.9-2-2-2H6c-.8 0-1.52.48-1.83 1.21L.91 11.82C.06 13.8 1.51 16 3.66 16h5.65l-.95 4.58c-.1.5.05 1.01.41 1.37.59.58 1.53.58 2.11-.01zM21 3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2s2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
               </svg>
               &nbsp;
-              {data.dislikes || 0}
+              {data?.dislikes || 0}
             </div>
           </div>
         </div>
@@ -445,7 +410,7 @@ function Article({article, info, isVisible, user, ...props}) {
               d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"></path>
           </svg> 
           &nbsp;
-          {data.views}
+          {data?.views}
         </div>
       </div>
       <div style={{'borderTop': '1px solid var(--third-dark)'}}>
@@ -460,17 +425,19 @@ function Article({article, info, isVisible, user, ...props}) {
                 'color': 'var(--third-dark)'
               }} 
               onClick={navigateArticle}
-              onKeyDown={navigateArticle}>Коментарі ({data.commentsCount})</p>
+              onKeyDown={navigateArticle}>Коментарі ({data?.commentsCount})</p>
         }
       </div>
     </article>
   );
-}
+});
+
 Article.propTypes = {
   article: PropTypes.object.isRequired,
   isVisible: PropTypes.bool,
   user: PropTypes.object,
-  info: PropTypes.bool
+  info: PropTypes.bool,
+  socketStore: PropTypes.object
 };
 
 export default withIsVisible(Article);

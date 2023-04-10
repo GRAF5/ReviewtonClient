@@ -4,10 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import UserStore from './stores/user.store';
+import SocketStore from './stores/socket.store';
 
 const userStore = new UserStore();
+const socketStore = new SocketStore();
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App userStore={userStore}/>
+root.render(<App userStore={userStore} socketStore={socketStore} />
   // <>
   //   <BrowserRouter>
   //     <App userStore={userStore}/>

@@ -8,7 +8,7 @@ import { observer } from 'mobx-react-lite';
 import Button from '../../components/button/button';
 import { Helmet } from 'react-helmet';
 
-const Account = observer(({userStore, ...props}) => {
+const Account = observer(({userStore, socketStore, ...props}) => {
   const data = useLoaderData();
   const [account, setAccount] = useState(data);
   const navigate = useNavigate();
@@ -77,7 +77,8 @@ const Account = observer(({userStore, ...props}) => {
       </div>
       <ArticleFeed 
         key={account._id} 
-        user={userStore.user} receive={contentClient.getArticlesByUserId} args={[account._id]}  />
+        socketStore={socketStore}
+        userStore={userStore} receive={contentClient.getArticlesByUserId} args={[account._id]}  />
     </>
   );
 });
