@@ -4,9 +4,10 @@ import calcTime from '../../utils/calcTime';
 import Form from '../form/form';
 import './comment.css';
 import PropTypes from 'prop-types';
+import { observer } from 'mobx-react-lite';
 
 // eslint-disable-next-line complexity
-export default function Comment({comment, user, replyNum, onCloseReply, socket, ...props}) {
+const Comment = observer(({comment, answers, user, replyNum, onCloseReply, socketStore, ...props}) => {
   const [answer, setAnswer] = useState(false);
   const [viewAnswers, setViewAnswers] = useState(false);
   const navigate = useNavigate();
@@ -22,12 +23,7 @@ export default function Comment({comment, user, replyNum, onCloseReply, socket, 
   }
   function answerSend(data) {
     if (data) {
-      socket.emit('article-feed:upsert-comment', {
-        data: {
-          text: data, 
-          comment: comment._id, 
-          article: comment.article, 
-          authorization: `Bearer ${user?.token}`}});
+      socketStore.upsertComment(comment.article, data, comment._id);
       setAnswer(false);
       setViewAnswers(true);
     }
@@ -121,18 +117,19 @@ export default function Comment({comment, user, replyNum, onCloseReply, socket, 
       </div>
       {
         viewAnswers ? 
-          comment.answers.map(el => 
+          answers.map(el => 
             <Comment 
               onCloseReply={closeReply} 
               key={el._id} 
               replyNum={(replyNum || 0) + 1} 
               comment={el} 
+              answers={el.answers}
               user={user} 
-              socket={socket}/>) : null
+              socketStore={socketStore}/>) : null
       }
     </div>
   );
-}
+});
 
 Comment.propTypes = {
   comment: PropTypes.object.isRequired,
@@ -141,3 +138,5 @@ Comment.propTypes = {
   onCloseReply: PropTypes.func,
   socket: PropTypes.object
 };
+
+export default Comment;
