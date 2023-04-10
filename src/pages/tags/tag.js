@@ -8,7 +8,7 @@ import { userClient } from '../../clients/user.client';
 import { observer } from 'mobx-react-lite';
 import { Helmet } from 'react-helmet';
 
-const Tag = observer(({userStore, ...props}) => {
+const Tag = observer(({userStore, socketStore, ...props}) => {
   const data = useLoaderData();
   const [tag, setTag] = useState(data);
   const {id} = useParams();
@@ -62,7 +62,8 @@ const Tag = observer(({userStore, ...props}) => {
       </div>
       <ArticleFeed
         key={id} 
-        user={userStore.user} receive={contentClient.getArticlesByTagId} args={[id]} />
+        socketStore={socketStore}
+        userStore={userStore} receive={contentClient.getArticlesByTagId} args={[id]} />
     </>
   );
 });

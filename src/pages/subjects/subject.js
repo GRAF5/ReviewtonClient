@@ -9,7 +9,7 @@ import { userClient } from '../../clients/user.client';
 import Button from '../../components/button/button';
 import { Helmet } from 'react-helmet';
 
-const Subject = observer(({userStore, ...props}) => {
+const Subject = observer(({userStore, socketStore, ...props}) => {
   const data = useLoaderData();
   const [subject, setSubject] = useState(data);
   const {id} = useParams();
@@ -68,7 +68,8 @@ const Subject = observer(({userStore, ...props}) => {
       </div>
       <ArticleFeed 
         key={id} 
-        user={userStore.user} receive={contentClient.getArticlesBySubjectId} args={[id]} />
+        socketStore={socketStore}
+        userStore={userStore} receive={contentClient.getArticlesBySubjectId} args={[id]} />
     </>
   );
 });

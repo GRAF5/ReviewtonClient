@@ -2,41 +2,22 @@ import React, { useEffect, useState } from 'react';
 import Article from '../../components/article/article';
 import PropTypes from 'prop-types';
 import { useLoaderData, useParams } from 'react-router';
-import { contentClient } from '../../clients/content.client';
-import { socket } from '../../socket';
 import { Helmet } from 'react-helmet';
+import { observer } from 'mobx-react-lite';
 
-export default function ArticleInfo({user, ...props}) {
+const ArticleInfo = observer(({userStore, socketStore, ...props}) => {
   const article = useLoaderData();
-  const [connected, setConnected] = useState(socket.connected);
-  // const [article, setArticle] = useState(data);
-  const {id} = useParams();
-
-  useEffect(() => {
-    function onConnect() {
-      setConnected(true);
-    }
-    function onDisconnect() {
-      setConnected(false);
-    }
-    socket.on('connect', onConnect);
-    socket.on('disconnect', onDisconnect);
-    // contentClient.getArticleById(id)
-    //   .then(res => setArticle(res));
-    return () => {
-      socket.off('connect', onConnect);
-      socket.off('disconnect', onDisconnect);
-    };
-  }, []);
 
   return (
     <>
       <Helmet>
         <title>Reviewton - Відгук {article.user.login} на {article.subject.name}</title>
       </Helmet>
-      {article ? <Article info={true} article={article} user={user} isVisible={true} /> : null}
+      {article ? <Article 
+        socketStore={socketStore} 
+        info={true} article={article} user={userStore.user} isVisible={true} /> : null}
       {
-        !connected ? 
+        !socketStore.connected ? 
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -57,9 +38,12 @@ export default function ArticleInfo({user, ...props}) {
       }
     </>
   );
-}
+});
 
 ArticleInfo.propTypes = {
   user: PropTypes.object,
-  id: PropTypes.string
+  id: PropTypes.string,
+  socketStore: PropTypes.object
 };
+
+export default ArticleInfo;

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Article from '../../components/article/article';
-import { socket } from '../../socket';
 import PropTypes from 'prop-types';
 import { useSearchParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { observer } from 'mobx-react-lite';
 
-const ArticleFeed = ({user, pageName, receive, args, ...props}) => {
-  const [connected, setConnected] = useState(socket.connected);
+const ArticleFeed = observer(({userStore, pageName, receive, args, socketStore, ...props}) => {
   const [articles, _setArticles] = useState(history.state.articles || []);
   
   const location = useLocation();
@@ -97,16 +96,6 @@ const ArticleFeed = ({user, pageName, receive, args, ...props}) => {
   }, [searchParams.get('filter'), args]);
 
   useEffect(() => {
-    function onConnect() {
-      setConnected(true);
-      loadArticles();
-    }
-    function onDisconnect() {
-      setConnected(false);
-      setLoadProcessing(false);
-    }
-    socket.on('connect', onConnect);
-    socket.on('disconnect', onDisconnect);
     if (!(history.state.articles || []).length) {
       setArticles([]);
       loadArticles();
@@ -116,8 +105,6 @@ const ArticleFeed = ({user, pageName, receive, args, ...props}) => {
     }
     window.addEventListener('scroll', scrollListener);
     return () => {
-      socket.off('connect', onConnect);
-      socket.off('disconnect', onDisconnect);
       window.removeEventListener('scroll', scrollListener);
     };
   }, []);
@@ -144,10 +131,10 @@ const ArticleFeed = ({user, pageName, receive, args, ...props}) => {
           </> : null 
       }
       {
-        articles.map(el => <Article key={el._id} article={el} user={user} />)
+        articles.map(el => <Article key={el._id} socketStore={socketStore} article={el} user={userStore.user} />)
       }
       {
-        loadProcessing && connected ? 
+        loadProcessing && socketStore.connected ? 
           <div style={{width: '100%', display: 'inline-grid', justifyItems: 'center'}}> 
             <svg 
               className='loading-icon' 
@@ -163,7 +150,7 @@ const ArticleFeed = ({user, pageName, receive, args, ...props}) => {
           </div> : null
       }
       {
-        !connected ? 
+        !socketStore.connected ? 
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -184,7 +171,7 @@ const ArticleFeed = ({user, pageName, receive, args, ...props}) => {
       }
     </div>
   );
-};
+});
 
 ArticleFeed.propTypes = {
   user: PropTypes.object,
@@ -192,7 +179,8 @@ ArticleFeed.propTypes = {
   pageName: PropTypes.string,
   receive: PropTypes.func,
   reload: PropTypes.bool,
-  args: PropTypes.array
+  args: PropTypes.array,
+  socketStore: PropTypes.object
 };
 
 export default ArticleFeed;
