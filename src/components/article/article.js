@@ -278,9 +278,9 @@ const Article = observer(({article, info, isVisible, user, socketStore, ...props
         <h1 
           tabIndex={0}
           id='subject'
-          onClick={(e) => navigateSubject(e, article.subject._id)} 
-          onKeyDown={(e) => navigateSubject(e, article.subject._id)}>
-          {article.subject.name}</h1>
+          onClick={(e) => navigateSubject(e, data.subject._id)} 
+          onKeyDown={(e) => navigateSubject(e, data.subject._id)}>
+          {data.subject.name}</h1>
         <StarRating rating={data?.rating} />
       </div>
       <div 
@@ -318,7 +318,7 @@ const Article = observer(({article, info, isVisible, user, socketStore, ...props
         'display': 'flex',
         flexWrap: 'wrap'
       }}>
-        {article.tags.map(tag => 
+        {data.tags.map(tag => 
           <div 
             tabIndex={0} 
             key={tag._id} 
