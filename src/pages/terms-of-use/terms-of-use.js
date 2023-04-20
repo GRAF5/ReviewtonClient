@@ -13,11 +13,11 @@ export default function TermsOfUse () {
         <h1>Умови використання</h1>
       </div>
       <p className='justify'>
-        Ці умови є юридичною угодою між Вами  (далі – Користувач) та reviewton-li40.onrender.com 
+        Ці умови є юридичною угодою між Вами  (далі – Користувач) та reviewton.net 
         (далі – &quot;<strong>Reviewton</strong>&quot;), і регулює використання вами <strong>Reviewton</strong>, 
         а також продуктів, функцій, додатків, технологій та програмного забезпечення, які ми 
-        пропонуємо. Ці Умови використання застосовуються до веб-сайту reviewton-li40.onrender.com, 
-        розташованому за адресою https://reviewton-li40.onrender.com
+        пропонуємо. Ці Умови використання застосовуються до веб-сайту reviewton.net, 
+        розташованому за адресою https://www.reviewton.net 
       </p>
       <h3 style={{textTransform: 'uppercase', textAlign: 'justify'}}>
         Перед переглядом цього сайту уважно прочитайте ці умови. Якщо ви не погоджуєтесь з цими 
@@ -117,8 +117,8 @@ export default function TermsOfUse () {
       <p className='justify'>
         Умови цієї Угоди можуть бути змінені адміністрацією сайту в односторонньому порядку. 
         Текст чинної Угоди доступний за адресою <CustomLink 
-          href='https://reviewton-li40.onrender.com/terms-of-use' 
-          text='https://reviewton-li40.onrender.com/terms-of-use' />
+          href='https://reviewton.net/terms-of-use' 
+          text='https://reviewton.net/terms-of-use' />
       </p>
     </> 
   );
