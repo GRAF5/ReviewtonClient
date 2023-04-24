@@ -1,5 +1,6 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
+Allow: /ads.txt
 Disallow:
 
 Sitemap: https://reviewton-li40.onrender.com/sitemap.xml
