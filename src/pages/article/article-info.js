@@ -13,18 +13,11 @@ const ArticleInfo = observer(({userStore, socketStore, ...props}) => {
       <Helmet>
         <title>Reviewton - Відгук {article.user.login} на {article.subject.name}</title>
       </Helmet>
-      {/* Horizontal */}
-      <ins 
-        className="adsbygoogle"
-        style={{display:'block'}}
-        data-ad-client="ca-pub-4846340087145180"
-        data-ad-slot="6244739253"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
       
+      <script type="application/javascript" 
+        data-idzone="4971822" src="https://a.exdynsrv.com/nativeads-v2.js" 
+      ></script>
+
       {article ? <Article 
         socketStore={socketStore} 
         info={true} article={article} user={userStore.user} isVisible={true} /> : null}
