@@ -13,6 +13,11 @@ const ArticleInfo = observer(({userStore, socketStore, ...props}) => {
       <Helmet>
         <title>Reviewton - Відгук {article.user.login} на {article.subject.name}</title>
       </Helmet>
+      <script 
+        async="async" 
+        data-cfasync="false" 
+        src="//pl19182611.highrevenuegate.com/6852dc06bc31db9feef6bdd2e9ac0b8b/invoke.js"></script>
+      <div id="container-6852dc06bc31db9feef6bdd2e9ac0b8b"></div>
       {article ? <Article 
         socketStore={socketStore} 
         info={true} article={article} user={userStore.user} isVisible={true} /> : null}
