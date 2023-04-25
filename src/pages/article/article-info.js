@@ -16,7 +16,7 @@ const ArticleInfo = observer(({userStore, socketStore, ...props}) => {
       {/* Horizontal */}
       <ins 
         className="adsbygoogle"
-        style="display:block"
+        style={{display:'block'}}
         data-ad-client="ca-pub-4846340087145180"
         data-ad-slot="6244739253"
         data-ad-format="auto"
