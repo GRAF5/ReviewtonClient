@@ -24,6 +24,7 @@ const ArticleInfo = observer(({userStore, socketStore, ...props}) => {
       <script>
           (adsbygoogle = window.adsbygoogle || []).push({});
       </script>
+      
       {article ? <Article 
         socketStore={socketStore} 
         info={true} article={article} user={userStore.user} isVisible={true} /> : null}
