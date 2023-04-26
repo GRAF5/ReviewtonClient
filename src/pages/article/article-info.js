@@ -13,10 +13,6 @@ const ArticleInfo = observer(({userStore, socketStore, ...props}) => {
       <Helmet>
         <title>Reviewton - Відгук {article.user.login} на {article.subject.name}</title>
       </Helmet>
-      
-      <script type="application/javascript" 
-        data-idzone="4971822" src="https://a.exdynsrv.com/nativeads-v2.js" 
-      ></script>
 
       {article ? <Article 
         socketStore={socketStore} 
